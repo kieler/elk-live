@@ -3,16 +3,24 @@
   "version": "0.1.0",
   "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
   "dependencies": {
-    "sprotty": "file:../../sprotty/repos/client"
+    "bootstrap": "^3.3.7",
+    "monaco-languageclient": "0.0.1-alpha.6",
+    "reconnecting-websocket": "^3.0.5",
+    "sprotty": "file:../../sprotty/repos/client",
+    "vscode-ws-jsonrpc": "0.0.1-alpha.4"
   },
   "devDependencies": {
+    "@types/node": "^8.0.2",
+    "copy-webpack-plugin": "^4.0.1",
     "reflect-metadata": "^0.1.10",
-    "typescript": "^2.2.2",
-    "typings": "^2.1.0",
-    "webpack": "^2.2.1"
+    "rimraf": "^2.6.1",
+    "typescript": "^2.3.4",
+    "webpack": "^2.6.1"
   },
   "scripts": {
-    "build": "webpack --progress",
-    "watch": "webpack --progress --watch"
+    "compile": "./node_modules/.bin/tsc",
+    "watch": "./node_modules/.bin/tsc -w",
+    "clean": "./node_modules/.bin/rimraf lib",
+    "build": "npm run compile && ./node_modules/.bin/webpack"
   }
 }

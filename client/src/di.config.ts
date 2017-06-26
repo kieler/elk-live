@@ -1,6 +1,6 @@
 import { Container, ContainerModule } from "inversify"
 import {
-    defaultModule, TYPES, ViewRegistry, ConsoleLogger, LogLevel, WebSocketDiagramServer,
+    defaultModule, TYPES, ViewRegistry, WebSocketDiagramServer,
     boundsModule, fadeModule, viewportModule, selectModule, SGraphView, SGraphFactory, SLabelView
 } from "sprotty/lib"
 import { NodeView, PortView, EdgeView } from "./views"

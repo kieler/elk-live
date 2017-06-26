@@ -1,3 +1,7 @@
+/lib/
 node_modules/
+app/bootstrap/
+app/sprotty/
+app/vs/
 bundle.js
 bundle.js.map

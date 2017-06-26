@@ -1,16 +1,53 @@
+const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const buildRoot = path.resolve(__dirname, 'lib');
+const appRoot = path.resolve(__dirname, 'app');
+const monacoEditorPath = 'node_modules/monaco-editor-core/dev/vs';
+const bootstrapDistPath = 'node_modules/bootstrap/dist';
+const sprottyCssPath = 'node_modules/sprotty/css';
+
 module.exports = {
-    entry: './src/app.ts',
-    devtool: 'source-map',
+    entry: path.resolve(buildRoot, 'main.js'),
     output: {
-        filename: 'app/bundle.js',
-    },
-    resolve: {
-        extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+        filename: 'bundle.js',
+        path: appRoot
     },
     module: {
-        loaders: [
-            { test: /\.tsx?$/, loader: 'ts-loader' }
-        ]
+        noParse: /vscode-languageserver-types/
     },
-    node : { fs: 'empty', net: 'empty' }
-};
+    resolve: {
+        extensions: ['.js'],
+        alias: {
+            'vs': path.resolve(__dirname, monacoEditorPath)
+        }
+    },
+    devtool: 'source-map',
+    target: 'web',
+    node: {
+        fs: 'empty',
+        child_process: 'empty',
+        net: 'empty',
+        crypto: 'empty'
+    },
+    plugins: [
+        new CopyWebpackPlugin([
+            {
+                from: monacoEditorPath,
+                to: 'vs'
+            }
+        ]),
+        new CopyWebpackPlugin([
+            {
+                from: bootstrapDistPath,
+                to: 'bootstrap'
+            }
+        ]),
+        new CopyWebpackPlugin([
+            {
+                from: sprottyCssPath,
+                to: 'sprotty'
+            }
+        ])
+    ]
+}
