@@ -1,0 +1,18 @@
+{
+  "name": "elkgraph",
+  "version": "0.1.0",
+  "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
+  "dependencies": {
+    "sprotty": "file:../../sprotty/repos/client"
+  },
+  "devDependencies": {
+    "reflect-metadata": "^0.1.10",
+    "typescript": "^2.2.2",
+    "typings": "^2.1.0",
+    "webpack": "^2.2.1"
+  },
+  "scripts": {
+    "build": "webpack --progress",
+    "watch": "webpack --progress --watch"
+  }
+}

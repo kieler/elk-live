@@ -1,0 +1,3 @@
+rootProject.name = 'elkgraph-root'
+
+include 'elkgraph-web'
