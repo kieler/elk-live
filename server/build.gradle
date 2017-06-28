@@ -6,6 +6,7 @@ buildscript {
 }
 
 ext.versions = [
+	xtext: '2.12.0',
     elk: '0.3.0-SNAPSHOT',
 	sprotty: '0.2.0-SNAPSHOT',
 	lsp4j: '0.2.0',

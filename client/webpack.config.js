@@ -31,23 +31,17 @@ module.exports = {
         crypto: 'empty'
     },
     plugins: [
-        new CopyWebpackPlugin([
-            {
-                from: monacoEditorPath,
-                to: 'vs'
-            }
-        ]),
-        new CopyWebpackPlugin([
-            {
-                from: bootstrapDistPath,
-                to: 'bootstrap'
-            }
-        ]),
-        new CopyWebpackPlugin([
-            {
-                from: sprottyCssPath,
-                to: 'sprotty'
-            }
-        ])
+        new CopyWebpackPlugin([{
+            from: monacoEditorPath,
+            to: 'vs'
+        }]),
+        new CopyWebpackPlugin([{
+            from: bootstrapDistPath,
+            to: 'bootstrap'
+        }]),
+        new CopyWebpackPlugin([{
+            from: sprottyCssPath,
+            to: 'sprotty'
+        }])
     ]
 }

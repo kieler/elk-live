@@ -12,23 +12,26 @@ import javax.websocket.MessageHandler
 import javax.websocket.Session
 import org.eclipse.lsp4j.jsonrpc.RemoteEndpoint
 import org.eclipse.lsp4j.jsonrpc.json.JsonRpcMethod
+import org.eclipse.lsp4j.jsonrpc.json.JsonRpcMethodProvider
 import org.eclipse.lsp4j.jsonrpc.json.MessageJsonHandler
 import org.eclipse.lsp4j.jsonrpc.json.StreamMessageConsumer
 import org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer
 import org.eclipse.lsp4j.jsonrpc.messages.Message
 import org.eclipse.lsp4j.jsonrpc.services.ServiceEndpoints
 import org.eclipse.lsp4j.services.LanguageClient
+import org.eclipse.lsp4j.services.LanguageClientAware
+import org.eclipse.lsp4j.services.LanguageServer
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
-import org.eclipse.xtext.ide.server.LanguageServerImpl
 
 class LanguageServerEndpoint extends Endpoint {
 	
-	@Inject LanguageServerImpl languageServer
+	@Inject LanguageServer languageServer
 	
 	override onOpen(Session session, EndpointConfig config) {
 		val supportedMethods = new LinkedHashMap<String, JsonRpcMethod>
 		supportedMethods.putAll(ServiceEndpoints.getSupportedMethods(LanguageClient))
-		supportedMethods.putAll(languageServer.supportedMethods)
+		if (languageServer instanceof JsonRpcMethodProvider)
+			supportedMethods.putAll(languageServer.supportedMethods)
 		
 		val jsonHandler = new MessageJsonHandler(supportedMethods) {
 			override getDefaultGsonBuilder() {
@@ -49,7 +52,8 @@ class LanguageServerEndpoint extends Endpoint {
 		session.addMessageHandler(new LanguageMessageHandler(incomingMessageStream, serverEndpoint))
 		
 		val remoteProxy = ServiceEndpoints.toServiceObject(serverEndpoint, LanguageClient)
-		languageServer.connect(remoteProxy)
+		if (languageServer instanceof LanguageClientAware)
+			languageServer.connect(remoteProxy)
 	}
 	
 	@FinalFieldsConstructor

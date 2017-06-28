@@ -8,18 +8,18 @@ import { TYPES } from 'sprotty/lib'
 import createContainer from './di.config'
 const WebSocket = require('reconnecting-websocket')
 
-// create Monaco editor
+// Create Monaco editor
 monaco.languages.register({
     id: 'elkt',
     extensions: ['.elkt']
 })
-const initialContent = `node n1`
+const initialContent = 'node n1\nnode n2\nedge n1 -> n2\n'
 monaco.editor.create(document.getElementById('monaco-editor')!, {
-    model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse('inmemory://model.json'))
+    model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse('inmemory:/model.elkt'))
 })
 
 // Create the web socket
-const socketUrl = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/`
+const socketUrl = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/elkgraph`
 const socketOptions = {
     maxReconnectionDelay: 10000,
     minReconnectionDelay: 1000,

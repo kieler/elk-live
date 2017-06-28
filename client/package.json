@@ -14,13 +14,14 @@
     "copy-webpack-plugin": "^4.0.1",
     "reflect-metadata": "^0.1.10",
     "rimraf": "^2.6.1",
+    "tsc-watch": "^1.0.7",
     "typescript": "^2.3.4",
     "webpack": "^2.6.1"
   },
   "scripts": {
     "compile": "./node_modules/.bin/tsc",
-    "watch": "./node_modules/.bin/tsc -w",
     "clean": "./node_modules/.bin/rimraf lib",
-    "build": "npm run compile && ./node_modules/.bin/webpack"
+    "build": "npm run compile && ./node_modules/.bin/webpack",
+    "watch": "./node_modules/.bin/tsc-watch --onSuccess ./node_modules/.bin/webpack"
   }
 }
