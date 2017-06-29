@@ -4,9 +4,15 @@ import {
     BaseLanguageClient, CloseAction, ErrorAction,
     createMonacoServices, createConnection
 } from 'monaco-languageclient'
-import { TYPES } from 'sprotty/lib'
+import { TYPES, RequestModelAction } from 'sprotty/lib'
+import LanguageDiagramServer from './language-diagram-server'
 import createContainer from './di.config'
 const WebSocket = require('reconnecting-websocket')
+
+// Create Sprotty viewer
+const sprottyContainer = createContainer()
+const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource)
+diagramServer.clientId = 'inmemory:/model.elkt'
 
 // Create Monaco editor
 monaco.languages.register({
@@ -15,7 +21,7 @@ monaco.languages.register({
 })
 const initialContent = 'node n1\nnode n2\nedge n1 -> n2\n'
 monaco.editor.create(document.getElementById('monaco-editor')!, {
-    model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse('inmemory:/model.elkt'))
+    model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse(diagramServer.clientId))
 })
 
 // Create the web socket
@@ -35,11 +41,14 @@ listen({
     onConnection: connection => {
         const languageClient = createLanguageClient(connection)
         const disposable = languageClient.start()
-        connection.onClose(() => disposable.dispose())
+        connection.onClose(() => {
+            diagramServer.disconnect()
+            disposable.dispose()
+        })
     }
 })
 
-function createLanguageClient(connection: MessageConnection): BaseLanguageClient {
+function createLanguageClient(messageConnection: MessageConnection): BaseLanguageClient {
     return new BaseLanguageClient({
         name: 'ELK Graph Language Client',
         clientOptions: {
@@ -54,12 +63,12 @@ function createLanguageClient(connection: MessageConnection): BaseLanguageClient
         // Create a language client connection from the JSON RPC connection on demand
         connectionProvider: {
             get: (errorHandler, closeHandler) => {
-                return Promise.resolve(createConnection(connection, errorHandler, closeHandler))
+                const connection = createConnection(messageConnection, errorHandler, closeHandler)
+                diagramServer.listen(connection)
+                diagramServer.handle(new RequestModelAction())
+                return Promise.resolve(connection)
             }
         }
     })
 }
 
-// TODO
-const sprottyContainer = createContainer()
-sprottyContainer.get(TYPES.ModelSource)

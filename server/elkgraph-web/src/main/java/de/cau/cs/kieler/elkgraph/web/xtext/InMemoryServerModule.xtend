@@ -8,10 +8,9 @@ import org.eclipse.xtext.resource.IResourceServiceProvider
 class InMemoryServerModule extends AbstractModule {
 	
 	override protected configure() {
-		bind(LanguageServer).to(LanguageServerImpl)
 		bind(IResourceServiceProvider.Registry).toProvider(IResourceServiceProvider.Registry.RegistryProvider)
+		bind(LanguageServer).to(LanguageServerImpl)
 		bind(IWorkspaceConfigFactory).to(InMemoryWorkspaceConfigFactory)
-		bind(org.eclipse.xtext.ide.server.ProjectManager).to(ProjectManager)
 	}
 	
 }

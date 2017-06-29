@@ -1,11 +1,14 @@
 package de.cau.cs.kieler.elkgraph.web.xtext
 
 import org.eclipse.emf.common.util.URI
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
 import org.eclipse.xtext.ide.server.IWorkspaceConfigFactory
 import org.eclipse.xtext.workspace.IProjectConfig
 import org.eclipse.xtext.workspace.ISourceFolder
 import org.eclipse.xtext.workspace.IWorkspaceConfig
+
+import static extension org.eclipse.xtext.util.UriUtil.*
 
 class InMemoryWorkspaceConfigFactory implements IWorkspaceConfigFactory {
 	
@@ -18,22 +21,27 @@ class InMemoryWorkspaceConfigFactory implements IWorkspaceConfigFactory {
 
 class InMemoryProjectConfig implements IProjectConfig {
 	
-	val sourceFolder = new InMemorySourceFolder
+	@Accessors
+	val URI path
 	
-	override findSourceFolderContaining(URI arg0) {
-		sourceFolder
+	new() {
+		this(URI.createURI('inmemory:/'))
+	}
+	
+	new(URI path) {
+		this.path = path
 	}
 	
 	override getName() {
-		sourceFolder.name
+		'inmemory'
 	}
 	
-	override getPath() {
-		sourceFolder.path
+	override findSourceFolderContaining(URI member) {
+		new InMemorySourceFolder(member.trimFragment.trimSegments(1))
 	}
 	
 	override getSourceFolders() {
-		#{sourceFolder}
+		emptySet
 	}
 	
 	override getWorkspaceConfig() {
@@ -42,16 +50,14 @@ class InMemoryProjectConfig implements IProjectConfig {
 	
 }
 
+@FinalFieldsConstructor
 class InMemorySourceFolder implements ISourceFolder {
 	
-	public static val BASE_URI = 'inmemory:/'
+	@Accessors
+	val URI path
 	
 	override getName() {
 		'inmemory'
-	}
-	
-	override getPath() {
-		URI.createURI(BASE_URI)
 	}
 	
 }
@@ -59,14 +65,18 @@ class InMemorySourceFolder implements ISourceFolder {
 @FinalFieldsConstructor
 class InMemoryWorkspaceConfig implements IWorkspaceConfig {
 	
-	val InMemoryProjectConfig projectConfig
+	val IProjectConfig projectConfig
 	
 	override findProjectByName(String name) {
-		projectConfig
+		if (projectConfig.name == name)
+			return projectConfig
 	}
 	
 	override findProjectContaining(URI member) {
-		projectConfig
+		if (projectConfig.path.isPrefixOf(member))
+			return projectConfig
+		else
+			new InMemoryProjectConfig(member.trimFragment.trimSegments(1))
 	}
 	
 	override getProjects() {

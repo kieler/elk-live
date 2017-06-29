@@ -1,7 +1,5 @@
 package de.cau.cs.kieler.elkgraph.web
 
-import com.google.common.collect.BiMap
-import com.google.common.collect.HashBiMap
 import io.typefox.sprotty.api.BoundsAware
 import io.typefox.sprotty.api.Dimension
 import io.typefox.sprotty.api.Point
@@ -11,13 +9,14 @@ import io.typefox.sprotty.api.SLabel
 import io.typefox.sprotty.api.SModelElement
 import io.typefox.sprotty.api.SNode
 import io.typefox.sprotty.api.SPort
+import java.util.List
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
 import org.eclipse.elk.core.util.BasicProgressMonitor
 import org.eclipse.elk.graph.ElkGraphElement
 import org.eclipse.elk.graph.ElkNode
 import org.eclipse.elk.graph.ElkShape
-import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtend.lib.annotations.Accessors
 
 class ElkGraphDiagramGenerator {
@@ -28,7 +27,7 @@ class ElkGraphDiagramGenerator {
 	int defaultPortSize = 5
 	
 	@Accessors(PUBLIC_SETTER)
-	int defaultNodeSize = 20
+	int defaultNodeSize = 30
 	
 	def void layout(ElkNode elkGraph) {
 		applyDefaults(elkGraph)
@@ -50,37 +49,33 @@ class ElkGraphDiagramGenerator {
 		}
 	}
 	
-	def BiMap<EObject, SModelElement> generateDiagram(ElkNode elkGraph) {
+	def SGraph generateDiagram(ElkNode originalGraph) {
+		val elkGraph = EcoreUtil.copy(originalGraph)
 		layout(elkGraph)
-		val mapping = HashBiMap.create()
 		val sgraph = new SGraph
 		sgraph.type = 'graph'
 		sgraph.id = elkGraph.id
-		mapping.put(elkGraph, sgraph)
-		processContent(elkGraph, sgraph, mapping)
-		return mapping
+		processContent(elkGraph, sgraph)
+		return sgraph
 	}
 	
-	protected def void processContent(ElkNode parent, SModelElement container,
-			BiMap<EObject, SModelElement> mapping) {
+	protected def void processContent(ElkNode parent, SModelElement container) {
 		for (elkPort : parent.ports) {
 			val sport = new SPort
 			sport.type = 'port'
 			sport.id = elkPort.id
 			transferBounds(elkPort, sport)
-			container.children += sport
-			mapping.put(elkPort, sport)
-			processLabels(elkPort, sport, mapping)
+			container.addChild(sport)
+			processLabels(elkPort, sport)
 		}
 		for (elkNode : parent.children) {
 			val snode = new SNode
 			snode.type = 'node'
 			snode.id = elkNode.id
 			transferBounds(elkNode, snode)
-			container.children += snode
-			mapping.put(elkNode, snode)
-			processLabels(elkNode, snode, mapping)
-			processContent(elkNode, snode, mapping)
+			container.addChild(snode)
+			processLabels(elkNode, snode)
+			processContent(elkNode, snode)
 		}
 		for (elkEdge : parent.containedEdges) {
 			if (elkEdge.sources.size == 1 && elkEdge.targets.size == 1) {
@@ -89,9 +84,8 @@ class ElkGraphDiagramGenerator {
 				sedge.id = elkEdge.id
 				sedge.sourceId = elkEdge.sources.head.id
 				sedge.targetId = elkEdge.targets.head.id
-				container.children += sedge
-				mapping.put(elkEdge, sedge)
-				processLabels(elkEdge, sedge, mapping)
+				container.addChild(sedge)
+				processLabels(elkEdge, sedge)
 			} else {
 				for (source : elkEdge.sources) {
 					for (target : elkEdge.targets) {
@@ -100,26 +94,29 @@ class ElkGraphDiagramGenerator {
 						sedge.id = elkEdge.id + '_' + source.id + '_' + target.id
 						sedge.sourceId = source.id
 						sedge.targetId = target.id
-						container.children += sedge
-						mapping.put(elkEdge, sedge)
-						processLabels(elkEdge, sedge, mapping)
+						container.addChild(sedge)
+						processLabels(elkEdge, sedge)
 					}
 				}
 			}
 		}
 	}
 	
-	protected def void processLabels(ElkGraphElement element, SModelElement container,
-			BiMap<EObject, SModelElement> mapping) {
+	protected def void processLabels(ElkGraphElement element, SModelElement container) {
 		for (elkLabel : element.labels) {
 			val slabel = new SLabel
 			slabel.type = 'label'
 			slabel.id = elkLabel.id
 			transferBounds(elkLabel, slabel)
-			container.children += slabel
-			mapping.put(elkLabel, slabel)
-			processLabels(elkLabel, slabel, mapping)
+			container.addChild(slabel)
+			processLabels(elkLabel, slabel)
 		}
+	}
+	
+	private def void addChild(SModelElement container, SModelElement child) {
+		if (container.children === null)
+			container.children = newArrayList
+		container.children.add(child)
 	}
 	
 	private def void transferBounds(ElkShape shape, BoundsAware bounds) {
@@ -130,10 +127,17 @@ class ElkGraphDiagramGenerator {
 	
 	private def String getId(ElkGraphElement element) {
 		val container = element.eContainer
-		if (container instanceof ElkGraphElement)
-			container.id + '.' + element.identifier
-		else
-			element.identifier
+		if (container instanceof ElkGraphElement) {
+			var identifier = element.identifier
+			if (identifier === null) {
+				val feature = element.eContainingFeature
+				val list = container.eGet(feature) as List<? extends ElkGraphElement>
+				identifier = feature.name + '#' + list.indexOf(element)
+			}
+			return container.id + '.' + identifier
+		} else {
+			return element.identifier ?: 'graph'
+		}
 	}
 	
 }

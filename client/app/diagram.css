@@ -1,0 +1,37 @@
+.node {
+    stroke: #448;
+    stroke-width: 1;
+    fill: #ddf;
+}
+
+.port {
+    stroke: #448;
+    stroke-width: 1;
+    fill: #66c;
+}
+
+.edge {
+    fill: none;
+    stroke: #224;
+    stroke-width: 1;
+}
+
+.edge.arrow {
+    fill: #336;
+}
+
+.label {
+    stroke-width: 0;
+    stroke: #000;
+    fill: #000;
+    font-family: sans-serif;
+    font-size: 11pt;
+}
+
+.selected {
+    stroke-width: 3;
+}
+
+.mouseover {
+    stroke: #88f;
+}

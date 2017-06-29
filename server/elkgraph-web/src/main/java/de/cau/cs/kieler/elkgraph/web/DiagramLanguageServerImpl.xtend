@@ -1,13 +1,12 @@
 package de.cau.cs.kieler.elkgraph.web
 
 import com.google.inject.Inject
-import com.google.inject.Singleton
+import com.google.inject.Provider
 import io.typefox.sprotty.api.ActionMessage
-import io.typefox.sprotty.api.DefaultDiagramServer
 import io.typefox.sprotty.api.IDiagramServer
-import io.typefox.sprotty.api.SModelRoot
 import java.util.List
 import java.util.Map
+import org.apache.log4j.Logger
 import org.eclipse.elk.graph.ElkNode
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.lsp4j.jsonrpc.Endpoint
@@ -17,20 +16,20 @@ import org.eclipse.xtext.diagnostics.Severity
 import org.eclipse.xtext.ide.server.ILanguageServerAccess
 import org.eclipse.xtext.ide.server.ILanguageServerAccess.IBuildListener
 import org.eclipse.xtext.ide.server.ILanguageServerExtension
-import org.eclipse.xtext.ide.server.UriExtensions
 import org.eclipse.xtext.resource.IResourceDescription.Delta
 import org.eclipse.xtext.util.CancelIndicator
 import org.eclipse.xtext.validation.CheckMode
 import org.eclipse.xtext.validation.IResourceValidator
 
-@Singleton
 class DiagramLanguageServerImpl implements DiagramEndpoint, ILanguageServerExtension, IDiagramServer.Provider, IBuildListener {
+	
+	static val LOG = Logger.getLogger(DiagramLanguageServerImpl)
 	
 	@Inject extension IResourceValidator
 
-	@Inject extension UriExtensions
-	
 	@Inject ElkGraphDiagramGenerator diagramGenerator
+	
+	@Inject Provider<ElkGraphDiagramServer> diagramServerProvider
 	
 	val Map<String, IDiagramServer> diagramServers = newLinkedHashMap
 
@@ -57,8 +56,10 @@ class DiagramLanguageServerImpl implements DiagramEndpoint, ILanguageServerExten
 		synchronized (diagramServers) {
 			var server = diagramServers.get(clientId)
 			if (server === null) {
-				server = new DefaultDiagramServer
-				server.initializeModel(clientId)
+				server = diagramServerProvider.get => [
+					diagramLanguageServer = this
+				]
+				server.clientId = clientId
 				server.remoteEndpoint = [ message |
 					client?.accept(message)
 				]
@@ -67,14 +68,18 @@ class DiagramLanguageServerImpl implements DiagramEndpoint, ILanguageServerExten
 			return server
 		}
 	}
+
+	@JsonNotification
+	override void accept(ActionMessage message) {
+		val server = getDiagramServer(message.clientId)
+		server.accept(message)
+	}
 	
-	protected def void initializeModel(IDiagramServer diagramServer, String clientId) {
-		diagramServer.clientId = clientId
-		clientId.doRead [ context |
+	def void initializeModel(IDiagramServer diagramServer) {
+		diagramServer.clientId.doRead [ context |
 			val graph = context.resource.contents.head
 			if (graph instanceof ElkNode && !context.cancelChecker.canceled) {
-				val modelMapping = diagramGenerator.generateDiagram(graph as ElkNode)
-				return modelMapping.get(graph) as SModelRoot
+				return diagramGenerator.generateDiagram(graph as ElkNode)
 			}
 		].thenAccept[ newRoot |
 			if (newRoot !== null)
@@ -82,33 +87,24 @@ class DiagramLanguageServerImpl implements DiagramEndpoint, ILanguageServerExten
 		]
 	}
 
-	@JsonNotification
-	override void accept(ActionMessage message) {
-		val server = getDiagramServer(message.clientId)
-		server.accept(message)
-	}
-
 	override afterBuild(List<Delta> deltas) {
-		for (uri : deltas.map[uri.toPath]) {
+		for (uri : deltas.map[uri.toString]) {
 			uri.doRead [ context |
 				val resource = context.resource
 				if (!resource.hasErrors(context.cancelChecker)) {
 					val graph = resource.contents.head
 					if (graph instanceof ElkNode) {
-						val modelMapping = diagramGenerator.generateDiagram(graph as ElkNode)
-						return resource.URI.toString -> modelMapping.get(graph) as SModelRoot
+						val newRoot = diagramGenerator.generateDiagram(graph as ElkNode)
+						return resource.URI.toString -> newRoot
 					}
 				}
 			].thenAccept[ result |
 				if (result !== null) {
-					synchronized (diagramServers) {
-						diagramServers.values.filter[ server |
-							server.clientId == result.key
-						].forEach[
-							updateModel(result.value)
-						]
-					}
+					getDiagramServer(result.key).updateModel(result.value)
 				}
+			].exceptionally[ throwable |
+				LOG.error('Error while processing build results', throwable)
+				return null
 			]
 		}
 	}

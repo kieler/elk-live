@@ -6,7 +6,7 @@ import {
 
 const JSX = {createElement: snabbdom.svg}
 
-export class NodeView extends RectangularNodeView {
+export class ElkNodeView extends RectangularNodeView {
     render(node: SNode, context: RenderingContext): VNode {
         return <g>
             <rect class-node={true} class-mouseover={node.hoverFeedback} class-selected={node.selected}
@@ -15,7 +15,7 @@ export class NodeView extends RectangularNodeView {
     }
 }
 
-export class PortView extends RectangularNodeView {
+export class ElkPortView extends RectangularNodeView {
     render(port: SPort, context: RenderingContext): VNode {
         return <g>
             <rect class-port={true} class-mouseover={port.hoverFeedback} class-selected={port.selected}
@@ -24,12 +24,12 @@ export class PortView extends RectangularNodeView {
     }
 }
 
-export class EdgeView extends PolylineEdgeView {
+export class ElkEdgeView extends PolylineEdgeView {
     protected renderAdditionals(edge: SEdge, segments: Point[], context: RenderingContext): VNode[] {
         const p1 = segments[segments.length - 2]
         const p2 = segments[segments.length - 1]
         return [
-            <path class-edge={true} class-arrow={true} d="M 0,0 L 10,-4 L 10,4 Z"
+            <path class-edge={true} class-arrow={true} d="M 0,0 L 8,-3 L 8,3 Z"
                   transform={`rotate(${toDegrees(angle(p2, p1))} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`}/>
         ]
     }

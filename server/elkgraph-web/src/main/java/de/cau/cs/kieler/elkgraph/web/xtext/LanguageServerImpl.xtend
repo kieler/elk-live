@@ -6,7 +6,7 @@ class LanguageServerImpl extends org.eclipse.xtext.ide.server.LanguageServerImpl
 	
 	override initialize(InitializeParams params) {
 		if (params.rootUri === null)
-			params.rootUri = InMemorySourceFolder.BASE_URI
+			params.rootUri = 'inmemory:/'
 		super.initialize(params)
 	}
 	
