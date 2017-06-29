@@ -1,26 +1,26 @@
-.node {
+.elknode {
     stroke: #448;
     stroke-width: 1;
     fill: #ddf;
 }
 
-.port {
+.elkport {
     stroke: #448;
     stroke-width: 1;
     fill: #66c;
 }
 
-.edge {
+.elkedge {
     fill: none;
     stroke: #224;
     stroke-width: 1;
 }
 
-.edge.arrow {
+.elkedge.arrow {
     fill: #336;
 }
 
-.label {
+.elklabel {
     stroke-width: 0;
     stroke: #000;
     fill: #000;
@@ -28,7 +28,7 @@
     font-size: 11pt;
 }
 
-.selected {
+.selected > rect {
     stroke-width: 3;
 }
 

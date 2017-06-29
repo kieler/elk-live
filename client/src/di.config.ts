@@ -7,10 +7,10 @@
  *******************************************************************************/
 import { Container, ContainerModule } from "inversify"
 import {
-    TYPES, ViewRegistry, defaultModule, boundsModule, fadeModule, viewportModule, selectModule, moveModule,
-    SGraphView, SLabelView, ConsoleLogger, LogLevel, overrideViewerOptions
+    TYPES, ViewRegistry, defaultModule, boundsModule, fadeModule, viewportModule, selectModule, moveModule, hoverModule,
+    SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions
 } from "sprotty/lib"
-import { ElkNodeView, ElkPortView, ElkEdgeView } from "./views"
+import { ElkNodeView, ElkPortView, ElkEdgeView, ElkLabelView } from "./views"
 import { ElkGraphFactory } from "./model"
 import LanguageDiagramServer from "./language-diagram-server"
 
@@ -23,7 +23,7 @@ const elkGraphModule = new ContainerModule((bind, unbind, isBound, rebind) => {
 
 export default () => {
     const container = new Container()
-    container.load(defaultModule, selectModule, boundsModule, moveModule, fadeModule, viewportModule, elkGraphModule)
+    container.load(defaultModule, selectModule, boundsModule, moveModule, fadeModule, hoverModule, viewportModule, elkGraphModule)
     overrideViewerOptions(container, {
         needsClientLayout: false
     })
@@ -33,7 +33,7 @@ export default () => {
     viewRegistry.register('node', ElkNodeView)
     viewRegistry.register('port', ElkPortView)
     viewRegistry.register('edge', ElkEdgeView)
-    viewRegistry.register('label', SLabelView)
+    viewRegistry.register('label', ElkLabelView)
 
     return container
 }

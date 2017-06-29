@@ -41,21 +41,6 @@ class ElkGraphDiagramGenerator {
 		layoutEngine.layout(elkGraph, new BasicProgressMonitor)
 	}
 	
-	private def void applyDefaults(ElkNode parent) {
-		for (port : parent.ports) {
-			if (port.width <= 0)
-				port.width = defaultPortSize
-			if (port.height <= 0)
-				port.height = defaultPortSize
-		}
-		for (node : parent.children) {
-			if (node.width <= 0)
-				node.width = defaultNodeSize
-			if (node.height <= 0)
-				node.height = defaultNodeSize
-		}
-	}
-	
 	def SGraph generateDiagram(ElkNode originalGraph) {
 		val elkGraph = EcoreUtil.copy(originalGraph)
 		layout(elkGraph)
@@ -114,9 +99,42 @@ class ElkGraphDiagramGenerator {
 			val slabel = new SLabel
 			slabel.type = 'label'
 			slabel.id = elkLabel.id
+			slabel.text = elkLabel.text
 			transferBounds(elkLabel, slabel)
 			container.addChild(slabel)
 			processLabels(elkLabel, slabel)
+		}
+	}
+	
+	private def void applyDefaults(ElkNode parent) {
+		for (port : parent.ports) {
+			if (port.width <= 0)
+				port.width = defaultPortSize
+			if (port.height <= 0)
+				port.height = defaultPortSize
+			computeLabelSizes(port)
+		}
+		for (node : parent.children) {
+			if (node.width <= 0)
+				node.width = defaultNodeSize
+			if (node.height <= 0)
+				node.height = defaultNodeSize
+			computeLabelSizes(node)
+			applyDefaults(node)
+		}
+		for (edge : parent.containedEdges) {
+			computeLabelSizes(edge)
+		}
+	}
+	
+	private def computeLabelSizes(ElkGraphElement element) {
+		for (label : element.labels) {
+			if (!label.text.nullOrEmpty) {
+				if (label.width <= 0)
+					label.width = label.text.length * 9
+				if (label.height <= 0)
+					label.height = 16
+			}
 		}
 	}
 	
