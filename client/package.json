@@ -20,7 +20,7 @@
   },
   "scripts": {
     "compile": "./node_modules/.bin/tsc",
-    "clean": "./node_modules/.bin/rimraf lib",
+    "clean": "./node_modules/.bin/rimraf lib app/bootstrap app/sprotty app/vs app/bundle.*",
     "build": "npm run compile && ./node_modules/.bin/webpack",
     "watch": "./node_modules/.bin/tsc-watch --onSuccess ./node_modules/.bin/webpack"
   }

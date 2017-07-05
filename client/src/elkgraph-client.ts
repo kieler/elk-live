@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-import "reflect-metadata"
+import 'reflect-metadata'
 import { listen, MessageConnection } from 'vscode-ws-jsonrpc'
 import {
     BaseLanguageClient, CloseAction, ErrorAction,
@@ -16,8 +16,16 @@ import LanguageDiagramServer from './language-diagram-server'
 import createContainer from './di.config'
 const WebSocket = require('reconnecting-websocket')
 
+function getParameterByName(name: string): string | undefined {
+    const results = new RegExp('[?&]' + name.replace(/[\[\]]/g, '\\$&') + '(=([^&#]*)|&|#|$)').exec(window.location.href)
+    if (!results || !results[2])
+        return undefined
+    else
+        return decodeURIComponent(results[2].replace(/\+/g, ' '))
+}
+
 // Create Sprotty viewer
-const sprottyContainer = createContainer()
+const sprottyContainer = createContainer('remote')
 const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource)
 diagramServer.clientId = 'inmemory:/model.elkt'
 
@@ -26,7 +34,10 @@ monaco.languages.register({
     id: 'elkt',
     extensions: ['.elkt']
 })
-const initialContent = 'node n1\nnode n2\nedge n1 -> n2\n'
+let initialContent = getParameterByName('initialContent')
+if (initialContent === undefined) {
+    initialContent = 'node n1\nnode n2\nedge n1 -> n2\n'
+}
 monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse(diagramServer.clientId))
 })
