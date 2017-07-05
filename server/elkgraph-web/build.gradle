@@ -1,6 +1,7 @@
 dependencies {
 	compile "io.typefox.sprotty:diagram-server:${versions.sprotty}"
 	compile "io.typefox.sprotty:diagram-layout-engine:${versions.sprotty}"
+	compile "io.typefox.sprotty:xtext-diagram:${versions.sprotty}"
 	compile "org.eclipse.xtext:org.eclipse.xtext.ide:${versions.xtext}"
 	compile "org.eclipse.elk:org.eclipse.elk.graph.text.ide:${versions.elk}"
 	compile "org.eclipse.elk:org.eclipse.elk.alg.layered:${versions.elk}"

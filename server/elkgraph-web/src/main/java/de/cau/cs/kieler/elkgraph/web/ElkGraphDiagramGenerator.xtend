@@ -16,6 +16,7 @@ import io.typefox.sprotty.api.SLabel
 import io.typefox.sprotty.api.SModelElement
 import io.typefox.sprotty.api.SNode
 import io.typefox.sprotty.api.SPort
+import io.typefox.sprotty.server.xtext.IDiagramGenerator
 import java.util.List
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
@@ -23,10 +24,12 @@ import org.eclipse.elk.core.util.BasicProgressMonitor
 import org.eclipse.elk.graph.ElkGraphElement
 import org.eclipse.elk.graph.ElkNode
 import org.eclipse.elk.graph.ElkShape
+import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.xtext.util.CancelIndicator
 
-class ElkGraphDiagramGenerator {
+class ElkGraphDiagramGenerator implements IDiagramGenerator {
 	
 	val IGraphLayoutEngine layoutEngine = new RecursiveGraphLayoutEngine
 	
@@ -41,14 +44,17 @@ class ElkGraphDiagramGenerator {
 		layoutEngine.layout(elkGraph, new BasicProgressMonitor)
 	}
 	
-	def SGraph generateDiagram(ElkNode originalGraph) {
-		val elkGraph = EcoreUtil.copy(originalGraph)
-		layout(elkGraph)
-		val sgraph = new SGraph
-		sgraph.type = 'graph'
-		sgraph.id = elkGraph.id
-		processContent(elkGraph, sgraph)
-		return sgraph
+	override generate(Resource resource, CancelIndicator cancelIndicator) {
+		val originalGraph = resource.contents.head
+		if (originalGraph instanceof ElkNode) {
+			val elkGraph = EcoreUtil.copy(originalGraph)
+			layout(elkGraph)
+			val sgraph = new SGraph
+			sgraph.type = 'graph'
+			sgraph.id = elkGraph.id
+			processContent(elkGraph, sgraph)
+			return sgraph
+		}
 	}
 	
 	protected def void processContent(ElkNode parent, SModelElement container) {

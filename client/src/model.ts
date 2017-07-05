@@ -21,6 +21,7 @@ export class ElkGraphFactory extends SGraphFactory {
 
 }
 
+// Disable the 'move' feature
 export class ElkNode extends SNode {
     hasFeature(feature: symbol): boolean {
         return feature === selectFeature || feature === boundsFeature || feature === layoutFeature

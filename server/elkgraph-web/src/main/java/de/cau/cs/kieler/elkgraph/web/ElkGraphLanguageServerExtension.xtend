@@ -7,15 +7,16 @@
  *******************************************************************************/
 package de.cau.cs.kieler.elkgraph.web
 
-import io.typefox.sprotty.api.ActionMessage
-import org.eclipse.lsp4j.jsonrpc.services.JsonNotification
-import org.eclipse.lsp4j.jsonrpc.services.JsonSegment
-import java.util.function.Consumer
+import io.typefox.sprotty.api.IDiagramServer
+import io.typefox.sprotty.server.xtext.DiagramLanguageServerExtension
+import io.typefox.sprotty.server.xtext.LanguageAwareDiagramServer
 
-@JsonSegment('diagram')
-interface DiagramEndpoint extends Consumer<ActionMessage> {
-
-	@JsonNotification
-	override accept(ActionMessage actionMessage);
+class ElkGraphLanguageServerExtension extends DiagramLanguageServerExtension {
+	
+	override protected initializeDiagramServer(IDiagramServer server) {
+		super.initializeDiagramServer(server)
+		val languageAware = server as LanguageAwareDiagramServer
+		languageAware.needsClientLayout = false
+	}
 
 }

@@ -11,7 +11,7 @@ import {
     BaseLanguageClient, CloseAction, ErrorAction,
     createMonacoServices, createConnection
 } from 'monaco-languageclient'
-import { TYPES, RequestModelAction } from 'sprotty/lib'
+import { TYPES } from 'sprotty/lib'
 import LanguageDiagramServer from './language-diagram-server'
 import createContainer from './di.config'
 const WebSocket = require('reconnecting-websocket')
@@ -72,7 +72,6 @@ function createLanguageClient(messageConnection: MessageConnection): BaseLanguag
             get: (errorHandler, closeHandler) => {
                 const connection = createConnection(messageConnection, errorHandler, closeHandler)
                 diagramServer.listen(connection)
-                diagramServer.handle(new RequestModelAction())
                 return Promise.resolve(connection)
             }
         }
