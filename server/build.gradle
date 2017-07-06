@@ -17,7 +17,6 @@ ext.versions = [
 subprojects {
 	repositories {
 		jcenter()
-		mavenLocal()
 		maven {
 			name 'sonatype-snapshots'
 			url 'https://oss.sonatype.org/content/repositories/snapshots/'

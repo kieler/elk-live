@@ -10,7 +10,6 @@ package de.cau.cs.kieler.elkgraph.web
 import com.google.inject.Guice
 import com.google.inject.Inject
 import com.google.inject.Provider
-import de.cau.cs.kieler.elkgraph.web.xtext.InMemoryServerModule
 import java.net.InetSocketAddress
 import javax.websocket.server.ServerEndpointConfig
 import org.eclipse.elk.alg.layered.options.LayeredOptions
@@ -25,12 +24,16 @@ import org.eclipse.jetty.util.log.Slf4jLog
 import org.eclipse.jetty.webapp.WebAppContext
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer
 import org.eclipse.xtext.ide.server.ServerModule
+import org.eclipse.xtext.resource.IResourceServiceProvider
 import org.eclipse.xtext.util.Modules2
 
 class ServerLauncher {
 	
 	def static void main(String[] args) {
-		val launcher = Guice.createInjector(Modules2.mixin(new ServerModule, new InMemoryServerModule)).getInstance(ServerLauncher)
+		val injector = Guice.createInjector(Modules2.mixin(new ServerModule, [
+			bind(IResourceServiceProvider.Registry).toProvider(IResourceServiceProvider.Registry.RegistryProvider)
+		]))
+		val launcher = injector.getInstance(ServerLauncher)
 		launcher.initialize()
 		launcher.start()
 	}
