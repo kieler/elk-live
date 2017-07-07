@@ -1,6 +1,15 @@
 .content-widget {
     height: 500px;
-    border: 1px solid grey;
+    border: 1px solid #888;
+}
+
+.footer > .container {
+    margin-top: 30px;
+    background: #eee;
+}
+
+.footer > .container > .row > .col-md-6 {
+    padding: 10px;
 }
 
 svg {

@@ -7,15 +7,8 @@
  *******************************************************************************/
 import 'reflect-metadata'
 import { TYPES, LocalModelSource, SNodeSchema, SEdgeSchema, SGraphSchema } from 'sprotty/lib'
+import { getParameterByName, setupModelLink } from "./url-parameters"
 import createContainer from './di.config'
-
-function getParameterByName(name: string): string | undefined {
-    const results = new RegExp('[?&]' + name.replace(/[\[\]]/g, '\\$&') + '(=([^&#]*)|&|#|$)').exec(window.location.href)
-    if (!results || !results[2])
-        return undefined
-    else
-        return decodeURIComponent(results[2].replace(/\+/g, ' '))
-}
 
 // Create Monaco editor
 monaco.languages.register({
@@ -28,8 +21,13 @@ let initialContent = getParameterByName('initialContent')
 if (initialContent === undefined) {
     initialContent = '{\n\t\n}'
 }
-monaco.editor.create(document.getElementById('monaco-editor')!, {
+const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'json', monaco.Uri.parse('inmemory:/model.json'))
+})
+setupModelLink(editor, (event) => {
+    return {
+        initialContent: editor.getValue()
+    }
 })
 
 // Create Sprotty viewer
