@@ -4,6 +4,8 @@
   "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "elkjs": "file:../../elkjs",
+    "json5":"^0.5.1",
     "monaco-languageclient": "0.0.1-alpha.6",
     "reconnecting-websocket": "^3.0.5",
     "sprotty": "file:../../sprotty/client",

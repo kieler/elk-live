@@ -6,9 +6,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 import 'reflect-metadata'
-import { TYPES, LocalModelSource, SNodeSchema, SEdgeSchema, SGraphSchema } from 'sprotty/lib'
+
+import { TYPES, LocalModelSource } from 'sprotty/lib'
 import { getParameterByName, setupModelLink } from "./url-parameters"
 import createContainer from './di.config'
+import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty'
+
+import JSON5 = require('json5');
+import elkjs = require('elkjs')
 
 // Create Monaco editor
 monaco.languages.register({
@@ -19,11 +24,26 @@ monaco.languages.register({
 })
 let initialContent = getParameterByName('initialContent')
 if (initialContent === undefined) {
-    initialContent = '{\n\t\n}'
+    initialContent =  `{
+  id: "root",
+  properties: { 'algorithm': 'layered' },
+  children: [
+    { id: "n1", width: 10, height: 10 },
+    { id: "n2", width: 10, height: 10 },
+    { id: "n3", width: 10, height: 10 }
+  ],
+  edges: [
+    { id: "e1", sources: [ "n1" ], targets: [ "n2" ] },
+    { id: "e2", sources: [ "n1" ], targets: [ "n3" ] } 
+  ]
+}`
 }
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'json', monaco.Uri.parse('inmemory:/model.json'))
 })
+// initial layout
+updateModel()
+
 setupModelLink(editor, (event) => {
     return {
         initialContent: editor.getValue()
@@ -34,32 +54,36 @@ setupModelLink(editor, (event) => {
 const sprottyContainer = createContainer('local')
 const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource)
 
-// TODO add text change listener to Monaco editor
-// TODO invoke elk layout algorithm on json model
-// TODO implement transformation from json to sprotty model
+// register listener
+editor.getModel().onDidChangeContent(e => updateModel())
 
-// hard-coded sprotty model as example
-modelSource.model = <SGraphSchema> {
-    type: 'graph',
-    id: 'graph',
-    children: [
-        <SNodeSchema> {
-            type: 'node',
-            id: 'node0',
-            position: { x: 10, y: 10 },
-            size: { width: 30, height: 30 }
-        },
-        <SNodeSchema> {
-            type: 'node',
-            id: 'node1',
-            position: { x: 80, y: 10 },
-            size: { width: 30, height: 30 }
-        },
-        <SEdgeSchema> {
-            type: 'edge',
-            id: 'edge0',
-            sourceId: 'node0',
-            targetId: 'node1'
-        }
-    ]
+function updateModel() {
+    try {
+        let json = JSON5.parse(editor.getValue())
+        monaco.editor.setModelMarkers(editor.getModel(), "", [])
+        elkjs.layout({ 
+            graph: json,
+            callback: (err, graph) => {
+                if (err === null) {
+                    let sGraph = new ElkGraphJsonToSprotty().transform(graph);
+                    modelSource.setModel(sGraph)
+                } else {
+                    let markers = [ errorToMarker(err) ]
+                    monaco.editor.setModelMarkers(editor.getModel(), "", markers)
+                }
+            } 
+        })
+    } catch (e) {
+        let markers = [ errorToMarker(e) ]
+        monaco.editor.setModelMarkers(editor.getModel(), "", markers)
+     }
+}
+
+function errorToMarker(e: any): monaco.editor.IMarkerData {
+    return <monaco.editor.IMarkerData> {
+        severity: monaco.Severity.Error,
+        startLineNumber: e.lineNumber || 0,
+        startColumn: e.columnNumber || 0,
+        message: e.message
+    }
 }
