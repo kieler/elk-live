@@ -30,7 +30,9 @@ export class ElkNode extends ElkShape {
 
 export class ElkPort extends ElkShape { }
 
-export class ElkLabel extends ElkShape { }
+export class ElkLabel extends ElkShape {
+    text: string
+}
 
 export abstract class ElkEdge extends ElkGraphElement { }
 

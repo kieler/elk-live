@@ -91,7 +91,8 @@ export class ElkGraphJsonToSprotty {
 
         let sLabel = <SLabelSchema> {
             type: 'label',
-            id: elkLabel.id || "",
+            id: elkLabel.id,
+            text: elkLabel.text,
             position: this.pos(elkLabel),
             size: this.size(elkLabel)
         }
@@ -133,8 +134,10 @@ export class ElkGraphJsonToSprotty {
     }
 
     private checkAndRememberId(e: ElkGraphElement, set: Set<string>) {
-        if (set.has(e.id)) {
-            throw Error("Duplicate id: " + e.id)
+        if (e.id == undefined) {
+            throw Error("An element is missing an id.")
+        } else if (set.has(e.id)) {
+            throw Error("Duplicate id: " + e.id + ".")
         } else {
             set.add(e.id)
         }
