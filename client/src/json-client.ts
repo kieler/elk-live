@@ -66,7 +66,7 @@ function updateModel() {
             callback: (err, graph) => {
                 if (err === null) {
                     let sGraph = new ElkGraphJsonToSprotty().transform(graph);
-                    modelSource.setModel(sGraph)
+                    modelSource.updateModel(sGraph)
                 } else {
                     let markers = [ errorToMarker(err) ]
                     monaco.editor.setModelMarkers(editor.getModel(), "", markers)
