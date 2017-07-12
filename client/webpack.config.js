@@ -10,7 +10,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const buildRoot = path.resolve(__dirname, 'lib');
 const appRoot = path.resolve(__dirname, 'app');
-const monacoEditorPath = 'node_modules/monaco-editor-core/dev/vs';
+const monacoEditorPath = 'node_modules/monaco-editor-core/min/vs';
 const bootstrapDistPath = 'node_modules/bootstrap/dist';
 const sprottyCssPath = 'node_modules/sprotty/css';
 
