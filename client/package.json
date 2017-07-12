@@ -24,7 +24,7 @@
   },
   "scripts": {
     "compile": "tsc",
-    "clean": "rimraf lib app/bootstrap app/sprotty app/vs app/bundle.*",
+    "clean": "rimraf lib app/bootstrap app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map",
     "build": "npm run compile && webpack",
     "watch": "tsc-watch --onSuccess webpack"
   }

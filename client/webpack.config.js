@@ -15,9 +15,12 @@ const bootstrapDistPath = 'node_modules/bootstrap/dist';
 const sprottyCssPath = 'node_modules/sprotty/css';
 
 module.exports = {
-    entry: path.resolve(buildRoot, 'main.js'),
+    entry: {
+        editor: path.resolve(buildRoot, 'editor-main.js'),
+        models: path.resolve(buildRoot, 'models-main.js')
+    },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: appRoot
     },
     module: {
