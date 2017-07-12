@@ -13,12 +13,88 @@
 </head>
 <body>
     <div class="container">
-		<h2>ELK Graph Viewers</h2>
-		<ul>
-			<li><a href="elkgraph.html">Editor for elkt format</a> &ndash; based on Xtext language server</li>
-			<li><a href="json.html">Editor for json format</a> &ndash; based on GWT compiler</li>
-            <li><a href="models.html">Browse graphs</a> &ndash; from the <a href="https://github.com/eclipse/elk-models">elk-models</a> repository</li>
-		</ul>
+        <div class="row"><div class="col">
+            <h1 class="display-4">ELK Graph Viewers</h1>
+            <p class="lead">
+                A selection of interactive editors and browsers
+                to try automatic layout with.
+            </p>
+
+            <p>
+                Automatic layout algorithms compute layouts for diagrams.
+                Never tried them?
+                Well, this is your chance.
+                Linked below you will find a number of editors or browsers
+                driven by automatic layout.
+                Use the editors to specify your own diagrams to be laid out,
+                or use the browser to look at what automatic layout does
+                to a number of test diagrams we provide.
+            </p>
+            <p>
+                Everything you see here is based on the following technologies:
+            </p>
+            <ul>
+                <li>
+                    <a href="https://github.com/theia-ide/sprotty">sprotty</a><br/>
+                    A next-gen web-based graphics framework
+                    primarily developed by <a href="https://typefox.io/">TypeFox</a>.
+                </li>
+                <li>
+                    <a href="https://www.eclipse.org/elk/">Eclipse Layout Kernel (ELK)</a><br/>
+                    Java-based implementations of automatic layout algorithms.
+                </li>
+                <li>
+                    <a href="https://microsoft.github.io/monaco-editor/">Monaco Editor</a><br/>
+                    The code editor that powers <a href="https://github.com/Microsoft/vscode">Visual Studio Code</a>.
+                </li>
+                <li>
+                    <a href="https://github.com/eclipse/lsp4j">LSP4J</a><br/>
+                    A Java binding for the <a href="https://github.com/Microsoft/language-server-protocol">Language Server Protocol</a>.
+                </li>
+                <li>
+                    <a href="http://xtext.org/">Xtext</a><br/>
+                    A framework for development of programming languages and domain-specific languages.
+                </li>
+            </ul>
+        </div></div>
+
+        <div class="row"><div class="col">
+            <div class="card-deck">
+            <div class="card">
+                <div class="card-block">
+                <h4 class="card-title">ELKT Editor</h4>
+                <p class="card-text">
+                    An interactive diagram editor
+                    based on the Eclipse Layout Kernel's
+                    <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/elktextformat.html">textual graph format</a>.
+                </p>
+                <a href="elkgraph.html" class="btn btn-primary">ELKT Editor</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-block">
+                <h4 class="card-title">JSON Editor</h4>
+                <p class="card-text">
+                    An interactive diagram editor
+                    based on the Eclipse Layout Kernel's
+                    <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/jsonformat.html">JSON format</a>.
+                </p>
+                <a href="json.html" class="btn btn-primary">JSON Editor</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-block">
+                <h4 class="card-title">Is This for Me?</h4>
+                <p class="card-text">
+                    An interactive browser
+                    for the Eclipse Layout Kernel's
+                    <a href="https://github.com/eclipse/elk-models">repository of test models</a>.
+                </p>
+                <a href="models.html" class="btn btn-primary">Graph Browser</a>
+                </div>
+            </div>
+            </div>
+        </div></div>
     </div>
 </body>
 </html>
