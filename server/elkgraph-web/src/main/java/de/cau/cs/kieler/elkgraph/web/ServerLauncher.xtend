@@ -12,9 +12,11 @@ import com.google.inject.Inject
 import com.google.inject.Provider
 import java.net.InetSocketAddress
 import javax.websocket.server.ServerEndpointConfig
-import org.eclipse.elk.alg.layered.options.LayeredOptions
+import org.eclipse.elk.alg.force.options.ForceMetaDataProvider
+import org.eclipse.elk.alg.layered.options.LayeredMetaDataProvider
+import org.eclipse.elk.alg.mrtree.options.MrTreeMetaDataProvider
+import org.eclipse.elk.alg.radial.options.RadialMetaDataProvider
 import org.eclipse.elk.core.data.LayoutMetaDataService
-import org.eclipse.elk.core.options.CoreOptions
 import org.eclipse.elk.graph.ElkGraphPackage
 import org.eclipse.elk.graph.text.ElkGraphRuntimeModule
 import org.eclipse.elk.graph.text.ide.ElkGraphIdeModule
@@ -43,8 +45,10 @@ class ServerLauncher {
 	def void initialize() {
 		// Initialize ELK meta data
 		LayoutMetaDataService.instance.registerLayoutMetaDataProviders(
-			new CoreOptions,
-			new LayeredOptions
+			new ForceMetaDataProvider,
+			new LayeredMetaDataProvider,
+			new MrTreeMetaDataProvider,
+			new RadialMetaDataProvider
 		)
 		
 		// Initialize the ELK Graph Xtext language
