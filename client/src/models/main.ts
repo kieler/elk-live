@@ -8,8 +8,8 @@
 import 'reflect-metadata'
 
 import { TYPES, LocalModelSource, FitToScreenAction, IActionDispatcher } from 'sprotty/lib'
-import createContainer from './di.config'
-import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty'
+import { ElkGraphJsonToSprotty } from '../json/elkgraph-to-sprotty'
+import createContainer from '../sprotty-config'
 
 import elkjs = require('elkjs')
 import https = require('https')
@@ -21,7 +21,8 @@ const githubOwner = 'uruuru'
 const githubRepo = 'models'
 
 // Create Sprotty viewer
-const sprottyContainer = createContainer('local')
+const sprottyContainer = createContainer()
+sprottyContainer.bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope()
 const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource)
 const actionDispatcher = sprottyContainer.get<IActionDispatcher>(TYPES.IActionDispatcher)
 

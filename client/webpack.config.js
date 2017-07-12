@@ -20,8 +20,9 @@ module.exports = function(env) {
     }
     return {
         entry: {
-            editor: path.resolve(buildRoot, 'editor-main.js'),
-            models: path.resolve(buildRoot, 'models-main.js')
+            elkgraph: path.resolve(buildRoot, 'elkgraph/main'),
+            json: path.resolve(buildRoot, 'json/main'),
+            models: path.resolve(buildRoot, 'models/main')
         },
         output: {
             filename: '[name].bundle.js',

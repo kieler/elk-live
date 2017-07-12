@@ -12,9 +12,9 @@ import {
     createMonacoServices, createConnection
 } from 'monaco-languageclient'
 import { TYPES } from 'sprotty/lib'
-import { getParameterByName, setupModelLink } from "./url-parameters"
+import { getParameterByName, setupModelLink } from "../url-parameters"
+import createContainer from '../sprotty-config'
 import LanguageDiagramServer from './language-diagram-server'
-import createContainer from './di.config'
 const WebSocket = require('reconnecting-websocket')
 
 let initialContent = getParameterByName('initialContent')
@@ -29,7 +29,8 @@ edge n1 -> n3`
 }
 
 // Create Sprotty viewer
-const sprottyContainer = createContainer('remote')
+const sprottyContainer = createContainer()
+sprottyContainer.bind(TYPES.ModelSource).to(LanguageDiagramServer).inSingletonScope()
 const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource)
 diagramServer.clientId = 'inmemory:/model.elkt'
 

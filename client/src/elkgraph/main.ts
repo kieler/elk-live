@@ -11,13 +11,6 @@ window.onload = () => {
     const w = window as any
     w.require(['vs/editor/editor.main'], () => {
         // Load application code
-        const editor = document.getElementById('monaco-editor')
-        if (editor !== null) {
-            const inputType = editor.getAttribute('data-input-type')
-            if (inputType === 'elkt')
-                require('./elkgraph-client')
-            else if (inputType == 'json')
-                require('./json-client')
-        }
+        require('./editor')
     })
 }

@@ -8,8 +8,8 @@
 import 'reflect-metadata'
 
 import { TYPES, LocalModelSource } from 'sprotty/lib'
-import { getParameterByName, setupModelLink } from "./url-parameters"
-import createContainer from './di.config'
+import { getParameterByName, setupModelLink } from "../url-parameters"
+import createContainer from '../sprotty-config'
 import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty'
 import JSON5 = require('json5')
 import elkjs = require('elkjs')
@@ -51,7 +51,8 @@ setupModelLink(editor, (event) => {
 })
 
 // Create Sprotty viewer
-const sprottyContainer = createContainer('local')
+const sprottyContainer = createContainer()
+sprottyContainer.bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope()
 const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource)
 
 // Register listener

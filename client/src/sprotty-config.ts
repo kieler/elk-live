@@ -8,25 +8,16 @@
 import { Container, ContainerModule } from "inversify"
 import {
     TYPES, ViewRegistry, defaultModule, boundsModule, fadeModule, viewportModule, selectModule, moveModule, hoverModule,
-    exportModule, LocalModelSource, SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions
+    exportModule, SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions
 } from "sprotty/lib"
 import { ElkNodeView, ElkPortView, ElkEdgeView, ElkLabelView } from "./views"
-import { ElkGraphFactory } from "./model"
-import LanguageDiagramServer from "./language-diagram-server"
+import { ElkGraphFactory } from "./sprotty-model"
 
-export default (source: 'local' | 'remote') => {
+export default () => {
     const elkGraphModule = new ContainerModule((bind, unbind, isBound, rebind) => {
         rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope()
         rebind(TYPES.LogLevel).toConstantValue(LogLevel.warn)
         rebind(TYPES.IModelFactory).to(ElkGraphFactory).inSingletonScope()
-        switch (source) {
-            case 'local':
-                bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope()
-                break
-            case 'remote':
-                bind(TYPES.ModelSource).to(LanguageDiagramServer).inSingletonScope()
-                break
-        }
     })
     const container = new Container()
     container.load(defaultModule, selectModule, boundsModule, moveModule, fadeModule, hoverModule, viewportModule, exportModule, elkGraphModule)
