@@ -8,7 +8,7 @@
 import { Container, ContainerModule } from "inversify"
 import {
     TYPES, ViewRegistry, defaultModule, boundsModule, fadeModule, viewportModule, selectModule, moveModule, hoverModule,
-    LocalModelSource, SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions
+    exportModule, LocalModelSource, SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions
 } from "sprotty/lib"
 import { ElkNodeView, ElkPortView, ElkEdgeView, ElkLabelView } from "./views"
 import { ElkGraphFactory } from "./model"
@@ -29,7 +29,7 @@ export default (source: 'local' | 'remote') => {
         }
     })
     const container = new Container()
-    container.load(defaultModule, selectModule, boundsModule, moveModule, fadeModule, hoverModule, viewportModule, elkGraphModule)
+    container.load(defaultModule, selectModule, boundsModule, moveModule, fadeModule, hoverModule, viewportModule, exportModule, elkGraphModule)
     overrideViewerOptions(container, {
         needsClientLayout: false
     })

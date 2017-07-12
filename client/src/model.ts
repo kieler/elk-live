@@ -6,8 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 import {
-    SGraphFactory, SModelElementSchema, SParentElement, SChildElement, SNode,
-    selectFeature, boundsFeature, layoutFeature, fadeFeature, hoverFeedbackFeature, popupFeature
+    SGraphFactory, SModelElementSchema, SParentElement, SChildElement, SNode, SPort, moveFeature
 } from "sprotty/lib"
 
 export class ElkGraphFactory extends SGraphFactory {
@@ -15,6 +14,8 @@ export class ElkGraphFactory extends SGraphFactory {
     createElement(schema: SModelElementSchema, parent?: SParentElement): SChildElement {
         if (this.isNodeSchema(schema))
             return this.initializeChild(new ElkNode(), schema, parent)
+        else if (this.isPortSchema(schema))
+            return this.initializeChild(new ElkPort(), schema, parent)
         else
             return super.createElement(schema, parent)
     }
@@ -22,9 +23,21 @@ export class ElkGraphFactory extends SGraphFactory {
 }
 
 // Disable the 'move' feature
+
 export class ElkNode extends SNode {
     hasFeature(feature: symbol): boolean {
-        return feature === selectFeature || feature === boundsFeature || feature === layoutFeature
-            || feature === fadeFeature || feature === hoverFeedbackFeature || feature === popupFeature
+        if (feature === moveFeature)
+            return false
+        else
+            return super.hasFeature(feature)
+    }
+}
+
+export class ElkPort extends SPort {
+    hasFeature(feature: symbol): boolean {
+        if (feature === moveFeature)
+            return false
+        else
+            return super.hasFeature(feature)
     }
 }
