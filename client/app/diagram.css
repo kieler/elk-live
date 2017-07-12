@@ -29,6 +29,11 @@
     dominant-baseline: hanging;
 }
 
+.elkjunction {
+    stroke: none;
+    fill: #224;
+}
+
 .selected > rect {
     stroke-width: 3;
 }

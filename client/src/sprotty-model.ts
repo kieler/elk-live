@@ -6,7 +6,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 import {
-    SGraphFactory, SModelElementSchema, SParentElement, SChildElement, SNode, SPort, moveFeature
+    SGraphFactory, SModelElementSchema, SParentElement, SChildElement, SNode, SPort,
+    moveFeature, selectFeature, hoverFeedbackFeature
 } from "sprotty/lib"
 
 export class ElkGraphFactory extends SGraphFactory {
@@ -16,6 +17,8 @@ export class ElkGraphFactory extends SGraphFactory {
             return this.initializeChild(new ElkNode(), schema, parent)
         else if (this.isPortSchema(schema))
             return this.initializeChild(new ElkPort(), schema, parent)
+        else if (schema.type === 'junction')
+            return this.initializeChild(new ElkJunction(), schema, parent)
         else
             return super.createElement(schema, parent)
     }
@@ -36,6 +39,15 @@ export class ElkNode extends SNode {
 export class ElkPort extends SPort {
     hasFeature(feature: symbol): boolean {
         if (feature === moveFeature)
+            return false
+        else
+            return super.hasFeature(feature)
+    }
+}
+
+export class ElkJunction extends SNode {
+    hasFeature(feature: symbol): boolean {
+        if (feature === moveFeature || feature === selectFeature || feature === hoverFeedbackFeature)
             return false
         else
             return super.hasFeature(feature)

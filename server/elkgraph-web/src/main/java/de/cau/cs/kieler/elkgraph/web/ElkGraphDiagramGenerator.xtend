@@ -20,6 +20,7 @@ import io.typefox.sprotty.server.xtext.IDiagramGenerator
 import java.util.List
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
+import org.eclipse.elk.core.options.CoreOptions
 import org.eclipse.elk.core.util.BasicProgressMonitor
 import org.eclipse.elk.graph.ElkEdge
 import org.eclipse.elk.graph.ElkGraphElement
@@ -168,6 +169,14 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 			}
 			sEdge.routingPoints += new Point(section.endX, section.endY)
 		}
+		val junctionPoints = elkEdge.getProperty(CoreOptions.JUNCTION_POINTS)
+		junctionPoints.forEach[ point, index |
+			val sJunction = new SNode
+			sJunction.type = 'junction'
+			sJunction.id = elkEdge.id + '_j' + index
+			sJunction.position = new Point(point.x, point.y)
+			sEdge.addChild(sJunction)
+		]
 	}
 	
 	private def String getId(ElkGraphElement element) {

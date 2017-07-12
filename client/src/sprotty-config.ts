@@ -10,7 +10,7 @@ import {
     TYPES, ViewRegistry, defaultModule, boundsModule, fadeModule, viewportModule, selectModule, moveModule, hoverModule,
     exportModule, SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions
 } from "sprotty/lib"
-import { ElkNodeView, ElkPortView, ElkEdgeView, ElkLabelView } from "./views"
+import { ElkNodeView, ElkPortView, ElkEdgeView, ElkLabelView, JunctionView } from "./views"
 import { ElkGraphFactory } from "./sprotty-model"
 
 export default () => {
@@ -31,6 +31,7 @@ export default () => {
     viewRegistry.register('port', ElkPortView)
     viewRegistry.register('edge', ElkEdgeView)
     viewRegistry.register('label', ElkLabelView)
+    viewRegistry.register('junction', JunctionView)
 
     return container
 }

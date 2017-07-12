@@ -8,13 +8,15 @@
 import * as snabbdom from "snabbdom-jsx"
 import { VNode } from "snabbdom/vnode"
 import {
-    RenderingContext, SNode, SEdge, SPort, IView, PolylineEdgeView, RectangularNodeView, angle, Point, toDegrees, SLabel
+    RenderingContext, SEdge, IView, PolylineEdgeView, RectangularNodeView, CircularNodeView,
+    angle, Point, toDegrees, SLabel
 } from "sprotty/lib"
+import { ElkNode, ElkPort, ElkJunction } from "./sprotty-model"
 
 const JSX = {createElement: snabbdom.svg}
 
 export class ElkNodeView extends RectangularNodeView {
-    render(node: SNode, context: RenderingContext): VNode {
+    render(node: ElkNode, context: RenderingContext): VNode {
         return <g>
             <rect class-elknode={true} class-mouseover={node.hoverFeedback} class-selected={node.selected}
                     x="0" y="0" width={node.bounds.width} height={node.bounds.height}></rect>
@@ -24,7 +26,7 @@ export class ElkNodeView extends RectangularNodeView {
 }
 
 export class ElkPortView extends RectangularNodeView {
-    render(port: SPort, context: RenderingContext): VNode {
+    render(port: ElkPort, context: RenderingContext): VNode {
         return <g>
             <rect class-elkport={true} class-mouseover={port.hoverFeedback} class-selected={port.selected}
                     x="0" y="0" width={port.bounds.width} height={port.bounds.height}></rect>
@@ -57,5 +59,18 @@ export class ElkEdgeView extends PolylineEdgeView {
 export class ElkLabelView implements IView {
     render(label: SLabel, context: RenderingContext): VNode {
         return <text class-elklabel={true}>{label.text}</text>
+    }
+}
+
+export class JunctionView extends CircularNodeView {
+    render(node: ElkJunction, context: RenderingContext): VNode {
+        const radius = this.getRadius(node)
+        return <g>
+            <circle class-elkjunction={true} r={radius}></circle>
+        </g>
+    }
+
+    protected getRadius(node: ElkJunction): number {
+        return 2;
     }
 }
