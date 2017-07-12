@@ -4,10 +4,10 @@
   "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "devbridge-autocomplete":"^1.4.1",
+    "devbridge-autocomplete": "^1.4.1",
     "elkjs": "file:../../elkjs",
-    "jquery":"^3.2.1",
-    "json5":"^0.5.1",
+    "jquery": "^3.2.1",
+    "json5": "^0.5.1",
     "monaco-languageclient": "0.0.1-alpha.6",
     "reconnecting-websocket": "^3.0.5",
     "sprotty": "file:../../sprotty/client",
@@ -20,12 +20,13 @@
     "rimraf": "^2.6.1",
     "tsc-watch": "^1.0.7",
     "typescript": "^2.3.4",
-    "webpack": "^2.6.1"
+    "uglify-loader": "^2.0.0",
+    "webpack": "^2.7.0"
   },
   "scripts": {
     "compile": "tsc",
     "clean": "rimraf lib app/bootstrap app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map",
-    "build": "npm run compile && webpack",
+    "build": "npm run compile && webpack --env.uglify",
     "watch": "tsc-watch --onSuccess webpack"
   }
 }
