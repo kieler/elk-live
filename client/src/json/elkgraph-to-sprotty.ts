@@ -107,7 +107,8 @@ export class ElkGraphJsonToSprotty {
             id: elkEdge.id,
             sourceId: elkEdge.sources[0],
             targetId: elkEdge.targets[0],
-            routingPoints: []
+            routingPoints: [],
+            children: []
         }
         if (elkEdge.sections) {
             elkEdge.sections.forEach(section => {
@@ -118,6 +119,16 @@ export class ElkGraphJsonToSprotty {
                     sEdge.routingPoints!.push(...bends)
                 }
                 sEdge.routingPoints!.push(<Point> section.endPoint)
+            })
+        }
+        if (elkEdge.junctionPoints)  {
+            elkEdge.junctionPoints.forEach((jp, i) => {
+                let sJunction = <SNodeSchema> {
+                    type: 'junction',
+                    id: elkEdge.id + "_j" + i,
+                    position: <Point> jp
+                }
+                sEdge.children!.push(sJunction)
             })
         }
 

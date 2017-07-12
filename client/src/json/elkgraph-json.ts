@@ -5,38 +5,40 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-export class ElkPoint {
+export interface ElkPoint {
     x: number
     y: number
 }
 
-export abstract class ElkGraphElement {
+export interface ElkGraphElement {
     id: string
     labels?: ElkLabel[]
 }
 
-export abstract class ElkShape extends ElkGraphElement {
+export interface ElkShape extends ElkGraphElement {
     x?: number
     y?: number
     width?: number
     height?: number
 }
 
-export class ElkNode extends ElkShape {
+export interface ElkNode extends ElkShape {
     children?: ElkNode[]
     ports?: ElkPort[]
     edges?: ElkEdge[]
 }
 
-export class ElkPort extends ElkShape { }
+export interface ElkPort extends ElkShape { }
 
-export class ElkLabel extends ElkShape {
+export interface ElkLabel extends ElkShape {
     text: string
 }
 
-export abstract class ElkEdge extends ElkGraphElement { }
+export interface ElkEdge extends ElkGraphElement {
+    junctionPoints?: ElkPoint[]
+}
 
-export class ElkPrimitiveEdge extends ElkEdge {
+export interface ElkPrimitiveEdge extends ElkEdge {
     source: string
     sourcePort?: string
     target: string
@@ -46,13 +48,13 @@ export class ElkPrimitiveEdge extends ElkEdge {
     bendPoints?: ElkPoint[]
 }
 
-export class ElkExtendedEdge extends ElkEdge {
+export interface ElkExtendedEdge extends ElkEdge {
     sources: string[]
     targets: string[]
     sections: ElkEdgeSection[]
 }
 
-export class ElkEdgeSection extends ElkGraphElement {
+export interface ElkEdgeSection extends ElkGraphElement {
     startPoint: ElkPoint
     endPoint: ElkPoint
     bendPoints?: ElkPoint[]
