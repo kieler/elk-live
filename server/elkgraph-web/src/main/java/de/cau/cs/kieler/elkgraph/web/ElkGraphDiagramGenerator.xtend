@@ -21,6 +21,7 @@ import java.util.List
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
 import org.eclipse.elk.core.util.BasicProgressMonitor
+import org.eclipse.elk.graph.ElkEdge
 import org.eclipse.elk.graph.ElkGraphElement
 import org.eclipse.elk.graph.ElkNode
 import org.eclipse.elk.graph.ElkShape
@@ -82,6 +83,7 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 				sedge.id = elkEdge.id
 				sedge.sourceId = elkEdge.sources.head.id
 				sedge.targetId = elkEdge.targets.head.id
+				transferEdgeLayout(elkEdge, sedge)
 				container.addChild(sedge)
 				processLabels(elkEdge, sedge)
 			} else {
@@ -92,6 +94,7 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 						sedge.id = elkEdge.id + '_' + source.id + '_' + target.id
 						sedge.sourceId = source.id
 						sedge.targetId = target.id
+						transferEdgeLayout(elkEdge, sedge)
 						container.addChild(sedge)
 						processLabels(elkEdge, sedge)
 					}
@@ -154,6 +157,17 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		bounds.position = new Point(shape.x, shape.y)
 		if (shape.width > 0 || shape.height > 0)
 			bounds.size = new Dimension(shape.width, shape.height)
+	}
+	
+	private def void transferEdgeLayout(ElkEdge elkEdge, SEdge sEdge) {
+		sEdge.routingPoints = newArrayList
+		for (section : elkEdge.sections) {
+			sEdge.routingPoints += new Point(section.startX, section.startY)
+			for (bendPoint : section.bendPoints) {
+				sEdge.routingPoints += new Point(bendPoint.x, bendPoint.y)
+			}
+			sEdge.routingPoints += new Point(section.endX, section.endY)
+		}
 	}
 	
 	private def String getId(ElkGraphElement element) {
