@@ -17,6 +17,17 @@ import LanguageDiagramServer from './language-diagram-server'
 import createContainer from './di.config'
 const WebSocket = require('reconnecting-websocket')
 
+let initialContent = getParameterByName('initialContent')
+if (initialContent === undefined) {
+    initialContent = `algorithm: layered
+
+node n1
+node n2
+node n3
+edge n1 -> n2
+edge n1 -> n3`
+}
+
 // Create Sprotty viewer
 const sprottyContainer = createContainer('remote')
 const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource)
@@ -27,10 +38,6 @@ monaco.languages.register({
     id: 'elkt',
     extensions: ['.elkt']
 })
-let initialContent = getParameterByName('initialContent')
-if (initialContent === undefined) {
-    initialContent = 'node n1\nnode n2\nedge n1 -> n2\n'
-}
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse(diagramServer.clientId))
 })
