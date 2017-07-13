@@ -8,16 +8,23 @@
 import { Container, ContainerModule } from "inversify"
 import {
     TYPES, ViewRegistry, defaultModule, boundsModule, fadeModule, viewportModule, selectModule, moveModule, hoverModule,
-    exportModule, SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions
+    exportModule, SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions, SvgExporter
 } from "sprotty/lib"
 import { ElkNodeView, ElkPortView, ElkEdgeView, ElkLabelView, JunctionView } from "./views"
 import { ElkGraphFactory } from "./sprotty-model"
+
+class FilteringSvgExporter extends SvgExporter {
+    protected isExported(styleSheet: CSSStyleSheet): boolean {
+        return styleSheet.href !== null && (styleSheet.href.endsWith('diagram.css') || styleSheet.href.endsWith('sprotty.css'))
+    }
+}
 
 export default () => {
     const elkGraphModule = new ContainerModule((bind, unbind, isBound, rebind) => {
         rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope()
         rebind(TYPES.LogLevel).toConstantValue(LogLevel.warn)
         rebind(TYPES.IModelFactory).to(ElkGraphFactory).inSingletonScope()
+        rebind(TYPES.SvgExporter).to(FilteringSvgExporter).inSingletonScope()
     })
     const container = new Container()
     container.load(defaultModule, selectModule, boundsModule, moveModule, fadeModule, hoverModule, viewportModule, exportModule, elkGraphModule)
