@@ -18,5 +18,9 @@ class ElkGraphLanguageServerExtension extends DiagramLanguageServerExtension {
 		val languageAware = server as LanguageAwareDiagramServer
 		languageAware.needsClientLayout = false
 	}
+	
+	override protected findDiagramServersByUri(String uri) {
+		#[getDiagramServer('sprotty')]
+	}
 
 }

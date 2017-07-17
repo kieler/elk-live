@@ -9,6 +9,7 @@ import { IConnection } from "vscode-base-languageclient/lib/connection"
 import { DiagramServer, ActionMessage } from "sprotty/lib"
 
 const DIAGRAM_ENDPOINT_NOTIFICATION = 'diagram/accept'
+const DID_CLOSE_NOTIFICATION = 'diagram/didClose'
 
 export default class LanguageDiagramServer extends DiagramServer {
     protected connection?: IConnection
@@ -21,7 +22,10 @@ export default class LanguageDiagramServer extends DiagramServer {
     }
 
     disconnect() {
-        this.connection = undefined
+        if (this.connection !== undefined) {
+            this.connection.sendNotification(DID_CLOSE_NOTIFICATION, this.clientId)
+            this.connection = undefined
+        }
     }
 
     protected sendMessage(message: ActionMessage): void {

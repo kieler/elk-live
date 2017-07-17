@@ -10,7 +10,9 @@ package de.cau.cs.kieler.elkgraph.web
 import com.google.inject.Guice
 import com.google.inject.Inject
 import com.google.inject.Provider
+import io.typefox.sprotty.server.xtext.websocket.LanguageServerEndpoint
 import java.net.InetSocketAddress
+import javax.websocket.Endpoint
 import javax.websocket.server.ServerEndpointConfig
 import org.eclipse.elk.alg.force.options.ForceMetaDataProvider
 import org.eclipse.elk.alg.layered.options.LayeredMetaDataProvider
@@ -33,14 +35,16 @@ class ServerLauncher {
 	
 	def static void main(String[] args) {
 		val injector = Guice.createInjector(Modules2.mixin(new ServerModule, [
+			bind(Endpoint).to(LanguageServerEndpoint)
 			bind(IResourceServiceProvider.Registry).toProvider(IResourceServiceProvider.Registry.RegistryProvider)
 		]))
 		val launcher = injector.getInstance(ServerLauncher)
 		launcher.initialize()
-		launcher.start()
+		val rootPath = if (args.length >= 1) args.get(0) else '../..'
+		launcher.start(rootPath)
 	}
 
-	@Inject Provider<LanguageServerEndpoint> languageServerEndpointProvider
+	@Inject Provider<Endpoint> endpointProvider
 	
 	def void initialize() {
 		// Initialize ELK meta data
@@ -60,11 +64,14 @@ class ServerLauncher {
 		}.createInjectorAndDoEMFRegistration()
 	}
 	
-	def void start() {
+	def void start(String rootPath) {
+		val log = new Slf4jLog(ServerLauncher.name)
+		
 		// Set up Jetty server
 		val server = new Server(new InetSocketAddress(8080))
 		val webAppContext = new WebAppContext => [
-			resourceBase = '../../client/app'
+			resourceBase = rootPath + '/client/app'
+			log.info('Serving client app from ' + resourceBase)
 			welcomeFiles = #['index.html']
 			setInitParameter('org.eclipse.jetty.servlet.Default.dirAllowed', 'false')
 			setInitParameter('org.eclipse.jetty.servlet.Default.useFileMappedBuffer', 'false')
@@ -76,16 +83,12 @@ class ServerLauncher {
 		val endpointConfigBuilder = ServerEndpointConfig.Builder.create(LanguageServerEndpoint, '/elkgraph')
 		endpointConfigBuilder.configurator(new ServerEndpointConfig.Configurator {
 			override <T> getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
-				if (endpointClass.isAssignableFrom(LanguageServerEndpoint))
-					languageServerEndpointProvider.get as T
-				else
-					super.getEndpointInstance(endpointClass)
+				endpointProvider.get as T
 			}
 		})
 		container.addEndpoint(endpointConfigBuilder.build())
 		
 		// Start the server
-		val log = new Slf4jLog(ServerLauncher.name)
 		try {
 			server.start()
 			log.info('Press enter to stop the server...')

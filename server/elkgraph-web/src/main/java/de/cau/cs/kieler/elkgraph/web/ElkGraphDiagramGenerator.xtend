@@ -18,6 +18,7 @@ import io.typefox.sprotty.api.SNode
 import io.typefox.sprotty.api.SPort
 import io.typefox.sprotty.server.xtext.IDiagramGenerator
 import java.util.List
+import java.util.Map
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
 import org.eclipse.elk.core.options.CoreOptions
@@ -46,7 +47,7 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		layoutEngine.layout(elkGraph, new BasicProgressMonitor)
 	}
 	
-	override generate(Resource resource, CancelIndicator cancelIndicator) {
+	override generate(Resource resource, Map<String, String> options, CancelIndicator cancelIndicator) {
 		val originalGraph = resource.contents.head
 		if (originalGraph instanceof ElkNode) {
 			val elkGraph = EcoreUtil.copy(originalGraph)

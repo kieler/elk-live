@@ -19,6 +19,7 @@ task jettyRun(type: JavaExec) {
 	dependsOn(sourceSets.main.runtimeClasspath)
 	classpath = sourceSets.main.runtimeClasspath.filter{it.exists()}
 	main = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
+	args = [rootProject.file('..')]
 	standardInput = System.in
 	group = 'run'
 	description = 'Starts the ELK Graph server'
