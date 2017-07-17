@@ -44,6 +44,13 @@ getContentsRecursively('')
     })
   })
 
+function refreshLayout() {
+  $('#sprotty').css('top', $('#navbar').height() + 'px')
+}
+
+$(window).resize(refreshLayout)
+$(document).ready(refreshLayout)
+
 function layout(inputGraph: any) {
   elkjs.layout({
     graph: inputGraph,

@@ -4,45 +4,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="sprotty/sprotty.css">
   <link rel="stylesheet" href="diagram.css">
   <style>
-    html,
     body {
-      margin: 0;
-      height: 100%;
-      min-height: 100%;
+      overflow: hidden;
     }
-
+		.nav > .title {
+			margin: 6px 15px;
+      font-size: 24px;
+      font-weight: 500;
+			color: #448;
+		}
+    #sprotty {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
     svg {
       width: 100%;
       height: 100%;
     }
-
-    #sprotty {
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      position: absolute;
-    }
-
     #navbox {
-      position: absolute;
-      width: 25%;
       min-width: 300px;
       height: 30px;
-      top: 20px;
-      left: 20px;
+			margin: 1px 15px;
     }
-
     #autocomplete {
       border: 1px solid #888;
       padding: 2px;
       width: 100%;
       height: 100%;
     }
-
     .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
     .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
     .autocomplete-selected { background: #F0F0F0; }
@@ -53,13 +49,27 @@
 </head>
 
 <body>
+	<nav class="navbar navbar-default" id="navbar">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">ELK Graph Viewers</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="title">Model Browser</li>
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div id="navbox" class="form-group">
+          <input type="text" id="autocomplete" class="form-control" placeholder="Type to select a model ...">
+        </div>
+      </form>
+		</div>
+  </nav>
+
   <div id="sprotty"></div>
 
-  <div id="navbox">
-    <input type="text" name="country" id="autocomplete" placeholder="Type to select a model ..."/>
-  </div>
-
   <script src="models.bundle.js"></script>
+	<script src="jquery/jquery.slim.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

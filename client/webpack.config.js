@@ -12,6 +12,7 @@ const buildRoot = path.resolve(__dirname, 'lib');
 const appRoot = path.resolve(__dirname, 'app');
 const monacoEditorPath = 'node_modules/monaco-editor-core/min/vs';
 const bootstrapDistPath = 'node_modules/bootstrap/dist';
+const jqueryDistPath = 'node_modules/jquery/dist';
 const sprottyCssPath = 'node_modules/sprotty/css';
 
 module.exports = function(env) {
@@ -60,6 +61,10 @@ module.exports = function(env) {
             new CopyWebpackPlugin([{
                 from: bootstrapDistPath,
                 to: 'bootstrap'
+            }]),
+            new CopyWebpackPlugin([{
+                from: jqueryDistPath,
+                to: 'jquery'
             }]),
             new CopyWebpackPlugin([{
                 from: sprottyCssPath,
