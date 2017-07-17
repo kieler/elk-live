@@ -49,7 +49,7 @@ function refreshLayout() {
 }
 
 $(window).resize(refreshLayout)
-$(document).ready(refreshLayout)
+$(document).ready(setTimeout(refreshLayout, 50))
 
 function layout(inputGraph: any) {
   elkjs.layout({
