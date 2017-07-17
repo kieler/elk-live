@@ -10,6 +10,9 @@ package de.cau.cs.kieler.elkgraph.web
 import io.typefox.sprotty.server.xtext.DefaultDiagramModule
 import io.typefox.sprotty.server.xtext.IDiagramGenerator
 
+/**
+ * Guice bindings for the ELK diagram server.
+ */
 class ElkGraphDiagramModule extends DefaultDiagramModule {
 	
 	override bindILanguageServerExtension() {

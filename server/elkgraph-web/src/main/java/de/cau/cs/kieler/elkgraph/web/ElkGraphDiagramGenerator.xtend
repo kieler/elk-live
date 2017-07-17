@@ -32,6 +32,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtext.util.CancelIndicator
 
+/**
+ * Transforms ELK graphs into sprotty models to be transferred to clients.
+ */
 class ElkGraphDiagramGenerator implements IDiagramGenerator {
 	
 	val IGraphLayoutEngine layoutEngine = new RecursiveGraphLayoutEngine
@@ -60,6 +63,9 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		}
 	}
 	
+	/**
+	 * Transform all content of the given parent node.
+	 */
 	protected def void processContent(ElkNode parent, SModelElement container) {
 		for (elkPort : parent.ports) {
 			val sport = new SPort
@@ -105,6 +111,9 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		}
 	}
 	
+	/**
+	 * Transform all labels of the given graph element.
+	 */
 	protected def void processLabels(ElkGraphElement element, SModelElement container) {
 		for (elkLabel : element.labels) {
 			val slabel = new SLabel
@@ -117,6 +126,9 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		}
 	}
 	
+	/**
+	 * Apply default layout information to all contents of the given parent node.
+	 */
 	private def void applyDefaults(ElkNode parent) {
 		for (port : parent.ports) {
 			if (port.width <= 0)
@@ -138,6 +150,10 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		}
 	}
 	
+	/**
+	 * Compute sizes for all labels of an element. <em>Note:</em> Sizes are hard-coded here, so don't expect
+	 * the result to be rendered properly on all clients!
+	 */
 	private def computeLabelSizes(ElkGraphElement element) {
 		for (label : element.labels) {
 			if (!label.text.nullOrEmpty) {
@@ -149,18 +165,27 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		}
 	}
 	
+	/**
+	 * Add a child element to the sprotty model.
+	 */
 	private def void addChild(SModelElement container, SModelElement child) {
 		if (container.children === null)
 			container.children = newArrayList
 		container.children.add(child)
 	}
 	
+	/**
+	 * Transfer bounds to a sprotty model element.
+	 */
 	private def void transferBounds(ElkShape shape, BoundsAware bounds) {
 		bounds.position = new Point(shape.x, shape.y)
 		if (shape.width > 0 || shape.height > 0)
 			bounds.size = new Dimension(shape.width, shape.height)
 	}
 	
+	/**
+	 * Transfer an edge layout to a sprotty edge.
+	 */
 	private def void transferEdgeLayout(ElkEdge elkEdge, SEdge sEdge) {
 		sEdge.routingPoints = newArrayList
 		for (section : elkEdge.sections) {
@@ -180,6 +205,9 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		]
 	}
 	
+	/**
+	 * Compute a unique identifier for the given element.
+	 */
 	private def String getId(ElkGraphElement element) {
 		val container = element.eContainer
 		if (container instanceof ElkGraphElement) {

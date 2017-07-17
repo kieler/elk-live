@@ -31,6 +31,9 @@ import org.eclipse.xtext.ide.server.ServerModule
 import org.eclipse.xtext.resource.IResourceServiceProvider
 import org.eclipse.xtext.util.Modules2
 
+/**
+ * Main class for launching the ELK Graph server.
+ */
 class ServerLauncher {
 	
 	def static void main(String[] args) {
