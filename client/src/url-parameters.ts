@@ -62,8 +62,7 @@ export function combineParameters(parameters: { [key: string]: string }): string
     let result = ''
     let i = 0
     for (let param in parameters) {
-        const value = encodeURIComponent(parameters[param])
-        result += `${i === 0 ? '?' : '&'}${param}=${value}`
+        result += `${i === 0 ? '?' : '&'}${param}=${parameters[param]}` 
         i++
     }
     return result

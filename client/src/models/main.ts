@@ -32,9 +32,6 @@ const actionDispatcher = sprottyContainer.get<IActionDispatcher>(TYPES.IActionDi
 const elk = new ELK({
   workerUrl: './elk/elk-worker.min.js'
 })
-function layout(graph: any) {
-  return elk.layout(graph)
-}
 
 // Div with loading indicator
 const loading = <HTMLElement> document.getElementById('loading')
@@ -67,10 +64,11 @@ function loadModel(path: string) {
   setLoading(true)
   errorDiv.style.display = 'none'
   getFileContent(path)
-    .then(layout)
+    .then((g) => elk.layout(g))
     .then(updateSprottyModel)
     .then(() => {
-      let queryString = combineParameters({link: path, owner: githubOwner, repo: githubRepo})
+      let encodedPath = encodeURIComponent(path)
+      let queryString = combineParameters({link: encodedPath, owner: githubOwner, repo: githubRepo})
       window.history.pushState("", "", queryString)
     })
     .then(() => setLoading(false))
@@ -86,7 +84,7 @@ function loadModel(path: string) {
 // Initial model
 let currentModel = ''
 if (urlParameters.link) {
-  currentModel = urlParameters.link
+  currentModel = decodeURIComponent(urlParameters.link)
   // not yet supported
   //githubOwner = owner || githubOwner
   //githubRepo = repo || githubRepo
