@@ -5,7 +5,7 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "devbridge-autocomplete": "^1.4.1",
-    "elkjs": "file:../../elkjs",
+    "elkjs": "^0.0.1",
     "jquery": "^3.2.1",
     "json5": "^0.5.1",
     "lz-string": "^1.4.4",

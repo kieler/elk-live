@@ -39,20 +39,32 @@ export function setupModelLink(editor: ICodeEditor, getParameters: (event: IMode
         contentChangeTimeout = window.setTimeout(() => {
             const anchor = document.getElementById('model-link')
             if (anchor !== null) {
-                let newHref = window.location.href
-                const queryIndex = newHref.indexOf('?')
-                if (queryIndex > 0)
-                    newHref = newHref.substring(0, queryIndex)
                 const parameters = getParameters(event)
-                let i = 0
-                for (let param in parameters) {
-                    newHref += `${i === 0 ? '?' : '&'}${param}=${parameters[param]}`
-                    i++
-                }
+                const newHref = assembleHref(parameters)
                 anchor.setAttribute('href', newHref)
             }
         }, 400)
     }
     editor.onDidChangeModelContent(listener)
     listener({})
+}
+
+export function assembleHref(parameters: { [key: string]: string }): string {
+    let newHref = window.location.href
+    const queryIndex = newHref.indexOf('?')
+    if (queryIndex > 0)
+        newHref = newHref.substring(0, queryIndex)
+    newHref += combineParameters(parameters)
+    return newHref
+}
+
+export function combineParameters(parameters: { [key: string]: string }): string {
+    let result = ''
+    let i = 0
+    for (let param in parameters) {
+        const value = encodeURIComponent(parameters[param])
+        result += `${i === 0 ? '?' : '&'}${param}=${value}`
+        i++
+    }
+    return result
 }

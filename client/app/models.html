@@ -35,16 +35,65 @@
     }
     #autocomplete {
       border: 1px solid #888;
-      padding: 2px;
       width: 100%;
       height: 100%;
     }
-    .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
-    .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-    .autocomplete-selected { background: #F0F0F0; }
-    .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
-    .autocomplete-group { padding: 2px 5px; }
-    .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+    .autocomplete-suggestions { 
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      border: 1px solid #999; 
+      background: #FFF; 
+      overflow: auto; 
+    }
+
+    .autocomplete-suggestion { 
+      padding: 2px 5px; 
+      white-space: nowrap; 
+      overflow: hidden; 
+    }
+
+    .autocomplete-selected { 
+      background: #ddf; 
+    }
+
+    .autocomplete-suggestions strong { 
+      font-weight: normal; 
+      color: #448; 
+    }
+
+    .autocomplete-group { 
+      padding: 2px 5px; 
+    }
+
+    .autocomplete-group strong { 
+      display: block; 
+      border-bottom: 1px solid #000; 
+    }
+
+    #loading {
+      margin-top: 10px;
+      display: none;
+      border: 8px solid #ddf;
+      border-top: 8px solid #448;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #error {
+      display: none;
+      height: auto;
+      top: 0;
+      margin: 6px auto;
+      padding: 6px 12px; 
+    }
   </style>
 </head>
 
@@ -64,6 +113,8 @@
           <input type="text" id="autocomplete" class="form-control" placeholder="Type to select a model ...">
         </div>
       </form>
+      <div id="loading" class="navbar-left"></div>
+      <div id="error" class="navbar-text navbar-left alert alert-danger"></div>
 		</div>
   </nav>
 

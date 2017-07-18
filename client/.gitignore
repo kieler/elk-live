@@ -4,5 +4,6 @@ app/bootstrap/
 app/jquery/
 app/sprotty/
 app/vs/
+app/elk/
 *.bundle.js
 *.bundle.js.map

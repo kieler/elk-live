@@ -14,6 +14,7 @@ const monacoEditorPath = 'node_modules/monaco-editor-core/min/vs';
 const bootstrapDistPath = 'node_modules/bootstrap/dist';
 const jqueryDistPath = 'node_modules/jquery/dist';
 const sprottyCssPath = 'node_modules/sprotty/css';
+const elkWorkerPath = 'node_modules/elkjs/lib/elk-worker.min.js';
 
 module.exports = function(env) {
     if (!env) {
@@ -69,6 +70,10 @@ module.exports = function(env) {
             new CopyWebpackPlugin([{
                 from: sprottyCssPath,
                 to: 'sprotty'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath,
+                to: 'elk'
             }])
         ]
     }

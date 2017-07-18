@@ -11,8 +11,9 @@ import { TYPES, LocalModelSource } from 'sprotty/lib'
 import { getParameters, setupModelLink } from "../url-parameters"
 import createContainer from '../sprotty-config'
 import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty'
+import ELK from 'elkjs/lib/elk-api'
+
 import JSON5 = require('json5')
-import elkjs = require('elkjs')
 import LZString = require('lz-string')
 
 const urlParameters = getParameters()
@@ -48,6 +49,20 @@ monaco.languages.register({
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'json', monaco.Uri.parse('inmemory:/model.json'))
 })
+
+// Create Sprotty viewer
+const sprottyContainer = createContainer()
+sprottyContainer.bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope()
+const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource)
+
+// Set up ELK
+const elk = new ELK({
+    workerUrl: './elk/elk-worker.min.js'
+})
+
+// Register listener
+editor.getModel().onDidChangeContent(e => updateModel())
+
 // Initial layout
 updateModel()
 
@@ -57,30 +72,19 @@ setupModelLink(editor, (event) => {
     }
 })
 
-// Create Sprotty viewer
-const sprottyContainer = createContainer()
-sprottyContainer.bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope()
-const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource)
-
-// Register listener
-editor.getModel().onDidChangeContent(e => updateModel())
-
 function updateModel() {
     try {
         let json = JSON5.parse(editor.getValue())
         monaco.editor.setModelMarkers(editor.getModel(), "", [])
-        elkjs.layout({ 
-            graph: json,
-            callback: (err, graph) => {
-                if (err === null) {
-                    let sGraph = new ElkGraphJsonToSprotty().transform(graph);
-                    modelSource.updateModel(sGraph)
-                } else {
-                    let markers = [ errorToMarker(err) ]
-                    monaco.editor.setModelMarkers(editor.getModel(), "", markers)
-                }
-            } 
-        })
+        elk.layout(json)
+            .then(g => {
+                let sGraph = new ElkGraphJsonToSprotty().transform(g);
+                modelSource.updateModel(sGraph)
+            })
+            .catch(e => {
+                let markers = [ errorToMarker(e) ]
+                monaco.editor.setModelMarkers(editor.getModel(), "", markers)
+            })
     } catch (e) {
         let markers = [ errorToMarker(e) ]
         monaco.editor.setModelMarkers(editor.getModel(), "", markers)
