@@ -9,12 +9,25 @@
 import ICodeEditor = monaco.editor.ICodeEditor
 import IModelContentChangedEvent = monaco.editor.IModelContentChangedEvent2
 
-export function getParameterByName(name: string): string | undefined {
-    const results = new RegExp('[?&]' + name.replace(/[\[\]]/g, '\\$&') + '(=([^&#]*)|&|#|$)').exec(window.location.href)
-    if (!results || !results[2])
-        return undefined
-    else
-        return decodeURIComponent(results[2].replace(/\+/g, ' '))
+export function getParameters(): {[key: string]: string} {
+    let search = window.location.search.substring(1)
+    const result = {}
+    while (search.length > 0) {
+        const nextParamIndex = search.indexOf('&')
+        let param: string
+        if (nextParamIndex < 0) {
+            param = search
+            search = ''
+        } else {
+            param = search.substring(0, nextParamIndex)
+            search = search.substring(nextParamIndex + 1)
+        }
+        const valueIndex = param.indexOf('=')
+        if (valueIndex > 0 && valueIndex < param.length - 1) {
+            result[param.substring(0, valueIndex)] = param.substring(valueIndex + 1)
+        }
+    }
+    return result
 }
 
 export function setupModelLink(editor: ICodeEditor, getParameters: (event: IModelContentChangedEvent)=>{[key: string]: string}) {
@@ -33,8 +46,7 @@ export function setupModelLink(editor: ICodeEditor, getParameters: (event: IMode
                 const parameters = getParameters(event)
                 let i = 0
                 for (let param in parameters) {
-                    const value = encodeURIComponent(parameters[param])
-                    newHref += `${i === 0 ? '?' : '&'}${param}=${value}`
+                    newHref += `${i === 0 ? '?' : '&'}${param}=${parameters[param]}`
                     i++
                 }
                 anchor.setAttribute('href', newHref)

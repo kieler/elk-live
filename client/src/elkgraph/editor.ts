@@ -11,13 +11,20 @@ import {
     BaseLanguageClient, CloseAction, ErrorAction, createMonacoServices, createConnection
 } from 'monaco-languageclient'
 import { TYPES } from 'sprotty/lib'
-import { getParameterByName, setupModelLink } from "../url-parameters"
+import { getParameters, setupModelLink } from "../url-parameters"
 import createContainer from '../sprotty-config'
 import LanguageDiagramServer from './language-diagram-server'
+import LZString = require('lz-string')
 const WebSocket = require('reconnecting-websocket')
 
-let initialContent = getParameterByName('initialContent')
-if (initialContent === undefined) {
+const urlParameters = getParameters()
+
+let initialContent: string
+if (urlParameters.compressedContent !== undefined) {
+    initialContent = LZString.decompressFromEncodedURIComponent(urlParameters.compressedContent)
+} else if (urlParameters.initialContent !== undefined) {
+    initialContent = decodeURIComponent(urlParameters.initialContent)
+} else {
     initialContent = `algorithm: layered
 
 node n1
@@ -43,7 +50,7 @@ const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
 })
 setupModelLink(editor, (event) => {
     return {
-        initialContent: editor.getValue()
+        compressedContent: LZString.compressToEncodedURIComponent(editor.getValue())
     }
 })
 

@@ -8,14 +8,21 @@
 import 'reflect-metadata'
 
 import { TYPES, LocalModelSource } from 'sprotty/lib'
-import { getParameterByName, setupModelLink } from "../url-parameters"
+import { getParameters, setupModelLink } from "../url-parameters"
 import createContainer from '../sprotty-config'
 import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty'
 import JSON5 = require('json5')
 import elkjs = require('elkjs')
+import LZString = require('lz-string')
 
-let initialContent = getParameterByName('initialContent')
-if (initialContent === undefined) {
+const urlParameters = getParameters()
+
+let initialContent: string
+if (urlParameters.compressedContent !== undefined) {
+    initialContent = LZString.decompressFromEncodedURIComponent(urlParameters.compressedContent)
+} else if (urlParameters.initialContent !== undefined) {
+    initialContent = decodeURIComponent(urlParameters.initialContent)
+} else {
     initialContent = `{
   id: "root",
   properties: { 'algorithm': 'layered' },
@@ -46,7 +53,7 @@ updateModel()
 
 setupModelLink(editor, (event) => {
     return {
-        initialContent: editor.getValue()
+        compressedContent: LZString.compressToEncodedURIComponent(editor.getValue())
     }
 })
 

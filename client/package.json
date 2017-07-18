@@ -8,6 +8,7 @@
     "elkjs": "file:../../elkjs",
     "jquery": "^3.2.1",
     "json5": "^0.5.1",
+    "lz-string": "^1.4.4",
     "monaco-languageclient": "0.0.1-alpha.6",
     "reconnecting-websocket": "^3.0.5",
     "sprotty": "file:../../sprotty/client",
