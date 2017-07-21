@@ -15,6 +15,7 @@ import { getParameters, setupModelLink } from "../url-parameters"
 import createContainer from '../sprotty-config'
 import LanguageDiagramServer from './language-diagram-server'
 import LZString = require('lz-string')
+require('./elkt-language')
 const WebSocket = require('reconnecting-websocket')
 
 const urlParameters = getParameters()
@@ -40,10 +41,6 @@ sprottyContainer.bind(TYPES.ModelSource).to(LanguageDiagramServer).inSingletonSc
 const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource)
 
 // Create Monaco editor
-monaco.languages.register({
-    id: 'elkt',
-    extensions: ['.elkt']
-})
 const modelUri = 'inmemory:/model.elkt'
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse(modelUri))
