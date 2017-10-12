@@ -15,12 +15,13 @@ import ELK from 'elkjs/lib/elk-api.js'
 
 import https = require('https')
 import $ = require('jquery')
+import JSON5 = require('json5')
 require('devbridge-autocomplete')
 
 const urlParameters = getParameters()
 
-let githubOwner = 'uruuru'
-let githubRepo = 'models'
+let githubOwner = 'eclipse'
+let githubRepo = 'elk-models'
 
 // Create Sprotty viewer
 const sprottyContainer = createContainer()
@@ -142,7 +143,7 @@ function asyncGet(req) {
       response.on('data', c => body += c)
       response.on('end', function () {
         try {
-          resolve(JSON.parse(body));
+          resolve(JSON5.parse(body));
         } catch (e) {
           reject(e)
         }
@@ -187,7 +188,7 @@ function getFileContent(filePath) {
       return new Promise(function (resolve, reject) {
         try {
           var buf = Buffer.from(response.content, 'base64')
-          resolve(JSON.parse(buf.toString()))
+          resolve(JSON5.parse(buf.toString()))
         } catch (err) {
           reject(err)
         }
@@ -202,6 +203,7 @@ function collectDirs(d) {
 
 function collectFiles(dir) {
   return (dir.files || [])
+    .filter(function (f) { return f.path.endsWith('.json') })
     .map(function (f) { return { value: f.path, data: f.path } })
     .concat(...(dir.dirs || []).map(sd => collectFiles(sd)))
 }
