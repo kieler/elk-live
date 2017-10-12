@@ -9,7 +9,10 @@ package de.cau.cs.kieler.elkgraph.web
 
 import io.typefox.sprotty.api.IDiagramServer
 import io.typefox.sprotty.server.xtext.DiagramLanguageServerExtension
+import io.typefox.sprotty.server.xtext.ILanguageAwareDiagramServer
 import io.typefox.sprotty.server.xtext.LanguageAwareDiagramServer
+import io.typefox.sprotty.server.xtext.websocket.LanguageServerEndpoint
+import org.eclipse.xtext.ide.server.LanguageServerImpl
 
 /**
  * The language server extension is created by the {@link LanguageServerImpl}, which is in turn
@@ -29,8 +32,8 @@ class ElkGraphLanguageServerExtension extends DiagramLanguageServerExtension {
 	 * although we never received a request for it. This is possible because there is always
 	 * exactly one client for each instance of this class.
 	 */
-	override protected findDiagramServersByUri(String uri) {
-		#[getDiagramServer('sprotty')]
+	override findDiagramServersByUri(String uri) {
+		#[getDiagramServer('sprotty') as ILanguageAwareDiagramServer]
 	}
 
 }
