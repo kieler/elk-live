@@ -45,6 +45,9 @@ const modelUri = 'inmemory:/model.elkt'
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse(modelUri))
 })
+editor.updateOptions({
+    minimap: { enabled: false }
+})
 setupModelLink(editor, (event) => {
     return {
         compressedContent: LZString.compressToEncodedURIComponent(editor.getValue())
@@ -62,7 +65,7 @@ const socketOptions = {
     debug: false
 }
 const webSocket = new WebSocket(socketUrl, undefined, socketOptions)
-const services = createMonacoServices()
+const services = createMonacoServices(editor)
 listen({
     webSocket,
     onConnection: connection => {

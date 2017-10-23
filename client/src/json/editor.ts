@@ -49,6 +49,9 @@ monaco.languages.register({
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'json', monaco.Uri.parse('inmemory:/model.json'))
 })
+editor.updateOptions({
+    minimap: { enabled: false }
+})
 
 // Create Sprotty viewer
 const sprottyContainer = createContainer()

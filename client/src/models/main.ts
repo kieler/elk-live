@@ -94,7 +94,7 @@ if (urlParameters.link) {
 }
 
 function initAutocomplete(files: any) {
-  $('#autocomplete').autocomplete({
+  ($('#autocomplete') as any).autocomplete({
       lookup: files,
       minChars: 0,
       onSelect: function (suggestion) {
@@ -120,7 +120,7 @@ function refreshLayout() {
 }
 
 $(window).resize(refreshLayout)
-$(document).ready(setTimeout(refreshLayout, 50))
+$(document).ready(setTimeout(refreshLayout, 50) as any)
 
 function githubRequest(path) {
   return {
@@ -194,11 +194,6 @@ function getFileContent(filePath) {
         }
       })
     })
-}
-
-function collectDirs(d) {
-  var td = { value: d.name, data: d.path }
-  return [td].concat(...(d.dirs || []).map(sd => collectDirs(sd)))
 }
 
 function collectFiles(dir) {

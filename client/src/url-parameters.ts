@@ -7,7 +7,7 @@
  *******************************************************************************/
 
 import ICodeEditor = monaco.editor.ICodeEditor
-import IModelContentChangedEvent = monaco.editor.IModelContentChangedEvent2
+import IModelContentChangedEvent = monaco.editor.IModelContentChangedEvent
 
 export function getParameters(): {[key: string]: string} {
     let search = window.location.search.substring(1)

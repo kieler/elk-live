@@ -4,15 +4,15 @@
   "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "devbridge-autocomplete": "^1.4.1",
-    "elkjs": "^0.0.1",
+    "devbridge-autocomplete": "^1.4.3",
+    "elkjs": "^0.3.0",
     "jquery": "^3.2.1",
     "json5": "^0.5.1",
     "lz-string": "^1.4.4",
-    "monaco-languageclient": "0.0.1-alpha.6",
+    "monaco-languageclient": "0.2.0",
     "reconnecting-websocket": "^3.0.5",
     "sprotty": "file:../../sprotty/client",
-    "vscode-ws-jsonrpc": "0.0.1-alpha.4"
+    "vscode-ws-jsonrpc": "0.0.1-alpha.5"
   },
   "devDependencies": {
     "@types/node": "^8.0.2",
