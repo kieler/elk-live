@@ -483,9 +483,9 @@ des.js@^1.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
 
-devbridge-autocomplete@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/devbridge-autocomplete/-/devbridge-autocomplete-1.4.3.tgz#5d39ae5f31062eafd7acd085ba6211a9c9b995ce"
+devbridge-autocomplete@^1.4.7:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/devbridge-autocomplete/-/devbridge-autocomplete-1.4.7.tgz#de003a1d3ceb2342f4a98bc64ef19db5fbff83f9"
   dependencies:
     "@types/jquery" "^2.0.32"
     jquery ">=1.7"
@@ -1183,21 +1183,16 @@ minimist@^1.2.0:
   dependencies:
     minimist "0.0.8"
 
-monaco-editor-core@^0.10.0:
+monaco-editor-core@^0.10.1:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/monaco-editor-core/-/monaco-editor-core-0.10.1.tgz#15121d9e28e51f094d9c556bf852dc9c13dc42a1"
 
-monaco-editor@^0.10.0:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.10.1.tgz#8c96c4f15b6b5258bf92cbde93cad8a7e3007e14"
-
-monaco-languageclient@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/monaco-languageclient/-/monaco-languageclient-0.2.0.tgz#df2f4ff61500c515808afdf1bce8e1f6baba4973"
+monaco-languageclient@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/monaco-languageclient/-/monaco-languageclient-0.4.0.tgz#5f63f88bcc5df898d7efd1ad3bc088922fb36a7f"
   dependencies:
     glob-to-regexp "^0.3.0"
-    monaco-editor "^0.10.0"
-    monaco-editor-core "^0.10.0"
+    monaco-editor-core "^0.10.1"
     vscode-base-languageclient "^0.0.1-alpha.2"
 
 ms@2.0.0:
@@ -1537,7 +1532,7 @@ readdirp@^2.0.0:
     readable-stream "^2.0.2"
     set-immediate-shim "^1.0.1"
 
-reconnecting-websocket@^3.0.5:
+reconnecting-websocket@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/reconnecting-websocket/-/reconnecting-websocket-3.2.2.tgz#8097514e926e9855e03c39e76efa2e3d1f371bee"
 
@@ -1708,8 +1703,9 @@ split@0.3:
   dependencies:
     through "2"
 
-"sprotty@file:../../sprotty/client":
-  version "0.3.0"
+sprotty@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.2.1.tgz#0f593b53f5e34f21af98b1f06ca90da9a466afef"
   dependencies:
     file-saver "^1.3.3"
     inversify "^4.3.0"
@@ -1949,8 +1945,8 @@ void-elements@^2.0.1:
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
 
 vscode-base-languageclient@^0.0.1-alpha.2:
-  version "0.0.1-alpha.3"
-  resolved "https://registry.yarnpkg.com/vscode-base-languageclient/-/vscode-base-languageclient-0.0.1-alpha.3.tgz#9b68a8e28a5c84c4e1298b69bedd356ed2e663be"
+  version "0.0.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/vscode-base-languageclient/-/vscode-base-languageclient-0.0.1-alpha.4.tgz#72f402c1d186029a3717eb606fc843629d088d31"
   dependencies:
     vscode-jsonrpc "^3.2.0"
     vscode-languageserver-types "^3.2.0"
