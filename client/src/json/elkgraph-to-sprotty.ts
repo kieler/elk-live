@@ -6,7 +6,9 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 import { SNodeSchema, SEdgeSchema, SPortSchema, SLabelSchema, SGraphSchema, Point, Dimension } from 'sprotty/lib'
-import { ElkShape, ElkNode, ElkPort, ElkLabel, ElkExtendedEdge, ElkGraphElement } from './elkgraph-json'
+import {
+    ElkShape, ElkNode, ElkPort, ElkLabel, ElkEdge, ElkGraphElement, isPrimitive, isExtended
+} from './elkgraph-json'
 
 export class ElkGraphJsonToSprotty {
 
@@ -17,18 +19,18 @@ export class ElkGraphJsonToSprotty {
     private sectionIds: Set<string> = new Set()
 
     public transform(elkGraph: ElkNode): SGraphSchema {
-        let sGraph = <SGraphSchema> {
+        const sGraph = <SGraphSchema> {
             type: 'graph',
             id: elkGraph.id || 'root',
             children: []
         }
 
         if (elkGraph.children) {
-            let children = elkGraph.children.map(n => this.transformElkNode(n))
+            const children = elkGraph.children.map(n => this.transformElkNode(n))
             sGraph.children.push(...children)
         }
         if (elkGraph.edges) {
-            let sEdges = elkGraph.edges.map((e: ElkExtendedEdge) => this.transformElkEdge(e))
+            const sEdges = elkGraph.edges.map(e => this.transformElkEdge(e))
             sGraph.children!.push(...sEdges)
         }
 
@@ -38,7 +40,7 @@ export class ElkGraphJsonToSprotty {
     private transformElkNode(elkNode: ElkNode): SNodeSchema {
         this.checkAndRememberId(elkNode, this.nodeIds)
         
-        let sNode = <SNodeSchema> {
+        const sNode = <SNodeSchema> {
             type: 'node',
             id: elkNode.id,
             position: this.pos(elkNode),
@@ -47,22 +49,22 @@ export class ElkGraphJsonToSprotty {
         }
         // children
         if (elkNode.children) {
-            let sNodes = elkNode.children.map(n => this.transformElkNode(n))
+            const sNodes = elkNode.children.map(n => this.transformElkNode(n))
             sNode.children!.push(...sNodes)
         }
         // ports
         if (elkNode.ports) {
-            let sPorts = elkNode.ports.map(p => this.transformElkPort(p))
+            const sPorts = elkNode.ports.map(p => this.transformElkPort(p))
             sNode.children!.push(...sPorts)
         }
         // labels
         if (elkNode.labels) {
-            let sLabels = elkNode.labels.map(l => this.transformElkLabel(l))
+            const sLabels = elkNode.labels.map(l => this.transformElkLabel(l))
             sNode.children!.push(...sLabels)
         }
         // edges
         if (elkNode.edges) {
-            let sEdges = elkNode.edges.map((e: ElkExtendedEdge) => this.transformElkEdge(e))
+            const sEdges = elkNode.edges.map(e => this.transformElkEdge(e))
             sNode.children!.push(...sEdges)
         }
         return sNode
@@ -71,7 +73,7 @@ export class ElkGraphJsonToSprotty {
     private transformElkPort(elkPort: ElkPort): SPortSchema {
         this.checkAndRememberId(elkPort, this.portIds)
 
-        let sPort = <SPortSchema> {
+        const sPort = <SPortSchema> {
             type: 'port',
             id: elkPort.id,
             position: this.pos(elkPort),
@@ -80,7 +82,7 @@ export class ElkGraphJsonToSprotty {
         }
         // labels
         if (elkPort.labels) {
-            let sLabels = elkPort.labels.map(l => this.transformElkLabel(l))
+            const sLabels = elkPort.labels.map(l => this.transformElkLabel(l))
             sPort.children!.push(...sLabels)
         }
         return sPort
@@ -89,44 +91,55 @@ export class ElkGraphJsonToSprotty {
     private transformElkLabel(elkLabel: ElkLabel): SLabelSchema {
         this.checkAndRememberId(elkLabel, this.labelIds)
 
-        let sLabel = <SLabelSchema> {
+        return <SLabelSchema> {
             type: 'label',
             id: elkLabel.id,
             text: elkLabel.text,
             position: this.pos(elkLabel),
             size: this.size(elkLabel)
         }
-        return sLabel
     }
 
-    private transformElkEdge(elkEdge: ElkExtendedEdge): SEdgeSchema {
+    private transformElkEdge(elkEdge: ElkEdge): SEdgeSchema {
         this.checkAndRememberId(elkEdge, this.edgeIds)
 
-        let sEdge = <SEdgeSchema> {
+        const sEdge = <SEdgeSchema> {
             type: 'edge',
             id: elkEdge.id,
-            sourceId: elkEdge.sources[0],
-            targetId: elkEdge.targets[0],
+            sourceId: '',
+            targetId: '',
             routingPoints: [],
             children: []
         }
-        if (elkEdge.sections) {
-            elkEdge.sections.forEach(section => {
-                this.checkAndRememberId(section, this.sectionIds)
-                sEdge.routingPoints!.push(<Point> section.startPoint)
-                if (section.bendPoints) {
-                    let bends = section.bendPoints.map(bp => <Point> bp)
-                    sEdge.routingPoints!.push(...bends)
-                }
-                sEdge.routingPoints!.push(<Point> section.endPoint)
-            })
+        if (isPrimitive(elkEdge)) {
+            sEdge.sourceId = elkEdge.source;
+            sEdge.targetId = elkEdge.target;
+            if (elkEdge.sourcePoint)
+                sEdge.routingPoints!.push(elkEdge.sourcePoint)
+            if (elkEdge.bendPoints)
+                sEdge.routingPoints!.push(...elkEdge.bendPoints)
+            if (elkEdge.targetPoint)
+                sEdge.routingPoints!.push(elkEdge.targetPoint)
+        } else if (isExtended(elkEdge)) {
+            sEdge.sourceId = elkEdge.sources[0];
+            sEdge.targetId = elkEdge.targets[0];
+            if (elkEdge.sections) {
+                elkEdge.sections.forEach(section => {
+                    this.checkAndRememberId(section, this.sectionIds)
+                    sEdge.routingPoints!.push(section.startPoint)
+                    if (section.bendPoints) {
+                        sEdge.routingPoints!.push(...section.bendPoints)
+                    }
+                    sEdge.routingPoints!.push(section.endPoint)
+                })
+            }
         }
         if (elkEdge.junctionPoints)  {
             elkEdge.junctionPoints.forEach((jp, i) => {
-                let sJunction = <SNodeSchema> {
+                const sJunction = <SNodeSchema> {
                     type: 'junction',
                     id: elkEdge.id + "_j" + i,
-                    position: <Point> jp
+                    position: jp
                 }
                 sEdge.children!.push(sJunction)
             })
@@ -137,7 +150,7 @@ export class ElkGraphJsonToSprotty {
     }
 
     private pos(elkShape: ElkShape): Point {
-        return <Point> { x: elkShape.x || 0, y: elkShape.y || 0 }
+        return { x: elkShape.x || 0, y: elkShape.y || 0 }
     }
 
     private size(elkShape: ElkShape): Dimension {
