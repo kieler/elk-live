@@ -7,11 +7,12 @@
  *******************************************************************************/
 import { Container, ContainerModule } from "inversify"
 import {
-    TYPES, ViewRegistry, defaultModule, boundsModule, fadeModule, viewportModule, selectModule, moveModule, hoverModule,
-    exportModule, SGraphView, ConsoleLogger, LogLevel, overrideViewerOptions, SvgExporter
+    TYPES, defaultModule, boundsModule, fadeModule, viewportModule, selectModule, moveModule, hoverModule,
+    exportModule, SGraphView, ConsoleLogger, LogLevel, configureViewerOptions, SvgExporter, configureModelElement,
+    SGraph, SGraphFactory, SLabel, edgeEditModule
 } from "sprotty/lib"
 import { ElkNodeView, ElkPortView, ElkEdgeView, ElkLabelView, JunctionView } from "./views"
-import { ElkGraphFactory } from "./sprotty-model"
+import { ElkNode, ElkPort, ElkEdge, ElkJunction } from "./sprotty-model"
 
 class FilteringSvgExporter extends SvgExporter {
     protected isExported(styleSheet: CSSStyleSheet): boolean {
@@ -23,22 +24,21 @@ export default () => {
     const elkGraphModule = new ContainerModule((bind, unbind, isBound, rebind) => {
         rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope()
         rebind(TYPES.LogLevel).toConstantValue(LogLevel.warn)
-        rebind(TYPES.IModelFactory).to(ElkGraphFactory).inSingletonScope()
+        rebind(TYPES.IModelFactory).to(SGraphFactory).inSingletonScope()
         rebind(TYPES.SvgExporter).to(FilteringSvgExporter).inSingletonScope()
+        const context = { bind, unbind, isBound, rebind };
+        configureModelElement(context, 'graph', SGraph, SGraphView);
+        configureModelElement(context, 'node', ElkNode, ElkNodeView);
+        configureModelElement(context, 'port', ElkPort, ElkPortView);
+        configureModelElement(context, 'edge', ElkEdge, ElkEdgeView);
+        configureModelElement(context, 'label', SLabel, ElkLabelView);
+        configureModelElement(context, 'junction', ElkJunction, JunctionView);
+        configureViewerOptions(context, {
+            needsClientLayout: false
+        });
     })
     const container = new Container()
-    container.load(defaultModule, selectModule, boundsModule, moveModule, fadeModule, hoverModule, viewportModule, exportModule, elkGraphModule)
-    overrideViewerOptions(container, {
-        needsClientLayout: false
-    })
-
-    const viewRegistry = container.get<ViewRegistry>(TYPES.ViewRegistry)
-    viewRegistry.register('graph', SGraphView)
-    viewRegistry.register('node', ElkNodeView)
-    viewRegistry.register('port', ElkPortView)
-    viewRegistry.register('edge', ElkEdgeView)
-    viewRegistry.register('label', ElkLabelView)
-    viewRegistry.register('junction', JunctionView)
-
+    container.load(defaultModule, selectModule, boundsModule, moveModule, fadeModule, hoverModule, viewportModule, exportModule,
+        edgeEditModule, elkGraphModule)
     return container
 }

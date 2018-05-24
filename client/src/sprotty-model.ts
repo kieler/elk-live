@@ -6,28 +6,11 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 import {
-    SGraphFactory, SModelElementSchema, SParentElement, SChildElement, SNode, SPort,
-    moveFeature, selectFeature, hoverFeedbackFeature
+    SNode, RectangularNode, RectangularPort,
+    moveFeature, selectFeature, hoverFeedbackFeature, SEdge, editFeature
 } from "sprotty/lib"
 
-export class ElkGraphFactory extends SGraphFactory {
-
-    createElement(schema: SModelElementSchema, parent?: SParentElement): SChildElement {
-        if (this.isNodeSchema(schema))
-            return this.initializeChild(new ElkNode(), schema, parent)
-        else if (this.isPortSchema(schema))
-            return this.initializeChild(new ElkPort(), schema, parent)
-        else if (schema.type === 'junction')
-            return this.initializeChild(new ElkJunction(), schema, parent)
-        else
-            return super.createElement(schema, parent)
-    }
-
-}
-
-// Disable the 'move' feature
-
-export class ElkNode extends SNode {
+export class ElkNode extends RectangularNode {
     hasFeature(feature: symbol): boolean {
         if (feature === moveFeature)
             return false
@@ -36,9 +19,18 @@ export class ElkNode extends SNode {
     }
 }
 
-export class ElkPort extends SPort {
+export class ElkPort extends RectangularPort {
     hasFeature(feature: symbol): boolean {
         if (feature === moveFeature)
+            return false
+        else
+            return super.hasFeature(feature)
+    }
+}
+
+export class ElkEdge extends SEdge {
+    hasFeature(feature: symbol): boolean {
+        if (feature === editFeature)
             return false
         else
             return super.hasFeature(feature)

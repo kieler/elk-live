@@ -11,7 +11,7 @@
     "lz-string": "^1.4.4",
     "monaco-languageclient": "^0.4.0",
     "reconnecting-websocket": "^3.2.2",
-    "sprotty": "^0.2.1",
+    "sprotty": "^0.3.0",
     "vscode-ws-jsonrpc": "0.0.1-alpha.5"
   },
   "devDependencies": {
@@ -19,15 +19,15 @@
     "copy-webpack-plugin": "^4.0.1",
     "reflect-metadata": "^0.1.10",
     "rimraf": "^2.6.1",
-    "tsc-watch": "^1.0.7",
-    "typescript": "^2.3.4",
+    "tsc-watch": "^1.0.21",
+    "typescript": "^2.8.3",
     "uglify-loader": "^2.0.0",
     "webpack": "^2.7.0"
   },
   "scripts": {
     "compile": "tsc",
     "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map",
-    "build": "npm run compile && webpack --env.uglify",
+    "build": "yarn compile && webpack --env.uglify",
     "watch": "tsc-watch --onSuccess webpack"
   }
 }
