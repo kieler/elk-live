@@ -1715,9 +1715,9 @@ split@0.3:
   dependencies:
     through "2"
 
-sprotty@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.3.0.tgz#25fc8aecec7d308d5bb5277a8ac3725f10dff95d"
+sprotty@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/sprotty/-/sprotty-0.4.0.tgz#315122d45216e4f0556c00f0d67b2965e85a7ed0"
   dependencies:
     file-saver "1.3.3"
     inversify "^4.3.0"
