@@ -7,17 +7,6 @@
  *******************************************************************************/
 package de.cau.cs.kieler.elkgraph.web
 
-import io.typefox.sprotty.api.BoundsAware
-import io.typefox.sprotty.api.Dimension
-import io.typefox.sprotty.api.IDiagramState
-import io.typefox.sprotty.api.Point
-import io.typefox.sprotty.api.SEdge
-import io.typefox.sprotty.api.SGraph
-import io.typefox.sprotty.api.SLabel
-import io.typefox.sprotty.api.SModelElement
-import io.typefox.sprotty.api.SNode
-import io.typefox.sprotty.api.SPort
-import io.typefox.sprotty.server.xtext.IDiagramGenerator
 import java.util.List
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
@@ -27,10 +16,18 @@ import org.eclipse.elk.graph.ElkEdge
 import org.eclipse.elk.graph.ElkGraphElement
 import org.eclipse.elk.graph.ElkNode
 import org.eclipse.elk.graph.ElkShape
-import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.sprotty.BoundsAware
+import org.eclipse.sprotty.Dimension
+import org.eclipse.sprotty.Point
+import org.eclipse.sprotty.SEdge
+import org.eclipse.sprotty.SGraph
+import org.eclipse.sprotty.SLabel
+import org.eclipse.sprotty.SModelElement
+import org.eclipse.sprotty.SNode
+import org.eclipse.sprotty.SPort
+import org.eclipse.sprotty.xtext.IDiagramGenerator
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.xtext.util.CancelIndicator
 
 /**
  * Transforms ELK graphs into sprotty models to be transferred to clients.
@@ -50,8 +47,8 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		layoutEngine.layout(elkGraph, new BasicProgressMonitor)
 	}
 	
-	override generate(Resource resource, IDiagramState state, CancelIndicator cancelIndicator) {
-		val originalGraph = resource.contents.head
+	override generate(Context context) {
+		val originalGraph = context.resource.contents.head
 		if (originalGraph instanceof ElkNode) {
 			val elkGraph = EcoreUtil.copy(originalGraph)
 			layout(elkGraph)

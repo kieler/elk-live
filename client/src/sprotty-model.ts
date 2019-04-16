@@ -8,40 +8,40 @@
 import {
     SNode, RectangularNode, RectangularPort,
     moveFeature, selectFeature, hoverFeedbackFeature, SEdge, editFeature
-} from "sprotty/lib"
+} from "sprotty";
 
 export class ElkNode extends RectangularNode {
     hasFeature(feature: symbol): boolean {
         if (feature === moveFeature)
-            return false
+            return false;
         else
-            return super.hasFeature(feature)
+            return super.hasFeature(feature);
     }
 }
 
 export class ElkPort extends RectangularPort {
     hasFeature(feature: symbol): boolean {
         if (feature === moveFeature)
-            return false
+            return false;
         else
-            return super.hasFeature(feature)
+            return super.hasFeature(feature);
     }
 }
 
 export class ElkEdge extends SEdge {
     hasFeature(feature: symbol): boolean {
         if (feature === editFeature)
-            return false
+            return false;
         else
-            return super.hasFeature(feature)
+            return super.hasFeature(feature);
     }
 }
 
 export class ElkJunction extends SNode {
     hasFeature(feature: symbol): boolean {
         if (feature === moveFeature || feature === selectFeature || feature === hoverFeedbackFeature)
-            return false
+            return false;
         else
-            return super.hasFeature(feature)
+            return super.hasFeature(feature);
     }
 }

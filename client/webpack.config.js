@@ -8,18 +8,39 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const buildRoot = path.resolve(__dirname, 'lib');
-const appRoot = path.resolve(__dirname, 'app');
-const monacoEditorPath = 'node_modules/monaco-editor-core/min/vs';
-const bootstrapDistPath = 'node_modules/bootstrap/dist';
-const jqueryDistPath = 'node_modules/jquery/dist';
-const sprottyCssPath = 'node_modules/sprotty/css';
-const elkWorkerPath = 'node_modules/elkjs/lib/elk-worker.min.js';
-
 module.exports = function(env) {
     if (!env) {
         env = {}
     }
+
+    const buildRoot = path.resolve(__dirname, 'lib');
+    const appRoot = path.resolve(__dirname, 'app');
+    const monacoEditorPath = env.production ? 'node_modules/monaco-editor-core/min/vs' : 'node_modules/monaco-editor-core/dev/vs';
+    const bootstrapDistPath = 'node_modules/bootstrap/dist';
+    const jqueryDistPath = 'node_modules/jquery/dist';
+    const sprottyCssPath = 'node_modules/sprotty/css';
+    const elkWorkerPath = 'node_modules/elkjs/lib/elk-worker.min.js';
+
+    const rules = [
+        {
+            test: /node_modules[\\|/](vscode-languageserver-types|vscode-uri|jsonc-parser)/,
+            use: { loader: 'umd-compat-loader' }
+        }
+    ];
+    if (env.production) {
+        rules.push({
+            test: /.*\.js$/,
+            exclude: /node_modules[\\|/](vscode-base-languageclient|vscode-languageserver-protocol|vscode-languageserver-types|vscode-uri|snabbdom)/,
+            loader: 'uglify-loader'
+        });
+    } else {
+        rules.push({
+            test: /\.js$/,
+            enforce: 'pre',
+            loader: 'source-map-loader'
+        });
+    }
+
     return {
         entry: {
             elkgraph: path.resolve(buildRoot, 'elkgraph/main'),
@@ -30,24 +51,16 @@ module.exports = function(env) {
             filename: '[name].bundle.js',
             path: appRoot
         },
-        module: {
-            noParse: /vscode-languageserver-types/,
-            loaders: env.uglify ? [
-                {
-                    test: /.*\.js$/,
-                    exclude: /vscode-base-languageclient/,
-                    loader: 'uglify-loader'
-                }
-            ] : []
-        },
+        target: 'web',
+        module: { rules },
         resolve: {
             extensions: ['.js'],
             alias: {
-                'vs': path.resolve(__dirname, monacoEditorPath)
+                'vs': path.resolve(__dirname, monacoEditorPath),
+                'vscode': require.resolve('monaco-languageclient/lib/vscode-compatibility')
             }
         },
         devtool: 'source-map',
-        target: 'web',
         node: {
             fs: 'empty',
             child_process: 'empty',

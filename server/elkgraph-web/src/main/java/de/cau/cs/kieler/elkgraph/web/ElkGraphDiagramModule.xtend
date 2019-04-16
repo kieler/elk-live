@@ -7,24 +7,20 @@
  *******************************************************************************/
 package de.cau.cs.kieler.elkgraph.web
 
-import io.typefox.sprotty.server.xtext.DefaultDiagramModule
-import io.typefox.sprotty.server.xtext.IDiagramGenerator
+import org.eclipse.sprotty.xtext.DefaultDiagramModule
+import org.eclipse.sprotty.xtext.IDiagramGenerator
 
 /**
  * Guice bindings for the ELK diagram server.
  */
 class ElkGraphDiagramModule extends DefaultDiagramModule {
 	
-	override bindILanguageServerExtension() {
-		ElkGraphLanguageServerExtension
-	}
-	
-	override bindIDiagramServerProvider() {
-		ElkGraphLanguageServerExtension
-	}
-	
 	def Class<? extends IDiagramGenerator> bindIDiagramGenerator() {
 		ElkGraphDiagramGenerator
+	}
+	
+	override bindIDiagramServerFactory() {
+		ElkGraphDiagramServerFactory
 	}
 	
 }
