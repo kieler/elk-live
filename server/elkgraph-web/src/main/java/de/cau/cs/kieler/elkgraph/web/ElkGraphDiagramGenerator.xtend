@@ -8,6 +8,8 @@
 package de.cau.cs.kieler.elkgraph.web
 
 import java.util.List
+import java.util.logging.Level
+import java.util.logging.Logger
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
 import org.eclipse.elk.core.options.CoreOptions
@@ -33,6 +35,8 @@ import org.eclipse.xtend.lib.annotations.Accessors
  * Transforms ELK graphs into sprotty models to be transferred to clients.
  */
 class ElkGraphDiagramGenerator implements IDiagramGenerator {
+
+	static val LOG = Logger.getLogger(ElkGraphDiagramGenerator.name)
 	
 	val IGraphLayoutEngine layoutEngine = new RecursiveGraphLayoutEngine
 	
@@ -50,13 +54,18 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 	override generate(Context context) {
 		val originalGraph = context.resource.contents.head
 		if (originalGraph instanceof ElkNode) {
-			val elkGraph = EcoreUtil.copy(originalGraph)
-			layout(elkGraph)
-			val sgraph = new SGraph
-			sgraph.type = 'graph'
-			sgraph.id = elkGraph.id
-			processContent(elkGraph, sgraph)
-			return sgraph
+			try {
+				val elkGraph = EcoreUtil.copy(originalGraph)
+				layout(elkGraph)
+				val sgraph = new SGraph
+				sgraph.type = 'graph'
+				sgraph.id = elkGraph.id
+				processContent(elkGraph, sgraph)
+				return sgraph
+			} catch (RuntimeException exc) {
+				LOG.log(Level.SEVERE, "Failed to generate ELK graph.", exc)
+				return showError(exc)
+			}
 		}
 	}
 	
@@ -218,6 +227,18 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 		} else {
 			return element.identifier ?: 'graph'
 		}
+	}
+	
+	private def showError(Throwable throwable) {
+		val sgraph = new SGraph
+		sgraph.type = 'graph'
+		val label = new SLabel
+		label.type = 'label'
+		label.id = 'error'
+		label.text = throwable.class.simpleName + ': ' + throwable.message
+		label.position = new Point(20, 20)
+		sgraph.addChild(label)
+		return sgraph
 	}
 	
 }

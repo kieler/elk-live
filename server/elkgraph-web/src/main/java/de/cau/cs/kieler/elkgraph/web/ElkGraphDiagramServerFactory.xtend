@@ -11,6 +11,9 @@ import org.eclipse.sprotty.ServerLayoutKind
 import org.eclipse.sprotty.xtext.DiagramServerFactory
 import org.eclipse.sprotty.xtext.LanguageAwareDiagramServer
 
+/**
+ * Factory for Sprotty diagram servers.
+ */
 class ElkGraphDiagramServerFactory extends DiagramServerFactory {
 	
 	override getDiagramTypes() {
@@ -21,7 +24,7 @@ class ElkGraphDiagramServerFactory extends DiagramServerFactory {
 		super.createDiagramServer(diagramType, clientId) => [ server |
 			if (server instanceof LanguageAwareDiagramServer) {
 				server.needsClientLayout = false
-				server.serverLayoutKind = ServerLayoutKind.AUTOMATIC
+				server.serverLayoutKind = ServerLayoutKind.NONE
 			}
 		]
 	}

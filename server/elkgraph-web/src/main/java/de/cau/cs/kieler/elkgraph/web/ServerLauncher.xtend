@@ -8,8 +8,6 @@
 package de.cau.cs.kieler.elkgraph.web
 
 import com.google.inject.Guice
-import com.google.inject.Inject
-import com.google.inject.Provider
 import java.net.InetSocketAddress
 import javax.websocket.Endpoint
 import javax.websocket.server.ServerEndpointConfig
@@ -17,26 +15,33 @@ import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.util.log.Slf4jLog
 import org.eclipse.jetty.webapp.WebAppContext
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer
-import org.eclipse.sprotty.xtext.websocket.LanguageServerEndpoint
+import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
 
 /**
  * Main class for launching the ELK Graph server.
  */
+@FinalFieldsConstructor
 class ServerLauncher {
 	
 	def static void main(String[] args) {
 		val setup = new ElkGraphLanguageServerSetup
 		setup.setupLanguages()
 		
-		val injector = Guice.createInjector(setup.languageServerModule)
-		val launcher = injector.getInstance(ServerLauncher)
 		val rootPath = if (args.length >= 1) args.get(0) else '../..'
-		launcher.start(rootPath)
+		val launcher = new ServerLauncher(rootPath, setup)
+		launcher.start()
 	}
 
-	@Inject Provider<Endpoint> endpointProvider
+	val String rootPath
+	val ElkGraphLanguageServerSetup setup
 	
-	def void start(String rootPath) {
+	private def createInjector() {
+		val injector = Guice.createInjector(setup.languageServerModule)
+		setup.setupLanguageServer(injector)
+		return injector
+	}
+	
+	def void start() {
 		val log = new Slf4jLog(ServerLauncher.name)
 		
 		// Set up Jetty server
@@ -55,7 +60,7 @@ class ServerLauncher {
 		val endpointConfigBuilder = ServerEndpointConfig.Builder.create(LanguageServerEndpoint, '/elkgraph')
 		endpointConfigBuilder.configurator(new ServerEndpointConfig.Configurator {
 			override <T> getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
-				endpointProvider.get as T
+				return createInjector.getInstance(Endpoint) as T
 			}
 		})
 		container.addEndpoint(endpointConfigBuilder.build())

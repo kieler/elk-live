@@ -11,7 +11,7 @@ import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
 import {
     MonacoLanguageClient, CloseAction, ErrorAction, MonacoServices, createConnection
 } from 'monaco-languageclient';
-import { TYPES } from 'sprotty';
+import { TYPES, createRandomId } from 'sprotty';
 import { getParameters, setupModelLink } from "../url-parameters";
 import createContainer from '../sprotty-config';
 import LanguageDiagramServer from './language-diagram-server';
@@ -41,9 +41,10 @@ edge n1 -> n3`;
 const sprottyContainer = createContainer();
 sprottyContainer.bind(TYPES.ModelSource).to(LanguageDiagramServer).inSingletonScope();
 const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource);
+diagramServer.clientId = 'sprotty'
 
 // Create Monaco editor
-const modelUri = 'inmemory:/model.elkt';
+const modelUri = `inmemory:/${createRandomId(24)}.elkt`;
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse(modelUri))
 });
