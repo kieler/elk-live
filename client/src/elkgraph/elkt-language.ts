@@ -9,7 +9,7 @@
 monaco.languages.register({
     id: 'elkt',
     extensions: ['.elkt']
-})
+});
 
 monaco.languages.setLanguageConfiguration('elkt', {
     comments: {
@@ -26,7 +26,7 @@ monaco.languages.setLanguageConfiguration('elkt', {
             open: '[',
             close: ']'
         }]
-})
+});
     
 monaco.languages.setMonarchTokensProvider('elkt', <any>{
     keywords: [
@@ -86,4 +86,4 @@ monaco.languages.setMonarchTokensProvider('elkt', <any>{
             [/"/, 'string', '@pop']
         ],
     },
-})
+});

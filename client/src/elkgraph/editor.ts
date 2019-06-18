@@ -5,26 +5,28 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-import 'reflect-metadata'
-import { listen, MessageConnection } from 'vscode-ws-jsonrpc'
+import 'reflect-metadata';
+
+import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
 import {
-    BaseLanguageClient, CloseAction, ErrorAction, createMonacoServices, createConnection
-} from 'monaco-languageclient'
-import { TYPES } from 'sprotty/lib'
-import { getParameters, setupModelLink } from "../url-parameters"
-import createContainer from '../sprotty-config'
-import LanguageDiagramServer from './language-diagram-server'
-import LZString = require('lz-string')
-require('./elkt-language')
-const WebSocket = require('reconnecting-websocket')
+    MonacoLanguageClient, CloseAction, ErrorAction, MonacoServices, createConnection
+} from 'monaco-languageclient';
+import { TYPES, createRandomId } from 'sprotty';
+import { getParameters, setupModelLink } from "../url-parameters";
+import createContainer from '../sprotty-config';
+import LanguageDiagramServer from './language-diagram-server';
+import ReconnectingWebSocket from 'reconnecting-websocket';
+import LZString = require('lz-string');
 
-const urlParameters = getParameters()
+require('./elkt-language');
 
-let initialContent: string
+const urlParameters = getParameters();
+
+let initialContent: string;
 if (urlParameters.compressedContent !== undefined) {
-    initialContent = LZString.decompressFromEncodedURIComponent(urlParameters.compressedContent)
+    initialContent = LZString.decompressFromEncodedURIComponent(urlParameters.compressedContent);
 } else if (urlParameters.initialContent !== undefined) {
-    initialContent = decodeURIComponent(urlParameters.initialContent)
+    initialContent = decodeURIComponent(urlParameters.initialContent);
 } else {
     initialContent = `algorithm: layered
 
@@ -32,42 +34,43 @@ node n1
 node n2
 node n3
 edge n1 -> n2
-edge n1 -> n3`
+edge n1 -> n3`;
 }
 
 // Create Sprotty viewer
-const sprottyContainer = createContainer()
-sprottyContainer.bind(TYPES.ModelSource).to(LanguageDiagramServer).inSingletonScope()
-const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource)
+const sprottyContainer = createContainer();
+sprottyContainer.bind(TYPES.ModelSource).to(LanguageDiagramServer).inSingletonScope();
+const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource);
+diagramServer.clientId = 'sprotty'
 
 // Create Monaco editor
-const modelUri = 'inmemory:/model.elkt'
+const modelUri = `inmemory:/${createRandomId(24)}.elkt`;
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'elkt', monaco.Uri.parse(modelUri))
-})
+});
 editor.updateOptions({
     minimap: { enabled: false }
-})
+});
 setupModelLink(editor, (event) => {
     return {
         compressedContent: LZString.compressToEncodedURIComponent(editor.getValue())
     }
-})
+});
+MonacoServices.install(editor);
 
 // Create the web socket
-const socketUrl = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/elkgraph`
+const socketUrl = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/elkgraph`;
 const socketOptions = {
     maxReconnectionDelay: 10000,
     minReconnectionDelay: 1000,
     reconnectionDelayGrowFactor: 1.3,
     connectionTimeout: 10000,
-    maxRetries: Infinity,
+    maxRetries: 20,
     debug: false
-}
-const webSocket = new WebSocket(socketUrl, undefined, socketOptions)
-const services = createMonacoServices(editor)
+};
+const webSocket = new ReconnectingWebSocket(socketUrl, [], socketOptions);
 listen({
-    webSocket,
+    webSocket: webSocket as any as WebSocket,
     onConnection: connection => {
         const languageClient = createLanguageClient(connection)
         const disposable = languageClient.start()
@@ -76,10 +79,10 @@ listen({
             disposable.dispose()
         })
     }
-})
+});
 
-function createLanguageClient(messageConnection: MessageConnection): BaseLanguageClient {
-    return new BaseLanguageClient({
+function createLanguageClient(messageConnection: MessageConnection): MonacoLanguageClient {
+    return new MonacoLanguageClient({
         name: 'ELK Graph Language Client',
         clientOptions: {
             documentSelector: ['elkt'],
@@ -89,7 +92,6 @@ function createLanguageClient(messageConnection: MessageConnection): BaseLanguag
                 closed: () => CloseAction.DoNotRestart
             }
         },
-        services,
         // Create a language client connection from the JSON RPC connection on demand
         connectionProvider: {
             get: (errorHandler, closeHandler) => {
@@ -98,6 +100,6 @@ function createLanguageClient(messageConnection: MessageConnection): BaseLanguag
                 return Promise.resolve(connection)
             }
         }
-    })
+    });
 }
 

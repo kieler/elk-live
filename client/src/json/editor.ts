@@ -5,24 +5,24 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-import 'reflect-metadata'
+import 'reflect-metadata';
 
-import { TYPES, LocalModelSource } from 'sprotty/lib'
-import { getParameters, setupModelLink } from "../url-parameters"
-import createContainer from '../sprotty-config'
-import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty'
-import ELK from 'elkjs/lib/elk-api'
+import { TYPES, LocalModelSource } from 'sprotty';
+import { getParameters, setupModelLink } from "../url-parameters";
+import createContainer from '../sprotty-config';
+import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty';
+import ELK from 'elkjs/lib/elk-api';
 
-import JSON5 = require('json5')
-import LZString = require('lz-string')
+import JSON5 = require('json5');
+import LZString = require('lz-string');
 
-const urlParameters = getParameters()
+const urlParameters = getParameters();
 
-let initialContent: string
+let initialContent: string;
 if (urlParameters.compressedContent !== undefined) {
-    initialContent = LZString.decompressFromEncodedURIComponent(urlParameters.compressedContent)
+    initialContent = LZString.decompressFromEncodedURIComponent(urlParameters.compressedContent);
 } else if (urlParameters.initialContent !== undefined) {
-    initialContent = decodeURIComponent(urlParameters.initialContent)
+    initialContent = decodeURIComponent(urlParameters.initialContent);
 } else {
     initialContent = `{
   id: "root",
@@ -36,7 +36,7 @@ if (urlParameters.compressedContent !== undefined) {
     { id: "e1", sources: [ "n1" ], targets: [ "n2" ] },
     { id: "e2", sources: [ "n1" ], targets: [ "n3" ] } 
   ]
-}`
+}`;
 }
 
 // Create Monaco editor
@@ -45,40 +45,40 @@ monaco.languages.register({
     extensions: ['.json'],
     aliases: ['JSON', 'json'],
     mimetypes: ['application/json'],
-})
+});
 const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
     model: monaco.editor.createModel(initialContent, 'json', monaco.Uri.parse('inmemory:/model.json'))
-})
+});
 editor.updateOptions({
     minimap: { enabled: false }
-})
+});
 
 // Create Sprotty viewer
-const sprottyContainer = createContainer()
-sprottyContainer.bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope()
-const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource)
+const sprottyContainer = createContainer();
+sprottyContainer.bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
+const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource);
 
 // Set up ELK
 const elk = new ELK({
     workerUrl: './elk/elk-worker.min.js'
-})
+});
 
 // Register listener
-editor.getModel().onDidChangeContent(e => updateModel())
+editor.getModel().onDidChangeContent(e => updateModel());
 
 // Initial layout
-updateModel()
+updateModel();
 
 setupModelLink(editor, (event) => {
     return {
         compressedContent: LZString.compressToEncodedURIComponent(editor.getValue())
     }
-})
+});
 
 function updateModel() {
     try {
-        let json = JSON5.parse(editor.getValue())
-        monaco.editor.setModelMarkers(editor.getModel(), "", [])
+        let json = JSON5.parse(editor.getValue());
+        monaco.editor.setModelMarkers(editor.getModel(), "", []);
         elk.layout(json)
             .then(g => {
                 let sGraph = new ElkGraphJsonToSprotty().transform(g);
@@ -87,18 +87,18 @@ function updateModel() {
             .catch(e => {
                 let markers = [ errorToMarker(e) ]
                 monaco.editor.setModelMarkers(editor.getModel(), "", markers)
-            })
+            });
     } catch (e) {
-        let markers = [ errorToMarker(e) ]
-        monaco.editor.setModelMarkers(editor.getModel(), "", markers)
+        let markers = [ errorToMarker(e) ];
+        monaco.editor.setModelMarkers(editor.getModel(), "", markers);
      }
 }
 
 function errorToMarker(e: any): monaco.editor.IMarkerData {
     return <monaco.editor.IMarkerData> {
-        severity: monaco.Severity.Error,
+        severity: monaco.MarkerSeverity.Error,
         startLineNumber: e.lineNumber || 0,
         startColumn: e.columnNumber || 0,
         message: e.message
-    }
+    };
 }

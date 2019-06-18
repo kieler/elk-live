@@ -2,32 +2,37 @@
   "name": "elkgraph",
   "version": "0.1.0",
   "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
+  "license": "EPL-1.0",
   "dependencies": {
-    "bootstrap": "^3.3.7",
-    "devbridge-autocomplete": "^1.4.7",
+    "bootstrap": "^3.4.1",
+    "devbridge-autocomplete": "^1.4.10",
     "elkjs": "^0.4.1",
-    "jquery": "^3.2.1",
-    "json5": "^0.5.1",
+    "jquery": "^3.4.0",
+    "json5": "^2.1.0",
     "lz-string": "^1.4.4",
-    "monaco-languageclient": "^0.4.0",
-    "reconnecting-websocket": "^3.2.2",
-    "sprotty": "^0.4.0",
-    "vscode-ws-jsonrpc": "0.0.1-alpha.5"
+    "monaco-editor-core": "^0.14.6",
+    "monaco-languageclient": "^0.9.0",
+    "reconnecting-websocket": "^4.1.10",
+    "sprotty": "^0.6.0",
+    "vscode-ws-jsonrpc": "^0.0.2-1"
   },
   "devDependencies": {
-    "@types/node": "^8.0.2",
-    "copy-webpack-plugin": "^4.0.1",
-    "reflect-metadata": "^0.1.10",
-    "rimraf": "^2.6.1",
-    "tsc-watch": "^1.0.21",
-    "typescript": "^2.8.3",
-    "uglify-loader": "^2.0.0",
-    "webpack": "^2.7.0"
+    "@types/node": "10.14.4",
+    "copy-webpack-plugin": "^4.6.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^2.6.3",
+    "source-map-loader": "^0.2.4",
+    "tsc-watch": "^2.1.2",
+    "typescript": "^3.4.3",
+    "uglify-loader": "^3.0.0",
+    "umd-compat-loader": "^2.1.1",
+    "webpack": "^3.12.0"
   },
   "scripts": {
     "compile": "tsc",
     "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map",
-    "build": "yarn compile && webpack --env.uglify",
+    "build": "yarn compile && webpack --env.production",
+    "build:dev": "yarn compile && webpack",
     "watch": "tsc-watch --onSuccess webpack"
   }
 }

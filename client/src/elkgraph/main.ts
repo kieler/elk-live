@@ -8,9 +8,9 @@
 
 window.onload = () => {
     // Load Monaco code
-    const w = window as any
+    const w = window as any;
     w.require(['vs/editor/editor.main'], () => {
         // Load application code
-        require('./editor')
-    })
-}
+        require('./editor');
+    });
+};

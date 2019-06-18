@@ -1,16 +1,16 @@
 buildscript {
 	repositories.jcenter()
 	dependencies {
-		classpath 'org.xtext:xtext-gradle-plugin:1.0.17'
+		classpath 'org.xtext:xtext-gradle-plugin:2.0.4'
 	}
 }
 
 ext.versions = [
-    xtext: '2.13.0',
-    elk: '0.4.0-SNAPSHOT',
-    sprotty: '0.2.0',
-    lsp4j: '0.3.0',
-    jetty: '9.4.2.v20170220',
+    xtext: '2.18.0',
+    elk: '0.6.0-SNAPSHOT',
+    sprotty: '0.6.0',
+    lsp4j: '0.8.0-SNAPSHOT',
+    jetty: '9.4.16.v20190411',
     slf4j: '1.7.24'
 ]
 
