@@ -1,0 +1,13 @@
+ports:
+- port: 8080
+
+tasks:
+- init: |
+    cd /workspace/elkgraph-web/client
+    yarn install
+    yarn build
+    cd /workspace/elkgraph-web/server
+    ./gradlew build
+  command: |
+    cd /workspace/elkgraph-web/server
+    ./gradlew jettyRun

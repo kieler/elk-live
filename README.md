@@ -4,7 +4,11 @@ A web page with a text editor for ELK Graph and a synchronized graphical view.
 
 ## How To Run
 
-Prerequisite: [yarn](https://yarnpkg.com/)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/OpenKieler/elkgraph-web)
+
+The easiest way to start working with this project is to open it in [gitpod.io](https://gitpod.io) with the button above. If you would like to compile and run it on your own machine, follow the instructions below.
+
+Prerequisites: [yarn](https://yarnpkg.com/), [Java](https://jdk.java.net)
 
 ```
 git clone https://github.com/OpenKieler/elkgraph-web.git
