@@ -26,7 +26,7 @@ if (urlParameters.compressedContent !== undefined) {
 } else {
     initialContent = `{
   id: "root",
-  properties: { 'algorithm': 'layered' },
+  layoutOptions: { 'algorithm': 'layered' },
   children: [
     { id: "n1", width: 30, height: 30 },
     { id: "n2", width: 30, height: 30 },
