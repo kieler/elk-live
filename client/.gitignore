@@ -4,7 +4,7 @@ app/bootstrap/
 app/jquery/
 app/sprotty/
 app/vs/
-app/elk/
+app/elk*/
 *.bundle.js
 *.bundle.js.map
 *-error.log

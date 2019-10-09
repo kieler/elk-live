@@ -11,7 +11,7 @@ import { TYPES, LocalModelSource, FitToScreenAction, IActionDispatcher } from 's
 import { ElkGraphJsonToSprotty } from '../json/elkgraph-to-sprotty';
 import createContainer from '../sprotty-config';
 import { getParameters, combineParameters } from '../url-parameters';
-import ELK from 'elkjs/lib/elk-api.js';
+import ELK from 'elkjs-latest/lib/elk-api.js';
 
 import https = require('https');
 import $ = require('jquery');
@@ -31,7 +31,7 @@ const actionDispatcher = sprottyContainer.get<IActionDispatcher>(TYPES.IActionDi
 
 // Set up ELK
 const elk = new ELK({
-    workerUrl: './elk/elk-worker.min.js'
+    workerUrl: './elk-latest/elk-worker.min.js'
 });
 
 // Div with loading indicator

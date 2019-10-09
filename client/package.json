@@ -6,7 +6,10 @@
   "dependencies": {
     "bootstrap": "^3.4.1",
     "devbridge-autocomplete": "^1.4.10",
-    "elkjs": "^0.4.1",
+    "elkjs-3": "npm:elkjs@0.3.0",
+    "elkjs-4": "npm:elkjs@0.4.1",
+    "elkjs-5": "npm:elkjs@0.5.1",
+    "elkjs-latest": "npm:elkjs@0.5.1",
     "jquery": "^3.4.0",
     "json5": "^2.1.0",
     "lz-string": "^1.4.4",

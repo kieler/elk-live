@@ -724,10 +724,20 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-elkjs@^0.4.1:
+"elkjs-3@npm:elkjs@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.3.0.tgz#b58d8c9ba0939b51b4c29bd93b576395ab02ebeb"
+  integrity sha1-tY2Mm6CTm1G0wpvZO1djlasC6+s=
+
+"elkjs-4@npm:elkjs@0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.4.1.tgz#6b42de8572fa49642e2f0c31d5e584608e47196d"
   integrity sha512-fiVIfjlVptEaFw6QydlZWKEV80MnlNDtfiFeHcbL65i2+UaknKVhFW0VVB8YmHbaMYKNUJ/9CKlOqPmarGuZBQ==
+
+"elkjs-5@npm:elkjs@0.5.1", "elkjs-latest@npm:elkjs@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.5.1.tgz#906e7fddfd3b57872500c144a50042ffbc3a8f0b"
+  integrity sha512-mDyMv90x3OPmG6Y0nqOqE5f97SUdl4AkFhQHdx33hYgR978XBGywt0XOwu87qR7vcGF/ue1j+FAaAX60qB9YwQ==
 
 elliptic@^6.0.0:
   version "6.4.1"
