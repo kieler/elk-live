@@ -42,9 +42,10 @@
             <form class="navbar-form navbar-left">
                 <div id="navbox" class="form-group">
                     <select id="elk-version">
-                        <option value="5">v5.0.1</option>
-                        <option value="4">v4.0.1</option>
-                        <option value="3">v3.0.0</option>
+                        <option value="latest" selected>@latest (<%= htmlWebpackPlugin.options.latestVersion %>)</option>
+                        <option value="4">4.0.1</option>
+                        <option value="3">3.0.0</option>
+                        <option value="next">@next (<%= htmlWebpackPlugin.options.nextVersion %>)</option>
                     </select>
                 </div>
             </form>

@@ -7,6 +7,10 @@
  *******************************************************************************/
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// to retrieve the explicit version numbers
+const elkjsLatest = require('elkjs-latest/package.json');
+const elkjsNext = require('elkjs-next/package.json');
 
 module.exports = function(env) {
     if (!env) {
@@ -23,6 +27,7 @@ module.exports = function(env) {
     const elkWorkerPath4 = 'node_modules/elkjs-4/lib/elk-worker.min.js';
     const elkWorkerPath5 = 'node_modules/elkjs-5/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
+    const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
 
     const rules = [
         {
@@ -71,6 +76,13 @@ module.exports = function(env) {
             crypto: 'empty'
         },
         plugins: [
+            new HtmlWebpackPlugin({
+                filename: 'json.html',
+                template: 'src/json/json_template.html',
+                inject: false,
+                nextVersion: elkjsNext.version,
+                latestVersion: elkjsLatest.version
+            }),
             new CopyWebpackPlugin([{
                 from: monacoEditorPath,
                 to: 'vs'
@@ -102,6 +114,10 @@ module.exports = function(env) {
             new CopyWebpackPlugin([{
                 from: elkWorkerPathLatest,
                 to: 'elk-latest'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPathNext,
+                to: 'elk-next'
             }])
         ]
     }
