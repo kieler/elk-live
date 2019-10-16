@@ -39,6 +39,16 @@
 			<ul class="nav navbar-nav">
 				<li class="title">JSON Editor</li>
 			</ul>
+            <form class="navbar-form navbar-left">
+                <div id="navbox" class="form-group">
+                    <select id="elk-version">
+                        <option value="latest" selected>@latest (<%= htmlWebpackPlugin.options.latestVersion %>)</option>
+                        <option value="4">4.0.1</option>
+                        <option value="3">3.0.0</option>
+                        <option value="next">@next (<%= htmlWebpackPlugin.options.nextVersion %>)</option>
+                    </select>
+                </div>
+            </form>
 		</div>
 	</nav>
 
@@ -52,7 +62,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<footer class="footer">
 		<div class="container">
 			<div class="row">

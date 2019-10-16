@@ -11,7 +11,6 @@ import { TYPES, LocalModelSource } from 'sprotty';
 import { getParameters, setupModelLink } from "../url-parameters";
 import createContainer from '../sprotty-config';
 import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty';
-import ELK from 'elkjs/lib/elk-api';
 
 import JSON5 = require('json5');
 import LZString = require('lz-string');
@@ -34,7 +33,7 @@ if (urlParameters.compressedContent !== undefined) {
   ],
   edges: [
     { id: "e1", sources: [ "n1" ], targets: [ "n2" ] },
-    { id: "e2", sources: [ "n1" ], targets: [ "n3" ] } 
+    { id: "e2", sources: [ "n1" ], targets: [ "n3" ] }
   ]
 }`;
 }
@@ -58,13 +57,27 @@ const sprottyContainer = createContainer();
 sprottyContainer.bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope();
 const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource);
 
+const versionSelect = <HTMLSelectElement>document.getElementById('elk-version');
+
+// Prepare multiple elks to be loaded lazily
+let elks = {}
 // Set up ELK
-const elk = new ELK({
-    workerUrl: './elk/elk-worker.min.js'
-});
+function retrieveElk(version) {
+    if (elks[version] !== undefined) {
+        return Promise.resolve(elks[version]);
+    }
+    return import(/* webpackChunkName: "[request]" */ '../../node_modules/elkjs-' + version + '/lib/elk-api')
+        .then(ELK => {
+            elks[version] = new ELK.default({
+                workerUrl: './elk-' + version + '/elk-worker.min.js'
+            });
+            return elks[version];
+        });
+}
 
 // Register listener
 editor.getModel().onDidChangeContent(e => updateModel());
+versionSelect.onchange = e => updateModel();
 
 // Initial layout
 updateModel();
@@ -79,15 +92,21 @@ function updateModel() {
     try {
         let json = JSON5.parse(editor.getValue());
         monaco.editor.setModelMarkers(editor.getModel(), "", []);
-        elk.layout(json)
-            .then(g => {
-                let sGraph = new ElkGraphJsonToSprotty().transform(g);
-                modelSource.updateModel(sGraph)
-            })
-            .catch(e => {
-                let markers = [ errorToMarker(e) ]
-                monaco.editor.setModelMarkers(editor.getModel(), "", markers)
-            });
+
+        // Prepare the elk version selected by the user
+        let selectedVersion = versionSelect.options[versionSelect.selectedIndex].value;
+        retrieveElk(selectedVersion).then(elk => {
+            elk.layout(json)
+                .then(g => {
+                    let sGraph = new ElkGraphJsonToSprotty().transform(g);
+                    modelSource.updateModel(sGraph)
+                })
+                .catch(e => {
+                    let markers = [ errorToMarker(e) ]
+                    monaco.editor.setModelMarkers(editor.getModel(), "", markers)
+                });
+        });
+
     } catch (e) {
         let markers = [ errorToMarker(e) ];
         monaco.editor.setModelMarkers(editor.getModel(), "", markers);

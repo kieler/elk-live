@@ -7,6 +7,10 @@
  *******************************************************************************/
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// to retrieve the explicit version numbers
+const elkjsLatest = require('elkjs-latest/package.json');
+const elkjsNext = require('elkjs-next/package.json');
 
 module.exports = function(env) {
     if (!env) {
@@ -19,7 +23,11 @@ module.exports = function(env) {
     const bootstrapDistPath = 'node_modules/bootstrap/dist';
     const jqueryDistPath = 'node_modules/jquery/dist';
     const sprottyCssPath = 'node_modules/sprotty/css';
-    const elkWorkerPath = 'node_modules/elkjs/lib/elk-worker.min.js';
+    const elkWorkerPath3 = 'node_modules/elkjs-3/lib/elk-worker.min.js';
+    const elkWorkerPath4 = 'node_modules/elkjs-4/lib/elk-worker.min.js';
+    const elkWorkerPath5 = 'node_modules/elkjs-5/lib/elk-worker.min.js';
+    const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
+    const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
 
     const rules = [
         {
@@ -68,6 +76,13 @@ module.exports = function(env) {
             crypto: 'empty'
         },
         plugins: [
+            new HtmlWebpackPlugin({
+                filename: 'json.html',
+                template: 'src/json/json_template.html',
+                inject: false,
+                nextVersion: elkjsNext.version,
+                latestVersion: elkjsLatest.version
+            }),
             new CopyWebpackPlugin([{
                 from: monacoEditorPath,
                 to: 'vs'
@@ -85,8 +100,24 @@ module.exports = function(env) {
                 to: 'sprotty'
             }]),
             new CopyWebpackPlugin([{
-                from: elkWorkerPath,
-                to: 'elk'
+                from: elkWorkerPath3,
+                to: 'elk-3'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath4,
+                to: 'elk-4'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath5,
+                to: 'elk-5'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPathLatest,
+                to: 'elk-latest'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPathNext,
+                to: 'elk-next'
             }])
         ]
     }
