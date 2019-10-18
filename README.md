@@ -2,6 +2,13 @@
 
 A web page with a text editor for ELK Graph and a synchronized graphical view.
 
+[Check it out here.](https://rtsys.informatik.uni-kiel.de/elklive/)
+
+Uses:
+* [ELK](http://www.eclipse.org/elk)
+* [elkjs](https://github.com/OpenKieler/elkjs)
+* [sprotty](https://github.com/eclipse/sprotty)
+
 ## How To Run
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/OpenKieler/elkgraph-web)
