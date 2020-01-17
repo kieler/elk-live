@@ -844,6 +844,11 @@ duplexify@^3.4.2, duplexify@^3.6.0:
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.5.1.tgz#906e7fddfd3b57872500c144a50042ffbc3a8f0b"
   integrity sha512-mDyMv90x3OPmG6Y0nqOqE5f97SUdl4AkFhQHdx33hYgR978XBGywt0XOwu87qR7vcGF/ue1j+FAaAX60qB9YwQ==
 
+"elkjs-6@npm:elkjs@0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.6.1.tgz#25e8c6211bc1279a6a1e7192c8de7c981376e89a"
+  integrity sha512-05R6lCxVAiBLu/557MFWYoQjJDn+o5m8Ee5InPctpf1+rjMICX3tzdKKVLTTsohBk44fEKtPzyI6rHGApKZN9g==
+
 "elkjs-next@npm:elkjs@next":
   version "0.6.0-dev-20191012"
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.6.0-dev-20191012.tgz#ea0012217fbd9bcc506dd5018e654b000c2ffea8"
@@ -1963,9 +1968,9 @@ mississippi@^2.0.0:
     through2 "^2.0.0"
 
 mixin-deep@^1.2.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.1.tgz#a49e7268dce1a0d9698e45326c5626df3543d0fe"
-  integrity sha512-8ZItLHeEgaqEvd5lYBXfm4EZSFCX29Jb9K+lAHhDKzReKBQKj3R+7NOF6tjqYi9t4oI8VUfaWITJQm86wnXGNQ==
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.2.tgz#1120b43dc359a785dce65b55b82e257ccf479566"
+  integrity sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==
   dependencies:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
