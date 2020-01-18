@@ -11,6 +11,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // to retrieve the explicit version numbers
 const elkjsLatest = require('elkjs-latest/package.json');
 const elkjsNext = require('elkjs-next/package.json');
+const childProcess = require('child_process');
 
 module.exports = function(env) {
     if (!env) {
@@ -29,6 +30,7 @@ module.exports = function(env) {
     const elkWorkerPath6 = 'node_modules/elkjs-6/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
+    const currentGitCommit = childProcess.execSync('git rev-parse --short HEAD').toString().trim();
 
     const rules = [
         {
@@ -82,7 +84,8 @@ module.exports = function(env) {
                 template: 'src/json/json_template.html',
                 inject: false,
                 nextVersion: elkjsNext.version,
-                latestVersion: elkjsLatest.version
+                latestVersion: elkjsLatest.version,
+                currentGitCommit: currentGitCommit,
             }),
             new CopyWebpackPlugin([{
                 from: monacoEditorPath,
