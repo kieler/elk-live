@@ -11,7 +11,7 @@ import { TYPES, LocalModelSource, FitToScreenAction, IActionDispatcher } from 's
 import { ElkGraphJsonToSprotty } from '../json/elkgraph-to-sprotty';
 import createContainer from '../sprotty-config';
 import { getParameters, combineParameters } from '../url-parameters';
-import ELK from 'elkjs-latest/lib/elk-api.js';
+import ELK, { ElkNode } from 'elkjs-latest/lib/elk-api.js';
 
 import https = require('https');
 import $ = require('jquery');
@@ -65,7 +65,7 @@ function loadModel(path: string) {
     setLoading(true);
     errorDiv.style.display = 'none';
     getFileContent(path)
-        .then(g => elk.layout(g))
+        .then(g => elk.layout(<ElkNode>g))
         .then(updateSprottyModel)
         .then(() => {
             let encodedPath = encodeURIComponent(path);
