@@ -9,7 +9,7 @@
     "elkjs-3": "npm:elkjs@0.3.0",
     "elkjs-4": "npm:elkjs@0.4.1",
     "elkjs-5": "npm:elkjs@0.5.1",
-    "elkjs-6": "npm:elkjs@0.6.1",
+    "elkjs-6": "npm:elkjs@0.6.2",
     "elkjs-latest": "npm:elkjs@latest",
     "elkjs-next": "npm:elkjs@next",
     "html-webpack-plugin": "^3.2.0",
