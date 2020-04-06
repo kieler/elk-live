@@ -51,6 +51,10 @@ const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
 editor.updateOptions({
     minimap: { enabled: false }
 });
+// Resize the monaco editor upon window resize.
+// There's also an option 'automaticLayout: true' that could be passed to above 'create' method,
+// however, this cyclically checks the current state and thus is less performant. 
+window.onresize = () => editor.layout();
 setupModelLink(editor, (event) => {
     return {
         compressedContent: LZString.compressToEncodedURIComponent(editor.getValue())

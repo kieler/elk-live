@@ -4,7 +4,7 @@
   "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
   "license": "EPL-1.0",
   "dependencies": {
-    "bootstrap": "^3.4.1",
+    "bootstrap": "^4.4.0",
     "devbridge-autocomplete": "^1.4.10",
     "elkjs-3": "npm:elkjs@0.3.0",
     "elkjs-4": "npm:elkjs@0.4.1",

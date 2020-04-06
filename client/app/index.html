@@ -13,15 +13,17 @@
 </head>
 <body>
     <div class="container">
-        <div class="row"><div class="col-md-8 col-md-offset-2 text-center">
-            <h1>ELK Graph Viewers</h1>
-            <p class="lead">
-                Automatic layout algorithms compute layouts for diagrams.
-                Never tried them?
-                Well, here's your chance.
-                Choose one of the thingies below and start playing!
-            </p>
-        </div></div>
+        <div class="row justify-content-md-center mt-5 mb-5">
+            <div class="col-md-8 text-center">
+                <h1>ELK Graph Viewers</h1>
+                <p class="lead">
+                    Automatic layout algorithms compute layouts for diagrams.
+                    Never tried them?
+                    Well, here's your chance.
+                    Choose one of the thingies below and start playing!
+                </p>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-lg-4 text-center">
@@ -35,7 +37,7 @@
                     and see what automatic layout does with them.
                 </p>
                 <p>
-                    Layout is performed on the server using ELK's Java library.
+                    Layout is performed on the server using ELK's Java library (nightly build).
                 </p>
                 <p>
                     <a href="elkgraph.html" class="btn btn-primary">ELKT Editor</a>
@@ -51,7 +53,7 @@
                     but with JSON, which makes everything better.
                 </p>
                 <p>
-                    Layout is performed within your browser using elkjs.
+                    Layout is performed within your browser using elkjs (you can decide which version shall be used).
                 </p>
                 <p>
                     <a href="json.html" class="btn btn-primary">JSON Editor</a>
@@ -68,7 +70,7 @@
                     (well, mainly for us, but you may look at them, too).
                 </p>
                 <p>
-                    Layout is performed within your browser using elkjs.
+                    Layout is performed within your browser using elkjs (latest).
                 </p>
                 <p>
                     <a href="models.html" class="btn btn-primary">Model Browser</a>
@@ -76,10 +78,10 @@
             </div>
         </div>
 
-        <div class="row" style="margin-top: 15ex"><div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading"><strong>Used Technologies</strong></div>
-                <div class="panel-body">
+        <div class="row justify-content-md-center mt-5"><div class="col-md-8">
+            <div class="card panel-default">
+                <div class="card-body">
+                    <div class="card-title"><strong>Used Technologies</strong></div>
                     <dl>
                         <dt>
                             <a href="https://github.com/theia-ide/sprotty">sprotty</a>
