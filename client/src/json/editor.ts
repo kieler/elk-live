@@ -15,6 +15,8 @@ import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty';
 import JSON5 = require('json5');
 import LZString = require('lz-string');
 
+require('./elk-json-language');
+
 const urlParameters = getParameters();
 
 let initialContent: string;
