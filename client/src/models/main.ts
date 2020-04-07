@@ -38,7 +38,7 @@ const elk = new ELK({
 const loading = <HTMLElement>document.getElementById('loading');
 function setLoading(load: boolean) {
     if (load) {
-        loading.style.display = 'block';
+        loading.style.display = 'inline-block';
     } else {
         loading.style.display = 'none';
     }
@@ -52,7 +52,7 @@ function showError(err: any) {
     } else {
         errorDiv.innerHTML = "A problem ocurred while loading the model.";
     }
-    errorDiv.style.display = 'block';
+    errorDiv.style.display = 'inline-block';
 }
 
 function updateSprottyModel(graph: any) {

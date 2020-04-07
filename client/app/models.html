@@ -17,10 +17,6 @@
       width: 100%;
       height: 100%;
     }
-
-    #navbox {
-      min-width: 300px;
-    }
     
     #autocomplete {
       width: 100%;
@@ -28,7 +24,6 @@
     }
     
     #loading {
-      margin-top: 10px;
       display: none;
       border: 8px solid #ddf;
       border-top: 8px solid #448;
@@ -40,8 +35,6 @@
     
     #error {
       display: none;
-      height: auto;
-      top: 0;
     }
 
     .autocomplete-suggestions { 
@@ -87,20 +80,20 @@
     <nav class="navbar navbar-expand-sm navbar-default flex-nowrap">
 		<a class="navbar-brand" href="index.html">ELK Graph Viewers</a>
         <span class="navbar-brand mb-0 h1">Model Browser</span>
-        <div id="navbox">
+        <div id="error" class="navbar-text mx-2 my-2 my-sm-0 p-1 alert alert-danger"></div>
+        <div id="loading" class="mx-2 flex-shrink-0"></div>
+        <div class="flex-grow-1">
             <input type="text" id="autocomplete" class="form-control" placeholder="Type to select a model ...">
         </div>
-        <div id="error" class="navbar-text ml-3 alert alert-danger m-1 p-1"></div>
-        <div id="loading" class="float-right ml-3"></div>
 	</nav> 
     
-    <div class="container-fluid flex-fill d-flex pt-4 border-top">
-        <div class="row flex-fill p-4">
-            <div id="sprotty" class="h-100 w-100"></div>
+    <div class="container-fluid flex-fill d-flex px-4 py-2 border-top">
+        <div class="row flex-fill">
+            <div id="sprotty" class="w-100 h-100"></div>
         </div>
     </div>
   
-  	<footer class="footer border-top p-3 mt-4">
+  	<footer class="footer border-top p-3">
 		<div class="container-fluid d-flex">
             <div class="flex-grow-1 text-right">
                 Powered by <a href="https://github.com/eclipse/sprotty">Sprotty</a> and
