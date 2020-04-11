@@ -11,10 +11,10 @@ import { listen, MessageConnection } from 'vscode-ws-jsonrpc';
 import {
     MonacoLanguageClient, CloseAction, ErrorAction, MonacoServices, createConnection
 } from 'monaco-languageclient';
-import { TYPES, createRandomId } from 'sprotty';
+import { TYPES, createRandomId, IActionDispatcher } from 'sprotty';
 import { getParameters, setupModelLink } from "../url-parameters";
 import createContainer from '../sprotty-config';
-import LanguageDiagramServer from './language-diagram-server';
+import { LanguageDiagramServer, ChangeLayoutVersionAction } from './language-diagram-server';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import LZString = require('lz-string');
 
@@ -42,6 +42,13 @@ const sprottyContainer = createContainer();
 sprottyContainer.bind(TYPES.ModelSource).to(LanguageDiagramServer).inSingletonScope();
 const diagramServer = sprottyContainer.get<LanguageDiagramServer>(TYPES.ModelSource);
 diagramServer.clientId = 'sprotty'
+const actionDispatcher = sprottyContainer.get<IActionDispatcher>(TYPES.IActionDispatcher);
+
+const versionSelect = <HTMLSelectElement>document.getElementById('elk-version');
+versionSelect.onchange = () => {
+    const selectedVersion = versionSelect.options[versionSelect.selectedIndex].value;
+    actionDispatcher.dispatch(new ChangeLayoutVersionAction(selectedVersion));
+}
 
 // Create Monaco editor
 const modelUri = `inmemory:/${createRandomId(24)}.elkt`;
