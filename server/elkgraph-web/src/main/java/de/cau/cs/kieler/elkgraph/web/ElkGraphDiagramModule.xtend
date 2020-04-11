@@ -23,4 +23,8 @@ class ElkGraphDiagramModule extends DefaultDiagramModule {
 		ElkGraphDiagramServerFactory
 	}
 	
+    override bindIDiagramServer() {
+        ElkDiagramServer
+    }
+    
 }
