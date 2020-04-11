@@ -10,15 +10,6 @@ package de.cau.cs.kieler.elkgraph.web
 import com.google.inject.Guice
 import com.google.inject.Injector
 import javax.websocket.Endpoint
-import org.eclipse.elk.alg.common.compaction.options.PolyominoOptions
-import org.eclipse.elk.alg.disco.options.DisCoMetaDataProvider
-import org.eclipse.elk.alg.force.options.ForceMetaDataProvider
-import org.eclipse.elk.alg.force.options.StressMetaDataProvider
-import org.eclipse.elk.alg.layered.options.LayeredMetaDataProvider
-import org.eclipse.elk.alg.mrtree.options.MrTreeMetaDataProvider
-import org.eclipse.elk.alg.radial.options.RadialMetaDataProvider
-import org.eclipse.elk.alg.spore.options.SporeMetaDataProvider
-import org.eclipse.elk.core.data.LayoutMetaDataService
 import org.eclipse.elk.graph.ElkGraphPackage
 import org.eclipse.elk.graph.text.ElkGraphRuntimeModule
 import org.eclipse.elk.graph.text.ide.ElkGraphIdeModule
@@ -45,18 +36,6 @@ class ElkGraphLanguageServerSetup extends DiagramLanguageServerSetup {
 	 * Initialize global settings for ELK and the ELK Graph language.
 	 */
 	override setupLanguages() {
-		// Initialize ELK meta data
-		LayoutMetaDataService.instance.registerLayoutMetaDataProviders(
-			new ForceMetaDataProvider,
-			new LayeredMetaDataProvider,
-			new MrTreeMetaDataProvider,
-			new RadialMetaDataProvider,
-			new StressMetaDataProvider,
-			new PolyominoOptions, 
-			new DisCoMetaDataProvider,
-			new SporeMetaDataProvider
-		)
-		
 		// Initialize the ELK Graph Xtext language
 		ElkGraphPackage.eINSTANCE.getNsURI
 		new ElkGraphIdeSetup {
