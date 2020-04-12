@@ -1,30 +1,42 @@
-dependencies {
+ dependencies {
 	implementation "org.eclipse.sprotty:org.eclipse.sprotty.server:${versions.sprotty}"
 	implementation "org.eclipse.sprotty:org.eclipse.sprotty.layout:${versions.sprotty}"
 	implementation "org.eclipse.sprotty:org.eclipse.sprotty.xtext:${versions.sprotty}"
 	implementation "org.eclipse.xtext:org.eclipse.xtext.ide:${versions.xtext}"
-	implementation "org.eclipse.elk:org.eclipse.elk.graph.text.ide:${versions.elk}"
 	implementation "org.eclipse.lsp4j:org.eclipse.lsp4j:${versions.lsp4j}"
 	implementation "org.eclipse.lsp4j:org.eclipse.lsp4j.websocket:${versions.lsp4j}"
 	implementation "org.eclipse.jetty:jetty-server:${versions.jetty}"
 	implementation "org.eclipse.jetty.websocket:javax-websocket-server-impl:${versions.jetty}"
-	implementation "org.slf4j:slf4j-log4j12:${versions.slf4j}"
+ 	implementation "org.slf4j:slf4j-log4j12:${versions.slf4j}"
+ 	
+	implementation "org.eclipse.elk:org.eclipse.elk.graph.text.ide:${versions.elk}"
 	
-	// Layout algorithms
+	// Latest ELKs (the older releases are defined in the sub-projects)
 	implementation "org.eclipse.elk:org.eclipse.elk.alg.force:${versions.elk}"
-	implementation "org.eclipse.elk:org.eclipse.elk.alg.layered:${versions.elk}"
-	implementation "org.eclipse.elk:org.eclipse.elk.alg.mrtree:${versions.elk}"
-	implementation "org.eclipse.elk:org.eclipse.elk.alg.radial:${versions.elk}"
-	implementation "org.eclipse.elk:org.eclipse.elk.alg.disco:${versions.elk}"
-	implementation "org.eclipse.elk:org.eclipse.elk.alg.spore:${versions.elk}"
+    implementation "org.eclipse.elk:org.eclipse.elk.alg.layered:${versions.elk}"
+    implementation "org.eclipse.elk:org.eclipse.elk.alg.mrtree:${versions.elk}"
+    implementation "org.eclipse.elk:org.eclipse.elk.alg.radial:${versions.elk}"
+    implementation "org.eclipse.elk:org.eclipse.elk.alg.disco:${versions.elk}"
+    implementation "org.eclipse.elk:org.eclipse.elk.alg.spore:${versions.elk}"
+    implementation "org.eclipse.elk:org.eclipse.elk.alg.rectpacking:${versions.elk}"
 }
+
+// TODO condition is not the best
+def layoutVersionProjects = rootProject.subprojects.findAll{it.name.startsWith('0')}
 
 task jettyRun(type: JavaExec) {
 	dependsOn(sourceSets.main.runtimeClasspath)
 	classpath = sourceSets.main.runtimeClasspath.filter{it.exists()}
 	main = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
 	args = [rootProject.file('..')]
+	// TODO probably want to pass version:jar tuples here
+	systemProperty "elkJars", layoutVersionProjects.collect{it.jar.archivePath}.join(',')
 	standardInput = System.in
 	group = 'run'
 	description = 'Starts the ELK Graph server'
+}
+
+// We require that all layout version specific jars are built
+layoutVersionProjects.each {
+    jettyRun.dependsOn(it.jar)
 }

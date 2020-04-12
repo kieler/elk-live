@@ -1,3 +1,38 @@
+import groovy.json.JsonSlurper
+
 rootProject.name = 'elkgraph-root'
 
+// Disclaimer:
+// In the following subproject for each ELK release are created dynamically. 
+// This involves a number of operations during the initialization phase that usually really 
+// shouldn't be part of an initialization phase: 
+//  1) Issue a REST get request to find all available ELK releases
+//  2) Copy a 'template-project' for each release into the 'build' directory of a subproject 
+ 
+
+// Retrieve all available ELK releases using maven central's REST API.
+// The latest snapshot will be added explicitly by the elkgraph-web project itself.
+def getJsonFromRest(String url) {
+	def request = new URL(url).openConnection()
+	def json = new JsonSlurper().parseText(request.getInputStream().getText())
+	return json
+}
+def queryElkVersionsUrl = "https://search.maven.org/solrsearch/select?q=g:%22org.eclipse.elk%22+AND+a:%22org.eclipse.elk.core%22&core=gav&wt=json"
+def elkVersions = getJsonFromRest(queryElkVersionsUrl).response.docs.collect{it.v}
+
+// The subprojects will be called like the version number, e.g. '0.6.0'
+elkVersions.each {
+	logger.quiet "Registering ELK version ${it}."
+	def tmpProjectDir = "./elkgraph-web/build/elk-layout-versions/${it}"
+	copy {
+		from "./elk-layout-version/"
+		into "$tmpProjectDir"
+		// Exclude the Eclipse project definition (otherwise the Eclipse gradle plugin runs into issues)
+		exclude ".project"
+	}
+	include "${it}"
+	project(":${it}").projectDir = file("$tmpProjectDir")
+}
+
 include 'elkgraph-web'
+include 'elk-layout-version'
