@@ -1,0 +1,50 @@
+import groovy.json.JsonSlurper
+
+def elkLayouters = [
+    "org.eclipse.elk.alg.force",
+    "org.eclipse.elk.alg.layered",
+    "org.eclipse.elk.alg.mrtree",
+    "org.eclipse.elk.alg.radial",
+    "org.eclipse.elk.alg.disco",
+    "org.eclipse.elk.alg.spore",
+    "org.eclipse.elk.alg.rectpacking"
+]
+
+def getJsonFromRest(String url) {
+    def query = url
+    logger.debug "Querying: $url"
+    def request = new URL(query).openConnection()
+    def json = new JsonSlurper().parseText(request.getInputStream().getText())
+    return json
+}
+
+def isLayoutAlgorithmExistsForVersion(String algorithm, String version) {
+    def baseUrl = "https://search.maven.org/solrsearch/select"
+    def query = "?q=g:%22org.eclipse.elk%22+AND+a:%22${algorithm}%22+AND+v:%22$version%22&core=gav&wt=json"
+    return getJsonFromRest(baseUrl + query).response.numFound > 0  
+}
+
+dependencies {
+    implementation "org.eclipse.xtend:org.eclipse.xtend.lib:${versions.xtext}"
+    
+    // Explicitly included to make Eclipse's gradle plugin happy. It would be included transitively anyway
+    if ("${project.name}".contains("elk-layout-version")) {
+        implementation "org.eclipse.elk:org.eclipse.elk.core:${versions.elk}"
+    }
+    logger.info "Resolving available layouters for version ${project.name}"
+    elkLayouters.each {
+        if (isLayoutAlgorithmExistsForVersion("$it", "${project.name}")) {
+            logger.info "\tFound $it"
+            implementation "org.eclipse.elk:$it:${project.name}"
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+            // For the 'sandboxed' layouter execution via a dedicated class loader, the jar requires a proper classpath
+            "Class-Path": configurations.runtimeClasspath.filter{it.exists()}.join(' ')
+        )
+    }
+}
