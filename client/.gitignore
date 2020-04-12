@@ -5,6 +5,7 @@ app/jquery/
 app/sprotty/
 app/vs/
 app/elk*/
+app/json.html
 *.bundle.js
 *.bundle.js.map
 *-error.log
