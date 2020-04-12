@@ -31,4 +31,10 @@ subprojects {
 	apply plugin: 'eclipse'
 	
 	sourceCompatibility = '1.8'
+
+	xtext {
+		// Since the layout version projects don't contain xtext-related code,
+		// the version has to be specified explicitly
+		version = "${versions.xtext}"
+	}
 }
