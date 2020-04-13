@@ -57,7 +57,7 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 
                 val layoutVersion = context.state.options.get("layoutVersion")
                 
-                val laidOutGraph = if (layoutVersion == "latest") {
+                val laidOutGraph = if (layoutVersion == "snapshot") {
                     layoutEngine.layout(elkGraph, new BasicProgressMonitor)
                     elkGraph
                 } else if (ElkLayoutVersionRegistry.versionToWrapper.containsKey(layoutVersion)) {

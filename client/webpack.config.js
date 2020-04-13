@@ -33,7 +33,7 @@ module.exports = async function (env) {
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
     const currentGitCommit = childProcess.execSync('git rev-parse --short HEAD').toString().trim();
 
-    const javaElkVersions = [ 'latest' ]; // latest snapshot/nightly at the time of building 
+    const javaElkVersions = [ 'snapshot' ]; // latest snapshot/nightly at the time of building 
     // Query released ELK versions using maven's REST API
     try {
         const response = await fetch("https://search.maven.org/solrsearch/select?q=g:%22org.eclipse.elk%22+AND+a:%22org.eclipse.elk.core%22&core=gav&wt=json")
