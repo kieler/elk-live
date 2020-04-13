@@ -34,8 +34,7 @@ class ElkDiagramServer extends LanguageAwareDiagramServer {
         }
     }
 
-    // TODO inject latest?
-    var String currentLayoutVersion = "0.6.1"
+    var String currentLayoutVersion = "snapshot"
 
     override protected handleAction(Action action) {
         if (action.kind == ChangeLayoutVersionAction.KIND) {
