@@ -25,11 +25,7 @@
         <div class="w-100">
             <form class="form-inline float-right">
                 <select id="elk-version" class="custom-select">
-                    <option value="latest" selected>@latest (0.6.2)</option>
-                    <option value="0.5.0">0.5.1</option>
-                    <option value="0.4.1">0.4.1</option>
-                    <option value="0.3.0">0.3.0</option>
-                    <option value="next">@next (0.6.2)</option>
+                    <%= htmlWebpackPlugin.options.layoutOptionVersions %>
                 </select>
             </form>
         </div>
@@ -57,7 +53,7 @@
                 <a href="https://microsoft.github.io/monaco-editor/">Monaco Editor</a>,
                 <a href="https://github.com/eclipse/lsp4j">LSP4J</a>,
                 and <a href="http://xtext.org">Xtext</a>.
-                Uses the ELK nightly builds.
+                <a href="https://github.com/kieler/elkgraph-web">EGW</a> commit <%= htmlWebpackPlugin.options.currentGitCommit %>.
             </div>
 		</div>
 	</footer>
