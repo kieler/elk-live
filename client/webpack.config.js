@@ -12,8 +12,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const elkjsLatest = require('elkjs-latest/package.json');
 const elkjsNext = require('elkjs-next/package.json');
 const childProcess = require('child_process');
+const fetch = require('node-fetch');
 
-module.exports = function(env) {
+module.exports = async function (env) {
     if (!env) {
         env = {}
     }
@@ -31,6 +32,21 @@ module.exports = function(env) {
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
     const currentGitCommit = childProcess.execSync('git rev-parse --short HEAD').toString().trim();
+
+    const javaElkVersions = [ 'latest' ]; // latest snapshot/nightly at the time of building 
+    // Query released ELK versions using maven's REST API
+    try {
+        const response = await fetch("https://search.maven.org/solrsearch/select?q=g:%22org.eclipse.elk%22+AND+a:%22org.eclipse.elk.core%22&core=gav&wt=json")
+                                    .then(res => res.json());
+        response.response.docs.forEach(doc => {
+            javaElkVersions.push(doc.v);
+        });
+    } catch (error) {
+        console.error("Unable to retrieve ELK releases, only the latest will be available (" + error.message + ").");
+    }
+    const javaElkVersionsOptions = javaElkVersions
+                                     .map(version => `<option value="${version}">${version}</option>`)
+                                     .join("");
 
     const rules = [
         {
@@ -80,11 +96,25 @@ module.exports = function(env) {
         },
         plugins: [
             new HtmlWebpackPlugin({
+                filename: 'elkgraph.html',
+                template: 'src/elkgraph/elkgraph_template.html',
+                inject: false,
+                layoutOptionVersions: javaElkVersionsOptions,
+                currentGitCommit: currentGitCommit,
+            }),
+            new HtmlWebpackPlugin({
                 filename: 'json.html',
                 template: 'src/json/json_template.html',
                 inject: false,
                 nextVersion: elkjsNext.version,
                 latestVersion: elkjsLatest.version,
+                currentGitCommit: currentGitCommit,
+            }),
+            new HtmlWebpackPlugin({
+                filename: 'models.html',
+                template: 'src/models/models_template.html',
+                inject: false,
+                elkjsVersion: elkjsLatest.version,
                 currentGitCommit: currentGitCommit,
             }),
             new CopyWebpackPlugin([{
