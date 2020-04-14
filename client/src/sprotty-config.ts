@@ -34,7 +34,10 @@ export default () => {
         configureModelElement(context, 'label', SLabel, ElkLabelView);
         configureModelElement(context, 'junction', ElkJunction, JunctionView);
         configureViewerOptions(context, {
-            needsClientLayout: false
+            needsClientLayout: false,
+            // The server-side layout is performed explicitly by the diagram generator, hence 
+            // the "regular" layout mechanism must not be used
+            needsServerLayout: false
         });
     })
     const container = new Container();
