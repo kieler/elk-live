@@ -35,6 +35,14 @@
     "umd-compat-loader": "^2.1.1",
     "webpack": "^3.12.0"
   },
+  "resolutions": { 
+    "**/**/kind-of": "^6.0.3",
+    "**/**/lodash": "^4.17.12",
+    "**/**/mem": "^4.0.0",
+    "**/**/minimist": "^1.2.3",
+    "**/**/serialize-javascript": "^2.1.1", 
+    "**/**/set-value": "^3.0.2"
+  },
   "scripts": {
     "compile": "tsc",
     "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map",
