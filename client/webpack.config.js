@@ -57,7 +57,7 @@ module.exports = async function (env) {
     if (env.production) {
         rules.push({
             test: /.*\.js$/,
-            exclude: /node_modules[\\|/](vscode-base-languageclient|vscode-languageserver-protocol|vscode-languageserver-types|vscode-uri|snabbdom)/,
+            exclude: /node_modules[\\|/](vscode-base-languageclient|vscode-languageserver-protocol|vscode-languageserver-types|vscode-uri|snabbdom|reconnecting-websocket)/,
             loader: 'uglify-loader'
         });
     } else {
