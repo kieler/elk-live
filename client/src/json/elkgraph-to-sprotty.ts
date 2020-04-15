@@ -9,7 +9,7 @@ import {
     SNodeSchema, SEdgeSchema, SPortSchema, SLabelSchema, SGraphSchema, Point, Dimension
 } from 'sprotty';
 import {
-    ElkShape, ElkNode, ElkPort, ElkLabel, ElkEdge, ElkGraphElement, isPrimitive, isExtended
+    ElkShape, ElkNode, ElkPort, ElkLabel, ElkEdge, ElkEdgeSection, ElkPrimitiveEdge, ElkGraphElement, isPrimitive, isExtended
 } from './elkgraph-json';
 
 export class ElkGraphJsonToSprotty {
@@ -102,6 +102,24 @@ export class ElkGraphJsonToSprotty {
         };
     }
 
+    /**
+     * Due to ELK issue #553 the computed layout of primitive edges is not transferred 
+     * back in the correct way. Instead of using the primitive edge format the edge sections
+     * of the extended edge format are returned. 
+    */
+    private isBugged(elkEdge: ElkPrimitiveEdge): Boolean {
+        return (elkEdge as any).sections !== undefined && (elkEdge as any).sections.length > 0
+    }
+
+    private transferSectionBendpoints(section: ElkEdgeSection, sEdge: SEdgeSchema) {
+        this.checkAndRememberId(section, this.sectionIds);
+        sEdge.routingPoints!.push(section.startPoint);
+        if (section.bendPoints) {
+            sEdge.routingPoints!.push(...section.bendPoints);
+        }
+        sEdge.routingPoints!.push(section.endPoint);
+    }
+
     private transformElkEdge(elkEdge: ElkEdge): SEdgeSchema {
         this.checkAndRememberId(elkEdge, this.edgeIds);
 
@@ -116,24 +134,23 @@ export class ElkGraphJsonToSprotty {
         if (isPrimitive(elkEdge)) {
             sEdge.sourceId = elkEdge.source;
             sEdge.targetId = elkEdge.target;
-            if (elkEdge.sourcePoint)
-                sEdge.routingPoints!.push(elkEdge.sourcePoint);
-            if (elkEdge.bendPoints)
-                sEdge.routingPoints!.push(...elkEdge.bendPoints);
-            if (elkEdge.targetPoint)
-                sEdge.routingPoints!.push(elkEdge.targetPoint);
+            // Workaround for ELK issue #553
+            if (this.isBugged(elkEdge)) {
+                const section = (elkEdge as any).sections[0];
+                this.transferSectionBendpoints(section, sEdge);
+            } else {
+                if (elkEdge.sourcePoint)
+                    sEdge.routingPoints!.push(elkEdge.sourcePoint);
+                if (elkEdge.bendPoints)
+                    sEdge.routingPoints!.push(...elkEdge.bendPoints);
+                if (elkEdge.targetPoint)
+                    sEdge.routingPoints!.push(elkEdge.targetPoint);
+            }
         } else if (isExtended(elkEdge)) {
             sEdge.sourceId = elkEdge.sources[0];
             sEdge.targetId = elkEdge.targets[0];
             if (elkEdge.sections) {
-                elkEdge.sections.forEach(section => {
-                    this.checkAndRememberId(section, this.sectionIds);
-                    sEdge.routingPoints!.push(section.startPoint);
-                    if (section.bendPoints) {
-                        sEdge.routingPoints!.push(...section.bendPoints);
-                    }
-                    sEdge.routingPoints!.push(section.endPoint);
-                });
+                elkEdge.sections.forEach(section => this.transferSectionBendpoints(section, sEdge));
             }
         }
         if (elkEdge.junctionPoints)  {
