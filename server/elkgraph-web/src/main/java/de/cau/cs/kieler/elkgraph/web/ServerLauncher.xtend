@@ -8,10 +8,16 @@
 package de.cau.cs.kieler.elkgraph.web
 
 import com.google.inject.Guice
+import java.io.IOException
 import java.net.InetSocketAddress
+import javax.servlet.ServletException
+import javax.servlet.http.HttpServlet
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import javax.websocket.Endpoint
 import javax.websocket.server.ServerEndpointConfig
 import org.eclipse.jetty.server.Server
+import org.eclipse.jetty.servlet.ServletHolder
 import org.eclipse.jetty.util.log.Slf4jLog
 import org.eclipse.jetty.webapp.WebAppContext
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer
@@ -65,6 +71,15 @@ class ServerLauncher {
 		})
 		container.addEndpoint(endpointConfigBuilder.build())
 		
+		// Define endpoint for format conversions
+        webAppContext.addServlet(new ServletHolder(new HttpServlet {
+            override protected doPost(HttpServletRequest req,
+                HttpServletResponse resp) throws ServletException, IOException {
+                ElkGraphConversions.handleRequest(req, resp)
+            }
+        }), "/conversion")
+
+
 		// Start the server
 		try {
 			server.start()
