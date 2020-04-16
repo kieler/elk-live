@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column">
+    <nav class="navbar navbar-expand-sm navbar-default flex-nowrap">
+        <a class="navbar-brand w-100" href="index.html">ELK Graph Viewers</a>
+        <div class="w-100 text-center">
+             <span class="navbar-brand mb-0 h1">Graph Conversion</span>
+        </div>
+        <div class="row w-100">
+            <div class="input-group pr-3 w-50">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="in-format-select">Input</label>
+                </div>
+                <select class="custom-select" id="in-format-select">
+                    <option value="elkt" selected>elkt</option>
+                    <option value="json">json</option>
+                    <option value="elkg">elkg</option>
+                </select>
+            </div>
+            <div class="input-group pr-3 w-50">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="out-format-select">Output</label>
+                </div>
+                <select class="custom-select" id="out-format-select">
+                    <option value="elkt">elkt</option>
+                    <option value="json" selected>json</option>
+                    <option value="elkg">elkg</option>
+                </select>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid flex-fill d-flex border-top pt-4">
+        <div class="row flex-fill">
+            <div class="col w-50 p-1 border-right">
+                <div id="monaco-editor-input" class="h-100"></div>
+            </div>
+            <div class="col w-50 p-1">
+                <div id="monaco-editor-output" class="h-100"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer border-top p-3 mt-4">
+        <div class="container-fluid d-flex">
+            <div>
+                <button class="btn btn-primary" type="button" id="http-endpoint-info">HTTP Endpoint Info</button>
+            </div>
+            <div class="flex-grow-1 text-right">
+                Powered by
+                <a href="https://www.eclipse.org/elk/">ELK</a>,
+                and <a href="https://microsoft.github.io/monaco-editor/">Monaco Editor</a>.
+                <a href="https://github.com/kieler/elkgraph-web">EGW</a> commit <%= htmlWebpackPlugin.options.currentGitCommit %>
+            </div>
+        </div>
+    </footer>
+
+    <script src="vs/loader.js"></script>
+    <script src="conversion.bundle.js"></script>
+	<script src="jquery/jquery.slim.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -72,7 +72,8 @@ module.exports = async function (env) {
         entry: {
             elkgraph: path.resolve(buildRoot, 'elkgraph/main'),
             json: path.resolve(buildRoot, 'json/main'),
-            models: path.resolve(buildRoot, 'models/main')
+            models: path.resolve(buildRoot, 'models/main'),
+            conversion: path.resolve(buildRoot, 'conversion/main'),
         },
         output: {
             filename: '[name].bundle.js',
@@ -115,6 +116,12 @@ module.exports = async function (env) {
                 template: 'src/models/models_template.html',
                 inject: false,
                 elkjsVersion: elkjsLatest.version,
+                currentGitCommit: currentGitCommit,
+            }),
+            new HtmlWebpackPlugin({
+                filename: 'conversion.html',
+                template: 'src/conversion/conversion_template.html',
+                inject: false,
                 currentGitCommit: currentGitCommit,
             }),
             new CopyWebpackPlugin([{

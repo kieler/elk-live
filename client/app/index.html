@@ -9,13 +9,17 @@
         dd {
             margin-bottom: 1em;
         }
+        .nestedLink {
+            position: relative;
+            z-index: 2;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-md-center mt-5 mb-5">
             <div class="col-md-8 text-center">
-                <h1>ELK Graph Viewers</h1>
+                <h1>ELK Graph Demonstrators</h1>
                 <p class="lead">
                     Automatic layout algorithms compute layouts for diagrams.
                     Never tried them?
@@ -26,60 +30,86 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-4 text-center">
-                <h3>ELKT Editor</h3>
-                <p>
-                    An interactive diagram editor
-                    based on the Eclipse Layout Kernel's
-                    <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/elktextformat.html">textual graph format</a>.
-                    Basically,
-                    build your own graphs
-                    and see what automatic layout does with them.
-                </p>
-                <p>
-                    Layout is performed on the server using ELK's Java library (nightly build).
-                </p>
-                <p>
-                    <a href="elkgraph.html" class="btn btn-primary">ELKT Editor</a>
-                </p>
+            <div class="col-lg-6 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">ELKT Editor</h3>
+                        <p class="card-text">
+                            An interactive diagram editor
+                            based on the Eclipse Layout Kernel's
+                            <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/elktextformat.html" class="nestedLink">textual graph format</a>.
+                            Basically,
+                            build your own graphs
+                            and see what automatic layout does with them.
+                        </p>
+                        <p class="card-text">
+                            Layout is performed on the server using ELK's Java library (nightly build).
+                        </p>
+                        <a href="elkgraph.html" class="stretched-link"></a>
+                    </div>
+                </div> 
             </div>
-            <div class="col-lg-4 text-center">
-                <h3>JSON Editor</h3>
-                <p>
-                    An interactive diagram editor
-                    based on the Eclipse Layout Kernel's
-                    <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/jsonformat.html">JSON format</a>.
-                    Another variation on the build-your-own-graphs theme,
-                    but with JSON, which makes everything better.
-                </p>
-                <p>
-                    Layout is performed within your browser using elkjs (you can decide which version shall be used).
-                </p>
-                <p>
-                    <a href="json.html" class="btn btn-primary">JSON Editor</a>
-                </p>
-            </div>
-            <div class="col-lg-4 text-center">
-                <h3>Model Browser</h3>
-                <p>
-                    An interactive browser
-                    for the Eclipse Layout Kernel's
-                    <a href="https://github.com/eclipse/elk-models">repository of test models</a>.
-                    See what automatic layout does to diagrams
-                    that we have created for you
-                    (well, mainly for us, but you may look at them, too).
-                </p>
-                <p>
-                    Layout is performed within your browser using elkjs (latest).
-                </p>
-                <p>
-                    <a href="models.html" class="btn btn-primary">Model Browser</a>
-                </p>
+            <div class="col-lg-6 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">JSON Editor</h3>
+                        <p class="card-text">
+                            An interactive diagram editor
+                            based on the Eclipse Layout Kernel's
+                            <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/jsonformat.html" class="nestedLink">JSON format</a>.
+                            Another variation on the build-your-own-graphs theme,
+                            but with JSON, which makes everything better.
+                        </p>
+                        <p>
+                            Layout is performed within your browser using elkjs (you can decide which version shall be used).
+                        </p>
+                        <a href="json.html" class="stretched-link"></a>
+                    </div>
+                </div> 
             </div>
         </div>
 
-        <div class="row justify-content-md-center mt-5 mb-5"><div class="col-md-8">
-            <div class="row text-center m-2">
+        <div class="row justify-content-md-center mt-5">
+                <div class="col-lg-6 text-center">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">Model Browser</h3>
+                            <p class="card-text">
+                                An interactive browser
+                                for the Eclipse Layout Kernel's
+                                <a href="https://github.com/eclipse/elk-models" class="nestedLink">repository of test models</a>.
+                                See what automatic layout does to diagrams
+                                that we have created for you
+                                (well, mainly for us, but you may look at them, too).
+                            </p>
+                            <p class="card-text">
+                                Layout is performed within your browser using elkjs (latest).
+                            </p>
+                            <a href="models.html" class="stretched-link"></a>
+                        </div>
+                    </div> 
+                </div>
+            <div class="col-lg-6 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Graph Format Conversion</h3>
+                        <p class="card-text">
+                            A side-by-side view of two graph formats.
+                            Allows to interactively convert one graph format into another.
+                            It's possible to invoke the conversion programmatically, 
+                            see the site for details.
+                        </p>
+                        <p class="card-text">
+                            Supports ELK's Xtext-based <code>elkt</code>, <code>json</code>, and <code>elkg</code> (XMI) formats.
+                        </p>
+                        <a href="conversion.html" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-md-center mt-4 mb-4"><div class="col-md-8">
+            <div class="row text-center m-2 mb-4">
                 <a href="https://github.com/kieler/elkgraph-web" class="text-center btn btn-success mx-auto">View source on GitHub</a> 
             </div>
             <div class="card panel-default">
