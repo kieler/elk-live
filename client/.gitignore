@@ -5,6 +5,7 @@ app/jquery/
 app/sprotty/
 app/vs/
 app/elk*/
+app/conversion.html
 app/elkgraph.html
 app/json.html
 app/models.html
