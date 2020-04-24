@@ -33,6 +33,10 @@ export default () => {
         configureModelElement(context, 'edge', ElkEdge, ElkEdgeView);
         configureModelElement(context, 'label', SLabel, ElkLabelView);
         configureModelElement(context, 'junction', ElkJunction, JunctionView);
+        // Note that with our configuration (sprotty model update is initiated by the server after 
+        // a 'textDocument/didChange' event of the monaco editor), the following values are never 
+        // actually sent with any request to the server. Hence it is required to override the 
+        // corresponding methods in the ElkDiagramServer manually.
         configureViewerOptions(context, {
             needsClientLayout: false,
             // The server-side layout is performed explicitly by the diagram generator, hence 
