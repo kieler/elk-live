@@ -58,6 +58,10 @@ outputFormatSelect.onchange = e => {
     setLanguageBasedOnFormatSelection(editorOutput, outputFormatSelect);
     updateModel();
 }
+const subPathLastSlashIndex = location.pathname.lastIndexOf('/')
+const subPath = subPathLastSlashIndex > 0 
+                    ? location.pathname.substr(0, subPathLastSlashIndex + 1)
+                    : "";
 
 const endpointInfoString = 
 `Endpoint: /conversion
@@ -71,7 +75,7 @@ Parameters:
     outFormat: Desired graph format to be returned by the server.
 
 Example:
-    curl -X POST "${location.protocol}//${location.host}/conversion?inFormat=elkt&outFormat=json" \\
+    curl -X POST "${location.protocol}//${location.host}/${subPath}conversion?inFormat=elkt&outFormat=json" \\
          -H 'Content-Type: text/plain' \\
          -d 'node n1 node n2 edge n1->n2'
 `
@@ -86,7 +90,7 @@ function updateModel() {
         return
     }
 
-    const url = `${location.protocol}//${location.host}/conversion`
+    const url = `${location.protocol}//${location.host}/${subPath}conversion`
     const query = `?inFormat=${inFormat}&outFormat=${outFormat}`
     fetch(`${url}${query}`, {
         method: 'POST',
