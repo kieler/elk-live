@@ -1,0 +1,54 @@
+/*******************************************************************************
+ * Copyright (c) 2020 Kiel University and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ *******************************************************************************/
+
+/*
+// elkex:category
+Edges > Selfloops
+
+// elkex:label
+Inside Selfloop
+
+// elkex:doc
+The example illustrates how a node can have a usual selfloop 
+as well as an _inside selfloop_. 
+
+Note that as soon as a node holds an inside selfloop, 
+the algorithm internally turns the node into a hierarchical node 
+even if it has no children. 
+As a consequence it is not possible to set the node's size 
+the usual way. One has to use the `nodeSize.minimum` and `nodeSize.constraints` options instead 
+as illustrated here.
+*/
+
+// elkex:graph
+node parent {
+    insideSelfLoops.activate: true
+    portConstraints: FIXED_SIDE
+    port p1 { side: WEST }
+    port p2 { side: EAST }
+}
+edge parent.p1 -> parent.p2
+edge parent.p1 -> parent.p2 {
+    insideSelfLoops.yo: true
+}
+
+node parentWithSize {
+    layout [ size: 200, 100 ]
+    nodeSize.minimum: "100, 50"
+    nodeSize.constraints: MINIMUM_SIZE
+    insideSelfLoops.activate: true
+    portConstraints: FIXED_SIDE
+    port p1 { side: WEST }
+    port p2 { side: EAST }
+}
+edge parentWithSize.p1 -> parentWithSize.p2
+edge parentWithSize.p1 -> parentWithSize.p2 {
+    insideSelfLoops.yo: true
+}
