@@ -47,7 +47,8 @@
   "scripts": {
     "compile": "tsc",
     "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map",
-    "build": "yarn compile && webpack --env.production",
+    "copy:examples": "mkdir -p lib/examples/content/ && cp -r src/examples/content/ lib/examples/",
+    "build": "yarn copy:examples && yarn compile && webpack --env.production",
     "build:dev": "yarn compile && webpack",
     "watch": "tsc-watch --onSuccess webpack"
   }

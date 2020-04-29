@@ -52,7 +52,11 @@ module.exports = async function (env) {
         {
             test: /node_modules[\\|/](vscode-languageserver-types|vscode-uri|jsonc-parser)/,
             use: { loader: 'umd-compat-loader' }
-        }
+        },
+        {
+            test: /\.elkt$/,
+            use: { loader: path.resolve('./lib/examples/elkex-loader.js') }
+        },
     ];
     if (env.production) {
         rules.push({
@@ -70,10 +74,11 @@ module.exports = async function (env) {
 
     return {
         entry: {
+            conversion: path.resolve(buildRoot, 'conversion/main'),
             elkgraph: path.resolve(buildRoot, 'elkgraph/main'),
+            examples: path.resolve(buildRoot, 'examples/main'),
             json: path.resolve(buildRoot, 'json/main'),
             models: path.resolve(buildRoot, 'models/main'),
-            conversion: path.resolve(buildRoot, 'conversion/main'),
         },
         output: {
             filename: '[name].bundle.js',
