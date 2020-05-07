@@ -2,6 +2,7 @@
 node_modules/
 app/bootstrap/
 app/jquery/
+app/jquery-autocomplete/
 app/sprotty/
 app/vs/
 app/elk*/

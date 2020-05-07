@@ -23,8 +23,10 @@
     "vscode-ws-jsonrpc": "^0.0.2-1"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.38",
     "@types/node": "10.14.4",
     "copy-webpack-plugin": "^4.6.0",
+    "globby": "^7.1.1",
     "html-webpack-plugin": "^3.2.0",
     "node-fetch": "^2.6.0",
     "reflect-metadata": "^0.1.13",
@@ -46,10 +48,11 @@
   },
   "scripts": {
     "compile": "tsc",
-    "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map elk-models",
+    "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map elk-models app/elk-models",
     "clone:elk-models": "git -C elk-models pull || git clone https://github.com/eclipse/elk-models.git elk-models",
     "copy:examples": "mkdir -p lib/examples/content/ && cp -r elk-models/examples/* lib/examples/content/",
-    "clone-and-copy": "yarn clone:elk-models && yarn copy:examples",
+    "copy:models": "cp --parents `find elk-models/* -type f \\( -iname \\*.json -o -iname \\*.elkt \\)` app/",
+    "clone-and-copy": "yarn clone:elk-models && yarn copy:examples && yarn copy:models",
     "build": "yarn clone-and-copy && yarn compile && webpack --env.production",
     "build:dev": "yarn compile && webpack",
     "watch": "tsc-watch --onSuccess webpack"

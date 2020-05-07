@@ -13,6 +13,8 @@ const elkjsLatest = require('elkjs-latest/package.json');
 const elkjsNext = require('elkjs-next/package.json');
 const childProcess = require('child_process');
 const fetch = require('node-fetch');
+const fs = require('fs');
+const globby = require('globby');
 
 module.exports = async function (env) {
     if (!env) {
@@ -24,6 +26,7 @@ module.exports = async function (env) {
     const monacoEditorPath = env.production ? 'node_modules/monaco-editor-core/min/vs' : 'node_modules/monaco-editor-core/dev/vs';
     const bootstrapDistPath = 'node_modules/bootstrap/dist';
     const jqueryDistPath = 'node_modules/jquery/dist';
+    const autocompleteDistPath = 'node_modules/devbridge-autocomplete/dist';
     const sprottyCssPath = 'node_modules/sprotty/css';
     const elkWorkerPath3 = 'node_modules/elkjs-3/lib/elk-worker.min.js';
     const elkWorkerPath4 = 'node_modules/elkjs-4/lib/elk-worker.min.js';
@@ -47,6 +50,19 @@ module.exports = async function (env) {
     const javaElkVersionsOptions = javaElkVersions
                                      .map(version => `<option value="${version}">${version}</option>`)
                                      .join("");
+
+    // Generate json files that hold the available models and examples
+    const replaceLocalPaths = paths => paths.map(p => p.replace(`${appRoot}/elk-models/`, ''));
+    const addQuotes = paths => paths.map(p => `"${p}"`);
+    const models = await globby(`${appRoot}/elk-models/**/*.json`)
+        .then(replaceLocalPaths)
+        .then(addQuotes);
+    fs.writeFileSync(`${buildRoot}/models/models.json`, `[ ${models.join(', ')} ]`);
+
+    const examples = await globby(`${appRoot}/elk-models/examples/**/*.elkt`)
+        .then(replaceLocalPaths)
+        .then(addQuotes);
+    fs.writeFileSync(`${buildRoot}/examples/examples.json`, `[ ${examples.join(', ')} ]`);
 
     const rules = [
         {
@@ -140,6 +156,10 @@ module.exports = async function (env) {
             new CopyWebpackPlugin([{
                 from: jqueryDistPath,
                 to: 'jquery'
+            }]),
+            new CopyWebpackPlugin([{
+                from: autocompleteDistPath,
+                to: 'jquery-autocomplete'
             }]),
             new CopyWebpackPlugin([{
                 from: sprottyCssPath,
