@@ -12,3 +12,4 @@ app/models.html
 *.bundle.js
 *.bundle.js.map
 *-error.log
+elk-models
