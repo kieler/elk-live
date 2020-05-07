@@ -13,6 +13,12 @@ import { createExampleCategoryTree, ElkExample, ExampleCategory } from './elkex'
 
 require('../common/elkt-language');
 
+// TODO when there are a lot of examples it's inefficient to 
+// bundle all of them. Instead the requested example should be 
+// loaded on-demand. However, building the navigation currently requires
+// loading the example, which it's not yet implemented that way.
+// const availableExamples = require('./examples.json');
+
 enum HistoryMode {
     IGNORE, PUSH_STATE, REPLACE_STATE
 }
