@@ -46,9 +46,11 @@
   },
   "scripts": {
     "compile": "tsc",
-    "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map",
-    "copy:examples": "mkdir -p lib/examples/content/ && cp -r src/examples/content/ lib/examples/",
-    "build": "yarn copy:examples && yarn compile && webpack --env.production",
+    "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map elk-models",
+    "clone:elk-models": "git -C elk-models pull || git clone https://github.com/eclipse/elk-models.git elk-models",
+    "copy:examples": "mkdir -p lib/examples/content/ && cp -r elk-models/examples/* lib/examples/content/",
+    "clone-and-copy": "yarn clone:elk-models && yarn copy:examples",
+    "build": "yarn clone-and-copy && yarn compile && webpack --env.production",
     "build:dev": "yarn compile && webpack",
     "watch": "tsc-watch --onSuccess webpack"
   }
