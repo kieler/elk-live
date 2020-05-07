@@ -7,10 +7,22 @@
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-2.0.53.tgz#89c53bc83d820e50c3b667ae2fdf4276df8b3aba"
   integrity sha512-MZKPWUhp5TKkoJ/58NSq6io+CSUCOHm2b3Z6U4+r9v70kktB0JM+eRjdp6YmDHtw0kK2XB7L2K7/FMIoziHjUA==
 
+"@types/jquery@^3.3.38":
+  version "3.3.38"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.38.tgz#6385f1e1b30bd2bff55ae8ee75ea42a999cc3608"
+  integrity sha512-nkDvmx7x/6kDM5guu/YpXkGZ/Xj/IwGiLDdKM99YA5Vag7pjGyTJ8BNUh/6hxEn/sEu5DKtyRgnONJ7EmOoKrA==
+  dependencies:
+    "@types/sizzle" "*"
+
 "@types/node@10.14.4":
   version "10.14.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.4.tgz#1c586b991457cbb58fef51bc4e0cfcfa347714b5"
   integrity sha512-DT25xX/YgyPKiHFOpNuANIQIVvYEwCWXgK2jYYwqgaMrYE6+tq+DtmMwlD3drl6DJbUwtlIDnn0d7tIn/EbXBg==
+
+"@types/sizzle@*":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
+  integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
 abbrev@1:
   version "1.1.1"

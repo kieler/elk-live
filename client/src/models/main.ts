@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017 Kiel University and others.
+ * Copyright (c) 2017, 2020 Kiel University and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,15 +13,9 @@ import createContainer from '../sprotty-config';
 import { getParameters, combineParameters } from '../url-parameters';
 import ELK, { ElkNode } from 'elkjs-latest/lib/elk-api.js';
 
-import https = require('https');
-import $ = require('jquery');
-import JSON5 = require('json5');
-require('devbridge-autocomplete');
+const availableModels = require('./models.json')
 
 const urlParameters = getParameters();
-
-const githubOwner = 'eclipse';
-const githubRepo = 'elk-models';
 
 // Create Sprotty viewer
 const sprottyContainer = createContainer();
@@ -64,12 +58,15 @@ function updateSprottyModel(graph: any) {
 function loadModel(path: string) {
     setLoading(true);
     errorDiv.style.display = 'none';
-    getFileContent(path)
+
+    const url = `${location.protocol}//${location.host}/elk-models/${path}`
+    fetch(url)
+        .then(response => response.json())
         .then(g => elk.layout(<ElkNode>g))
         .then(updateSprottyModel)
         .then(() => {
-            let encodedPath = encodeURIComponent(path);
-            let queryString = combineParameters({ link: encodedPath, owner: githubOwner, repo: githubRepo });
+            const encodedPath = encodeURIComponent(path);
+            const queryString = combineParameters({ link: encodedPath });
             window.history.pushState("", "", queryString);
         })
         .then(() => setLoading(false))
@@ -86,9 +83,6 @@ function loadModel(path: string) {
 let currentModel = '';
 if (urlParameters.link) {
     currentModel = decodeURIComponent(urlParameters.link);
-    // not yet supported
-    //githubOwner = owner || githubOwner
-    //githubRepo = repo || githubRepo
     $('#autocomplete').val(currentModel);
     loadModel(currentModel);
 }
@@ -107,13 +101,8 @@ function initAutocomplete(files: any) {
     });
 }
 
-// Request contents of the models repository
-getContentsRecursively('')
-    .then(data => {
-        let files = collectFiles(data);
-        initAutocomplete(files);
-    })
-    .catch(showError);
+// Populate autocomplete with the available models
+initAutocomplete(availableModels.map(f => ({ value: f, data: f })));
 
 function refreshLayout() {
     $('#sprotty').css('top', $('#navbar').height() + 'px');
@@ -121,82 +110,3 @@ function refreshLayout() {
 
 $(window).resize(refreshLayout);
 $(document).ready(setTimeout(refreshLayout, 50) as any);
-
-function githubRequest(path) {
-    return {
-        host: 'api.github.com',
-        path: '/repos/' + githubOwner + '/' + githubRepo + '/contents/' + path,
-        headers: {
-            'User-Agent': 'elk-models-viewer'
-        }
-    };
-}
-
-function asyncGet(req) {
-    return new Promise(function (resolve, reject) {
-        https.get(req, response => {
-            if (response.statusCode !== 200) {
-                reject(new Error(`Request failed with code: ${response.statusCode}`));
-            }
-            response.setEncoding('utf8');
-            let body = '';
-            response.on('data', c => body += c);
-            response.on('end', function () {
-                try {
-                    resolve(JSON5.parse(body));
-                } catch (e) {
-                    reject(e);
-                }
-            })
-            response.on('error', reject);
-        }).on('error', reject);
-    });
-}
-
-function getContentsRecursively(parentDir) {
-    let path = parentDir.path || '';
-    return asyncGet(githubRequest(path))
-        .then(response => {
-            if (!Array.isArray(response)) {
-                return Promise.reject(new Error(`Unexpected response: ${response}.`));
-            }
-            var dir: any = {
-                name: parentDir.name || '/',
-                path: path,
-                files: response.filter(e => e.type == 'file').map(f => {
-                    return {
-                        name: f.name,
-                        path: f.path
-                    }
-                })
-            };
-            return Promise.all(response.filter(e => e.type == 'dir').map(d => {
-                return getContentsRecursively(d)
-                    .then(subdir => subdir);
-            })).then(subDirs => {
-                dir.dirs = subDirs;
-                return dir;
-            });
-        })
-}
-
-function getFileContent(filePath) {
-    return asyncGet(githubRequest(filePath))
-        .then((response: any) => {
-            return new Promise((resolve, reject) => {
-                try {
-                    var buf = Buffer.from(response.content, 'base64');
-                    resolve(JSON5.parse(buf.toString()));
-                } catch (err) {
-                    reject(err);
-                }
-            });
-        });
-}
-
-function collectFiles(dir) {
-    return (dir.files || [])
-        .filter(f => f.path.endsWith('.json'))
-        .map(f => ({ value: f.path, data: f.path }))
-        .concat(...(dir.dirs || []).map(sd => collectFiles(sd)));
-}
