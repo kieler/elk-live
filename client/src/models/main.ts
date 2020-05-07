@@ -55,11 +55,15 @@ function updateSprottyModel(graph: any) {
     actionDispatcher.dispatch(new FitToScreenAction([]));
 }
 
+const subPathLastSlashIndex = location.pathname.lastIndexOf('/')
+const subPath = subPathLastSlashIndex > 0 
+                    ? location.pathname.substr(0, subPathLastSlashIndex + 1)
+                    : "";
 function loadModel(path: string) {
     setLoading(true);
     errorDiv.style.display = 'none';
 
-    const url = `${location.protocol}//${location.host}/elk-models/${path}`
+    const url = `${location.protocol}//${location.host}/${subPath}elk-models/${path}`
     fetch(url)
         .then(response => response.json())
         .then(g => elk.layout(<ElkNode>g))
