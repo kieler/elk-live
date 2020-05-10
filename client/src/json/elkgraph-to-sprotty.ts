@@ -91,7 +91,9 @@ export class ElkGraphJsonToSprotty {
     }
 
     private transformElkLabel(elkLabel: ElkLabel): SLabelSchema {
-        this.checkAndRememberId(elkLabel, this.labelIds);
+        // For convenience, and since labels do not have to be referenced by other elements, 
+        // we allow their ids to be generated on-the-fly
+        this.checkAndRememberId(elkLabel, this.labelIds, true);
 
         return <SLabelSchema> {
             type: 'label',
@@ -180,14 +182,30 @@ export class ElkGraphJsonToSprotty {
         return <Dimension> { width: elkShape.width || 0, height: elkShape.height || 0 };
     }
 
-    private checkAndRememberId(e: ElkGraphElement, set: Set<string>) {
-        if (e.id == undefined) {
-            throw Error("An element is missing an id.");
-        } else if (set.has(e.id)) {
+    private checkAndRememberId(e: ElkGraphElement, set: Set<string>, generateIdIfRequired: boolean = false) {
+        if (e.id === undefined) {
+            if (generateIdIfRequired) {
+                do {
+                    e.id = this.generateRandomId();
+                } while (set.has(e.id));
+            } else {
+                throw Error("An element is missing an id.");
+            }
+        } 
+        if (set.has(e.id)) {
             throw Error("Duplicate id: " + e.id + ".");
         } else {
             set.add(e.id);
         }
+    }
+
+    private generateRandomId(length: number = 6): string {
+        const random = Math.random() * (Math.pow(10, length) - 1);
+        let padded = Math.floor(random) + "";
+        while (padded.length < length) {
+            padded = "0" + padded;
+        }
+        return `g_${padded}`;
     }
 
 }
