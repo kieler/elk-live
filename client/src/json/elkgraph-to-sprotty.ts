@@ -61,7 +61,8 @@ export class ElkGraphJsonToSprotty {
         }
         // labels
         if (elkNode.labels) {
-            const sLabels = elkNode.labels.map(l => this.transformElkLabel(l));
+            const sLabels = elkNode.labels.filter(l => l.text !== undefined)
+                                          .map(l => this.transformElkLabel(l));
             sNode.children!.push(...sLabels);
         }
         // edges
@@ -84,7 +85,8 @@ export class ElkGraphJsonToSprotty {
         };
         // labels
         if (elkPort.labels) {
-            const sLabels = elkPort.labels.map(l => this.transformElkLabel(l));
+            const sLabels = elkPort.labels.filter(l => l.text !== undefined)
+                                          .map(l => this.transformElkLabel(l));
             sPort.children!.push(...sLabels);
         }
         return sPort;
