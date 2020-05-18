@@ -12,5 +12,6 @@ window.onload = () => {
     w.require(['vs/editor/editor.main'], () => {
         // Load application code
         require('./editor');
+        document.getElementById("loading-editor")!.style.display = 'none';
     });
 };
