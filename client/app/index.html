@@ -14,6 +14,12 @@
             position: relative;
             z-index: 2;
         }
+        #link-elkt::after {
+            right: 50%;
+        }
+        #link-json::after {
+            left: 50%;
+        }
     </style>
 </head>
 <body>
@@ -35,45 +41,38 @@
             <div class="col-lg-6 text-center">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">ELKT Editor</h3>
+                        <h3 class="card-title">Interactive Editor</h3>
                         <p class="card-text">
-                            An interactive diagram editor
-                            based on the Eclipse Layout Kernel's
-                            <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/elktextformat.html" class="nestedLink">textual graph format</a>.
+                            Interactively edit a textual description of a graph 
+                            while a corresponding diagram is generated on-the-fly.
                             Basically,
                             build your own graphs
                             and see what automatic layout does with them.
+                            You can choose out of the following two formats:
                         </p>
-                        <p class="card-text">
-                            Layout is performed on the server using ELK's Java library (nightly build).
-                        </p>
-                        <a href="elkgraph.html" class="stretched-link"></a>
+                        <div class="row">
+                            <div class="col small">
+                                <h5><pre class="m-0">elkt</pre></h5>
+                                <p class="card-text">
+                                    ELK's <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/elktextformat.html" class="nestedLink">textual graph DSL.</a>
+                                    Layout is performed on the server using Java.
+                                </p>
+                            </div>
+                            <div class="col small">
+                                <h5><pre class="m-0">json</pre></h5>
+                                <p class="card-text">
+                                    ELK's <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/jsonformat.html" class="nestedLink">json format.</a>
+                                    Layout is performed within your browser using elkjs.
+                                </p>
+                            </div>
+                        </div>
+                        <a id="link-elkt" href="elkgraph.html" class="stretched-link"></a>
+                        <a id="link-json" href="json.html" class="stretched-link"></a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title">JSON Editor</h3>
-                        <p class="card-text">
-                            An interactive diagram editor
-                            based on the Eclipse Layout Kernel's
-                            <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/jsonformat.html" class="nestedLink">JSON format</a>.
-                            Another variation on the build-your-own-graphs theme,
-                            but with JSON, which makes everything better.
-                        </p>
-                        <p>
-                            Layout is performed within your browser using elkjs (you can decide which version shall be used).
-                        </p>
-                        <a href="json.html" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row justify-content-md-center mt-5">
-            <div class="col-lg-6 text-center">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-body">
                         <h3 class="card-title">Examples</h3>
                         <p class="card-text">
