@@ -20,6 +20,7 @@ import LZString = require('lz-string');
 
 require('./elkt-language');
 
+const loading = document.getElementById('loading-sprotty')!;
 const urlParameters = getParameters();
 
 let initialContent: string;
@@ -46,6 +47,7 @@ const actionDispatcher = sprottyContainer.get<IActionDispatcher>(TYPES.IActionDi
 
 const versionSelect = <HTMLSelectElement>document.getElementById('elk-version');
 versionSelect.onchange = () => {
+    loading.style.display = 'block';
     const selectedVersion = versionSelect.options[versionSelect.selectedIndex].value;
     actionDispatcher.dispatch(new ChangeLayoutVersionAction(selectedVersion));
 }
@@ -79,6 +81,12 @@ const socketOptions = {
     maxRetries: 20,
     debug: false
 };
+
+// TODO a better way would be to hook into the language server's communication 
+//  (i.e. the underlying websocket's) and to react on the corresponding events.
+//  However, I couldn't find an easy way to do so.
+editor.onDidChangeModelContent(() => loading.style.display = 'block');
+
 const webSocket = new ReconnectingWebSocket(socketUrl, [], socketOptions);
 listen({
     webSocket: webSocket as any as WebSocket,

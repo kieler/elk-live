@@ -28,7 +28,8 @@ export class LanguageDiagramServer extends DiagramServer {
 
     listen(connection: IConnection) {
         connection.onNotification(DIAGRAM_ENDPOINT_NOTIFICATION, (message: ActionMessage) => {
-            this.messageReceived(message)
+            this.messageReceived(message);
+            document.getElementById('loading-sprotty')!.style.display = 'none';
         });
         this.connection = connection;
     }
