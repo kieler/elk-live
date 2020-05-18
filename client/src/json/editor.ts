@@ -17,6 +17,7 @@ import LZString = require('lz-string');
 
 require('./elk-json-language');
 
+const loading = document.getElementById('loading-sprotty')!;
 const urlParameters = getParameters();
 
 let initialContent: string;
@@ -101,6 +102,7 @@ function updateModel() {
 
         // Prepare the elk version selected by the user
         let selectedVersion = versionSelect.options[versionSelect.selectedIndex].value;
+        loading.style.display = 'block';
         retrieveElk(selectedVersion).then(elk => {
             elk.layout(json)
                 .then(g => {
@@ -110,12 +112,14 @@ function updateModel() {
                 .catch(e => {
                     let markers = [ errorToMarker(e) ]
                     monaco.editor.setModelMarkers(editor.getModel(), "", markers)
-                });
+                })
+                .finally(() => loading.style.display = 'none');
         });
 
     } catch (e) {
         let markers = [ errorToMarker(e) ];
         monaco.editor.setModelMarkers(editor.getModel(), "", markers);
+        loading.style.display = 'none';
      }
 }
 

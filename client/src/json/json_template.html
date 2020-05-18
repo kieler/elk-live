@@ -16,6 +16,22 @@
 			width: 100%;
 			height: 100%;
 		}
+        .loading {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: block;
+            border: 8px solid #ddf;
+            border-top: 8px solid #448;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 	</style>
 </head>
 <body class="d-flex flex-column">
@@ -43,10 +59,12 @@
     <div class="container-fluid flex-fill d-flex border-top pt-4">
 		<div class="row flex-fill">
 			<div class="col w-50 p-1 border-right">
-				<div id="monaco-editor" class="h-100" data-input-type="json"></div>
+                <div id="monaco-editor" class="h-100" data-input-type="json"></div>
+                <div id="loading-editor" class="mx-2 loading"></div>
 			</div>
 			<div class="col w-50 p-1">
-				<div id="sprotty" class="h-100"></div>
+                <div id="sprotty" class="h-100"></div>
+                <div id="loading-sprotty" class="mx-2 loading"></div>
 			</div>
 		</div>
 	</div>
