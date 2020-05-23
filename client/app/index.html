@@ -20,6 +20,9 @@
         #link-json::after {
             left: 50%;
         }
+        .link-highlight {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -51,15 +54,15 @@
                             You can choose out of the following two formats:
                         </p>
                         <div class="row">
-                            <div class="col small">
-                                <h5><pre class="m-0">elkt</pre></h5>
+                            <div class="col small border-right">
+                                <h5><pre id="select-elkt" class="m-0">elkt</pre></h5>
                                 <p class="card-text">
                                     ELK's <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/elktextformat.html" class="nestedLink">textual graph DSL.</a>
                                     Layout is performed on the server using Java.
                                 </p>
                             </div>
                             <div class="col small">
-                                <h5><pre class="m-0">json</pre></h5>
+                                <h5><pre id="select-json" class="m-0">json</pre></h5>
                                 <p class="card-text">
                                     ELK's <a href="https://www.eclipse.org/elk/documentation/tooldevelopers/graphdatastructure/jsonformat.html" class="nestedLink">json format.</a>
                                     Layout is performed within your browser using elkjs.
@@ -183,5 +186,19 @@
 
 	<script src="jquery/jquery.slim.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        $('#link-elkt').on('mouseenter', function() {
+            $('#select-elkt').addClass('link-highlight');
+        });
+        $('#link-elkt').on('mouseleave', function() {
+            $('#select-elkt').removeClass('link-highlight');
+        });
+        $('#link-json').on('mouseenter', function() {
+            $('#select-json').addClass('link-highlight');
+        });
+        $('#link-json').on('mouseleave', function() {
+            $('#select-json').removeClass('link-highlight');
+        });
+    </script>
 </body>
 </html>
