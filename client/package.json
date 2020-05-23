@@ -53,7 +53,7 @@
     "copy:examples": "mkdir -p lib/examples/content/ && cp -r elk-models/examples/* lib/examples/content/",
     "copy:models": "cp --parents `find elk-models/* -type f \\( -iname \\*.json -o -iname \\*.elkt \\)` app/",
     "clone-and-copy": "yarn clone:elk-models && yarn copy:examples && yarn copy:models",
-    "build": "yarn clone-and-copy && yarn compile && webpack --env.production",
+    "build": "yarn clean && yarn clone-and-copy && yarn compile && webpack --env.production",
     "build:dev": "yarn compile && webpack",
     "watch": "tsc-watch --onSuccess webpack"
   }
