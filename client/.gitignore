@@ -8,6 +8,7 @@ app/vs/
 app/elk*/
 app/conversion.html
 app/elkgraph.html
+app/examples.html
 app/json.html
 app/models.html
 *.bundle.js

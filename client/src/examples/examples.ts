@@ -10,6 +10,7 @@ import * as showdown from 'showdown';
 import { createMonacoEditor, createSprottyViewer, openWebSocketElkGraph } from '../common/creators';
 import { getParameters } from "../common/url-parameters";
 import { createExampleCategoryTree, ElkExample, ExampleCategory } from './elkex';
+import { ChangeLayoutVersionAction } from '../common/language-diagram-server';
 
 require('../common/elkt-language');
 
@@ -24,7 +25,7 @@ enum HistoryMode {
 }
 
 // - - - - Set up sprotty, monaco, and the websocket - - - -
-const [, diagramServer,] = createSprottyViewer();
+const [, diagramServer, actionDispatcher] = createSprottyViewer();
 const editor = createMonacoEditor('example-graph');
 editor.updateOptions({ scrollBeyondLastLine: false });
 openWebSocketElkGraph(diagramServer);
@@ -39,12 +40,23 @@ const tocUl = <HTMLUListElement>document.getElementById('toc');
 const descriptionDiv = <HTMLDivElement>document.getElementById('example-description');
 const title = <HTMLElement>document.getElementById('title');
 const titleSmall = <HTMLElement>document.getElementById('title-small');
+const versionSelect = <HTMLSelectElement>document.getElementById('elk-version');
+const loading = document.getElementById('loading-sprotty')!;
 
 // - - - - Build the navigation from all available examples - - - -
 const importAll = (r) => r.keys().map(r);
 const allExamples = importAll((<any>require).context('./content/', true, /\.(elkt)$/));
 const categoryTree = createExampleCategoryTree(allExamples);
 createNavigationDepthFirstAlphabetically(categoryTree);
+
+// - - - - Register layout version selection with server - - - -
+versionSelect.onchange = () => {
+    loading.style.display = 'block';
+    const selectedVersion = versionSelect.options[versionSelect.selectedIndex].value;
+    actionDispatcher.dispatch(new ChangeLayoutVersionAction(selectedVersion));
+}
+// TODO see comment in elkgraph/editor.ts
+editor.onDidChangeModelContent(() => loading.style.display = 'block');
 
 // - - - - Load initial example. - - - -
 const initialExamplePath = ((params) => {

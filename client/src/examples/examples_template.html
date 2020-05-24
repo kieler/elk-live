@@ -35,6 +35,22 @@
             font-size: 70%;
             font-weight: 100;
         }
+        .loading {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: block;
+            border: 8px solid #ddf;
+            border-top: 8px solid #448;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 	</style>
 </head>
 <body class="d-flex flex-column">
@@ -46,7 +62,12 @@
         <div class="w-100 text-center">
              <span class="navbar-brand mb-0 h1">Examples</span>
         </div>
-        <div class="row w-100">
+        <div class="w-100">
+            <form class="form-inline float-right">
+                <select id="elk-version" class="custom-select">
+                    <%= htmlWebpackPlugin.options.layoutOptionVersions %>
+                </select>
+            </form>
         </div>
     </nav>
     
@@ -59,9 +80,11 @@
                 <div class="row flex-fill"> <!--  -->
                     <div class="col w-50 p-1">
                         <div id="example-graph" class="vh-50"></div>
+                        <div id="loading-editor" class="mx-2 loading"></div>
                     </div>
                     <div class="col w-50 p-1">
                         <div id="sprotty" class="vh-50"></div>
+                        <div id="loading-sprotty" class="mx-2 loading"></div>
                     </div>
                 </div>
                 <div class="row flex-fill justify-content-center border-top m-2 pt-2">
@@ -77,10 +100,7 @@
     <footer class="footer border-top p-3">
         <div class="container-fluid d-flex">
             <div class="flex-grow-1 text-right">
-                Powered by <a href="https://github.com/eclipse/sprotty">Sprotty</a>,
-                <a href="https://www.eclipse.org/elk/">ELK</a>,
-                and <a href="https://microsoft.github.io/monaco-editor/">Monaco Editor</a>.
-                <a href="https://github.com/kieler/elkgraph-web">EGW</a> commit 7ae3879
+                <a href="https://github.com/kieler/elkgraph-web">EGW</a> commit <%= htmlWebpackPlugin.options.currentGitCommit %>
             </div>
         </div>
     </footer>

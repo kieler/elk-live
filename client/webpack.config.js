@@ -125,6 +125,13 @@ module.exports = async function (env) {
                 currentGitCommit: currentGitCommit,
             }),
             new HtmlWebpackPlugin({
+                filename: 'examples.html',
+                template: 'src/examples/examples_template.html',
+                inject: false,
+                layoutOptionVersions: javaElkVersionsOptions,
+                currentGitCommit: currentGitCommit,
+            }),
+            new HtmlWebpackPlugin({
                 filename: 'json.html',
                 template: 'src/json/json_template.html',
                 inject: false,
