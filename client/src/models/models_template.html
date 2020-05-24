@@ -8,6 +8,7 @@
   <link rel="icon" type="image/svg+xml" href="img/elk_fav.svg">
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="sprotty/sprotty.css">
+  <link rel="stylesheet" href="common.css">
   <link rel="stylesheet" href="diagram.css">
   <style>
     body {
@@ -15,24 +16,9 @@
       min-height: 100vh;
     }
     
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-    
     #autocomplete {
       width: 100%;
       height: 100%;
-    }
-    
-    #loading {
-      display: none;
-      border: 8px solid #ddf;
-      border-top: 8px solid #448;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 2s linear infinite;
     }
     
     #error {
@@ -70,11 +56,6 @@
       display: block; 
       border-bottom: 1px solid #000; 
     }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
   </style>
 </head>
 
@@ -86,7 +67,7 @@
         </a>
         <span class="navbar-brand mb-0 h1">Model Browser</span>
         <div id="error" class="navbar-text mx-2 my-2 my-sm-0 p-1 alert alert-danger"></div>
-        <div id="loading" class="mx-2 flex-shrink-0"></div>
+        <div id="loading" class="mx-2 flex-shrink-0 loading" style="position: relative; display: none;"></div>
         <div class="flex-grow-1">
             <input type="text" id="autocomplete" class="form-control" placeholder="Type to select a model ...">
         </div>

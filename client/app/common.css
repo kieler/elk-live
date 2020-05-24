@@ -1,0 +1,22 @@
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+.loading {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    border: 8px solid #ddf;
+    border-top: 8px solid #448;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
