@@ -82,12 +82,23 @@ Example:
 const endpointInfoButton = <HTMLButtonElement>document.getElementById('http-endpoint-info')
 endpointInfoButton.onclick = () => editorOutput.setValue(endpointInfoString);
 
+function clearErrorMarkers() {
+    monaco.editor.setModelMarkers(editorOutput.getModel(), "", []);
+    monaco.editor.setModelMarkers(editorInput.getModel(), "", []);
+}
+
 function updateModel() {
-    const inFormat = getSelection(inputFormatSelect)
-    const outFormat = getSelection(outputFormatSelect)
+    if (editorInput.getValue().trim() === "") {
+        clearErrorMarkers();
+        editorOutput.setValue("");
+        return;
+    }
+    const inFormat = getSelection(inputFormatSelect);
+    const outFormat = getSelection(outputFormatSelect);
     if (inFormat == outFormat) {
-        editorOutput.setValue(editorInput.getValue())
-        return
+        clearErrorMarkers();
+        editorOutput.setValue(editorInput.getValue());
+        return;
     }
 
     const url = `${location.protocol}//${location.host}/${subPath}conversion`
@@ -109,24 +120,29 @@ function updateModel() {
         }
     })
     .then(data => {
-        monaco.editor.setModelMarkers(editorOutput.getModel(), "", []);
-        monaco.editor.setModelMarkers(editorInput.getModel(), "", []);
+        clearErrorMarkers();
         editorOutput.setValue(data);
     })
     .catch(error => {
         try {
             const serverError: ServerError = JSON.parse(error);
-            const editor = serverError.type == "input" ? editorInput : editorOutput;
-            if (editor == editorOutput) {
+            const editor = serverError.type === "input" ? editorInput : editorOutput;
+            if (editor === editorOutput) {
                 editor.setValue(serverError.message);
             }
-            const markers = (serverError.diagnostics !== undefined) 
-                                ? serverError.diagnostics.map(d => createErrorMarker(d)) 
-                                : [ createFullLengthErrorMarker(editor, serverError.message) ];
+
+            let markers: monaco.editor.IMarkerData[] = [];
+            if (serverError.diagnostics !== undefined) {
+                markers = serverError.diagnostics.map(d => createErrorMarker(d));
+            } else if (serverError.causes !== undefined) {
+                markers = [createFullLengthErrorMarker(editor, serverError.causes.join("\n\n").replace(/\\n/g, "\n"))];
+            } else {
+                markers = [createFullLengthErrorMarker(editor, serverError.message)];
+            }
             monaco.editor.setModelMarkers(editor.getModel(), "", markers);
         } catch (exception) {
             editorOutput.setValue(error);
-            monaco.editor.setModelMarkers(editorOutput.getModel(), "", [ createFullLengthErrorMarker(editorOutput) ]);
+            monaco.editor.setModelMarkers(editorOutput.getModel(), "", [createFullLengthErrorMarker(editorOutput, exception.message)]);
         }    
     });
 }
@@ -135,6 +151,7 @@ class ServerError {
     message: string;
     type: string;
     diagnostics?: Diagnostic[];
+    causes?: string[];
 
 }
 class Diagnostic {
@@ -147,7 +164,7 @@ class Diagnostic {
 
 function createFullLengthErrorMarker(editor: monaco.editor.IStandaloneCodeEditor, message?: string): monaco.editor.IMarkerData {
     const lineCount = editor.getModel().getLineCount();
-    const endColumn = (lineCount == 0) ? 1 : editor.getModel().getLineLength(lineCount - 1);
+    const endColumn = (lineCount == 0) ? 1 : editor.getModel().getLineLength(lineCount);
     return <monaco.editor.IMarkerData> {
         severity: monaco.MarkerSeverity.Error,
         startLineNumber: 1,

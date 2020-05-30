@@ -54,9 +54,9 @@ class ElkGraphConversions {
         new(int statusCode, String type, String message, Exception e) {
             this(statusCode, [|
                 if (e instanceof ImportExportException) {
-                    message.toErrorJson(type, e.diagnostics.map[it.toJson])
+                    message.toErrorJson(type, e.diagnostics.map[it.toJson], null)
                 } else {
-                    message.toErrorJson(type)
+                    message.toErrorJson(type, null, e.nestedExceptionMessages)
                 }
             ].apply())
         }
@@ -132,10 +132,10 @@ class ElkGraphConversions {
     }
 
     private static def String toErrorJson(String message, String errorType) {
-        return message.toErrorJson(errorType, null)
+        return message.toErrorJson(errorType, null, null)
     }
 
-    private static def String toErrorJson(String message, String errorType, List<String> diagnosticJsons) {
+    private static def String toErrorJson(String message, String errorType, List<String> diagnosticJsons, List<String> causes) {
         '''
         {
             "message": "«message»"
@@ -143,6 +143,11 @@ class ElkGraphConversions {
             «IF !diagnosticJsons.nullOrEmpty»
             ,"diagnostics": [
                 «diagnosticJsons.join(",\n")»
+            ]
+            «ENDIF»
+            «IF !causes.nullOrEmpty»
+            ,"causes": [
+            	«causes.map['"' + it.escape + '"'].join(",\n")»
             ]
             «ENDIF»
         }
@@ -153,7 +158,7 @@ class ElkGraphConversions {
         return
         '''
         {
-            "message": "«diagnostic.message»"
+            "message": "«diagnostic.message.escape»"
             ,"startLineNumber": «diagnostic.line»
             ,"startColumn": «diagnostic.column»
             «IF (diagnostic instanceof Diagnostic)»
@@ -180,7 +185,7 @@ class ElkGraphConversions {
                     case "elkg": graph.loadElkGraph(inFormat)
                 }
             } catch (Exception e) {
-                LOG.log(Level.SEVERE, "Failed to load input graph.", e)
+                LOG.log(Level.INFO, "Failed to load input graph.", e)
                 return new Error(SC_BAD_REQUEST, FAILURE_INPUT, "Failed to load input graph.", e)
             }
 
@@ -191,7 +196,7 @@ class ElkGraphConversions {
                     case "elkg": elkNode.toElkGraph(outFormat)
                 }
             } catch (Exception e) {
-                LOG.log(Level.SEVERE, "Failed to serialize converted graph.", e)
+                LOG.log(Level.INFO, "Failed to serialize converted graph.", e)
                 return new Error(SC_BAD_REQUEST, FAILURE_OUTPUT, "Failed to serialize converted graph.", e)
             }
         return new Result(SC_OK, outFormat.contentType, serializedResult)
@@ -235,5 +240,31 @@ class ElkGraphConversions {
     private static def contentType(String format) {
         return FORMAT_TO_CONTENT_TYPE.get(format)
     }
+    
+    private static def List<String> nestedExceptionMessages(Throwable t) {
+    	var current = newArrayList(t.class.simpleName + ": " + t.message)
+    	if (t.cause !== null) {
+    		current += t.cause.nestedExceptionMessages
+    	} 
+    	return current
+    }
 
+	// See https://www.json.org/json-en.html
+	static val JSON_ESCAPES = #{
+		"\"" -> "\\\"",
+		"\\" -> "\\\\",
+		"/" -> "\\/",
+		"\b" -> "\\b",
+		"\f" -> "\\f",
+		"\n" -> "\\n",
+		"\r" -> "\\r",
+		"\t" -> "\\t"
+		// no unicode handled here
+	}
+	
+	private static def String escape(String str) {
+		IterableExtensions.fold(JSON_ESCAPES.entrySet, str, [ s, pattern |
+			s.replace(pattern.key, pattern.value)
+		])
+	}
 }
