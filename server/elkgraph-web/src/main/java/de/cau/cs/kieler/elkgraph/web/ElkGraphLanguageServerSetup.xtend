@@ -10,8 +10,10 @@ package de.cau.cs.kieler.elkgraph.web
 import com.google.inject.Guice
 import com.google.inject.Injector
 import javax.websocket.Endpoint
+import org.eclipse.elk.core.data.LayoutMetaDataService
 import org.eclipse.elk.core.util.persistence.ElkGraphResourceFactory
 import org.eclipse.elk.graph.ElkGraphPackage
+import org.eclipse.elk.graph.json.text.ide.ElkGraphJsonIdeSetup
 import org.eclipse.elk.graph.text.ElkGraphRuntimeModule
 import org.eclipse.elk.graph.text.ide.ElkGraphIdeModule
 import org.eclipse.elk.graph.text.ide.ElkGraphIdeSetup
@@ -28,7 +30,6 @@ import org.eclipse.xtext.ide.server.ServerModule
 import org.eclipse.xtext.ide.server.UriExtensions
 import org.eclipse.xtext.resource.IResourceServiceProvider
 import org.eclipse.xtext.util.Modules2
-import org.eclipse.elk.core.data.LayoutMetaDataService
 
 /**
  * Configuration of global settings, language server Guice module, and language server setup.
@@ -46,6 +47,10 @@ class ElkGraphLanguageServerSetup extends DiagramLanguageServerSetup {
 				Guice.createInjector(Modules2.mixin(new ElkGraphRuntimeModule, new ElkGraphIdeModule, new ElkGraphDiagramModule))
 			}
 		}.createInjectorAndDoEMFRegistration()
+		
+		// Do _not_ use 'doSetup()' here as that wouldn't include the 'ElkGraphJsonIdeModule'
+		// and thus wouldn't bind the proposal provider
+		new ElkGraphJsonIdeSetup().createInjectorAndDoEMFRegistration
 		
 		// Initialize ELKG Graph XMI format
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("elkg", new ElkGraphResourceFactory());

@@ -11,6 +11,8 @@
  	
 	implementation "org.eclipse.elk:org.eclipse.elk.graph.text.ide:${versions.elk}"
 	
+	implementation "org.eclipse.elk:org.eclipse.elk.graph.json.text.ide:${versions.elk}"
+	
 	// Latest ELKs (the older releases are defined in the sub-projects)
 	implementation "org.eclipse.elk:org.eclipse.elk.alg.force:${versions.elk}"
     implementation "org.eclipse.elk:org.eclipse.elk.alg.layered:${versions.elk}"
