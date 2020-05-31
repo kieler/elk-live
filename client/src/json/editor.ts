@@ -6,10 +6,10 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 import 'reflect-metadata';
-
-import { TYPES, LocalModelSource } from 'sprotty';
-import { getParameters, setupModelLink } from "../url-parameters";
+import { LocalModelSource, TYPES } from 'sprotty';
+import { createMonacoEditor, openWebSocketElkGraph } from '../common/creators';
 import createContainer from '../sprotty-config';
+import { getParameters, setupModelLink } from "../url-parameters";
 import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty';
 
 import JSON5 = require('json5');
@@ -41,23 +41,13 @@ if (urlParameters.compressedContent !== undefined) {
 }`;
 }
 
-// Create Monaco editor
-monaco.languages.register({
-    id: 'json',
-    extensions: ['.json'],
-    aliases: ['JSON', 'json'],
-    mimetypes: ['application/json'],
+// Create Monaco editor and connect to language server (mainly for content assist)
+const editor = createMonacoEditor('monaco-editor', 'elkj', initialContent);
+openWebSocketElkGraph({
+    endpoint: 'elkgraphjson',
+    name: 'ELK JSON Graph Language Client',
+    documentSelector: ['elkj'],
 });
-const editor = monaco.editor.create(document.getElementById('monaco-editor')!, {
-    model: monaco.editor.createModel(initialContent, 'json', monaco.Uri.parse('inmemory:/model.json'))
-});
-editor.updateOptions({
-    minimap: { enabled: false }
-});
-// Resize the monaco editor upon window resize.
-// There's also an option 'automaticLayout: true' that could be passed to above 'create' method,
-// however, this cyclically checks the current state and thus is less performant. 
-window.onresize = () => editor.layout();
 
 // Create Sprotty viewer
 const sprottyContainer = createContainer();

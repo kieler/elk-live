@@ -29,11 +29,11 @@ export function createSprottyViewer(requiresActionDispatcher = false): [Containe
 
 
 
-export function createMonacoEditor(divId: string, modelExt: string = "elkt", modelName: string = "") {
+export function createMonacoEditor(divId: string, modelExt: string = "elkt", initialContent: string = "") {
     // Create Monaco editor
     const modelUri = `inmemory:/${createRandomId(24)}.${modelExt}`;
     const editor = monaco.editor.create(document.getElementById(divId)!, {
-        model: monaco.editor.createModel(modelName, modelExt, monaco.Uri.parse(modelUri))
+        model: monaco.editor.createModel(initialContent, modelExt, monaco.Uri.parse(modelUri))
     });
     editor.updateOptions({
         minimap: { enabled: false }
@@ -47,10 +47,19 @@ export function createMonacoEditor(divId: string, modelExt: string = "elkt", mod
     return editor;
 }
 
+/**
+ * Configuration options of a websocket-based language/diagram server.
+ */
+export interface LdsConfig {
+    name: string;
+    endpoint: string;
+    documentSelector: string[];
+    diagramServer?: LanguageDiagramServer;
+}
 
-export function openWebSocketElkGraph(diagramServer: LanguageDiagramServer) {
+export function openWebSocketElkGraph(config: LdsConfig) {
 
-    const socketUrl = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/elkgraph`;
+    const socketUrl = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/${config.endpoint}`;
     const socketOptions = {
         maxReconnectionDelay: 10000,
         minReconnectionDelay: 1000,
@@ -63,21 +72,23 @@ export function openWebSocketElkGraph(diagramServer: LanguageDiagramServer) {
     listen({
         webSocket: webSocket as any as WebSocket,
         onConnection: connection => {
-            const languageClient = createElkLanguageClient(diagramServer, connection)
+            const languageClient = createElkLanguageClient(connection, config)
             const disposable = languageClient.start()
             connection.onClose(() => {
-                diagramServer.disconnect()
+                if (config.diagramServer !== undefined) {
+                    config.diagramServer.disconnect()
+                }
                 disposable.dispose()
             })
         }
     });
 }
 
-function createElkLanguageClient(diagramServer: LanguageDiagramServer, messageConnection: MessageConnection): MonacoLanguageClient {
+function createElkLanguageClient(messageConnection: MessageConnection, config: LdsConfig): MonacoLanguageClient {
     return new MonacoLanguageClient({
-        name: 'ELK Graph Language Client',
+        name: config.name,
         clientOptions: {
-            documentSelector: ['elkt'],
+            documentSelector: config.documentSelector,
             // Disable the default error handler
             errorHandler: {
                 error: () => ErrorAction.Continue,
@@ -88,7 +99,9 @@ function createElkLanguageClient(diagramServer: LanguageDiagramServer, messageCo
         connectionProvider: {
             get: (errorHandler, closeHandler) => {
                 const connection = createConnection(messageConnection, errorHandler, closeHandler)
-                diagramServer.listen(connection)
+                if (config.diagramServer !== undefined) {
+                    config.diagramServer.listen(connection)
+                }
                 return Promise.resolve(connection)
             }
         }

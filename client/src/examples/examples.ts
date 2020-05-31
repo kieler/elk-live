@@ -28,7 +28,12 @@ enum HistoryMode {
 const [, diagramServer, actionDispatcher] = createSprottyViewer();
 const editor = createMonacoEditor('example-graph');
 editor.updateOptions({ scrollBeyondLastLine: false });
-openWebSocketElkGraph(diagramServer);
+openWebSocketElkGraph({
+    endpoint: 'elkgraph',
+    name: 'ELK Graph Language Client',
+    documentSelector: ['elkt'],
+    diagramServer: diagramServer,
+});
 
 // - - - - Showdown markdown parser - - - -
 showdown.setFlavor('github');

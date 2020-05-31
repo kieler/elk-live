@@ -7,11 +7,11 @@
  *******************************************************************************/
 
 monaco.languages.register({
-    id: 'json',
-    extensions: ['.json']
+    id: 'elkj',
+    extensions: ['.elkj']
 });
 
-monaco.languages.setLanguageConfiguration('json', {
+monaco.languages.setLanguageConfiguration('elkj', {
     comments: {
         lineComment: "//",
         blockComment: ['/*', '*/']
@@ -28,7 +28,7 @@ monaco.languages.setLanguageConfiguration('json', {
         }]
 });
     
-monaco.languages.setMonarchTokensProvider('json', <any>{
+monaco.languages.setMonarchTokensProvider('elkj', <any>{
     keywords: [
         'id', 'children', 'edges', 'ports', 'labels',
         'source', 'sources', 'target', 'targets',
