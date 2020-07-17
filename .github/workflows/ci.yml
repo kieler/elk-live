@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         repository: eclipse/elk-models
-        path: elk-models
+        path: elk-live/elk-models
     # Prepare and use caches for both gradle and npm.
     - name: Cache gradle packages
       uses: actions/cache@v1
