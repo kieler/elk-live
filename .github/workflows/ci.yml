@@ -2,6 +2,9 @@
 name: elk-live
 
 on: 
+  pull_request:
+    branches: 
+      - master
   push:
     branches:
       - master
@@ -34,7 +37,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package.json', '**/yarn.lock') }}
         restore-keys: ${{ runner.os }}-node-
     - name: Set up JDK ${{ matrix.java-version }}
       uses: actions/setup-java@v1
@@ -57,5 +60,5 @@ jobs:
         CI: true
     - name: Build server-side
       run: |
-        ./gradlew jettyRun
+        ./gradlew jettyRun --args='--root ../../ --mode CHECK'
       working-directory: /home/runner/work/elk-live/elk-live/elk-live/server/
