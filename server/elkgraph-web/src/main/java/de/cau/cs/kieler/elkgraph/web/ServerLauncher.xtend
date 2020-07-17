@@ -16,6 +16,10 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.websocket.Endpoint
 import javax.websocket.server.ServerEndpointConfig
+import org.apache.commons.cli.DefaultParser
+import org.apache.commons.cli.HelpFormatter
+import org.apache.commons.cli.Options
+import org.apache.commons.cli.ParseException
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.ServletHolder
 import org.eclipse.jetty.util.log.Slf4jLog
@@ -33,16 +37,36 @@ import org.eclipse.xtext.util.Modules2
 @FinalFieldsConstructor
 class ServerLauncher {
 	
+	enum Mode {
+		CHECK,
+		SIGTERM,
+		USER
+	}
+	
 	def static void main(String[] args) {
 		val setup = new ElkGraphLanguageServerSetup
 		setup.setupLanguages()
-		
-		val rootPath = if (args.length >= 1) args.get(0) else '../..'
-		val launcher = new ServerLauncher(rootPath, setup)
-		launcher.start()
+
+		val options = new Options() => [
+			addOption("r", "root", true, "Root path of the server's content.")
+			addOption("m", "mode", true, "Mode to start in (" + Mode.values.join(", ") + ").")
+		]
+
+		try {
+			val parsedOptions = new DefaultParser().parse(options, args)
+
+			val rootPath = parsedOptions.getOptionValue("root", "../..")
+			val mode = Mode.valueOf(parsedOptions.getOptionValue("mode", Mode.USER.toString))
+			val launcher = new ServerLauncher(rootPath, mode, setup)
+			launcher.start()
+
+		} catch (ParseException e) {
+			new HelpFormatter().printHelp(" ", options);
+		}
 	}
 
 	val String rootPath
+	val Mode mode
 	val ElkGraphLanguageServerSetup setup
 	
 	private def createDiagramServerInjector() {
@@ -115,14 +139,31 @@ class ServerLauncher {
 		// Start the server
 		try {
 			server.start()
-			log.info('Press enter to stop the server...')
-			new Thread[
-		    	val key = System.in.read()
-		    	server.stop()
-		    	if (key == -1)
-		    		log.warn('The standard input stream is empty')
-		    ].start()
+
+			switch mode {
+				case CHECK: {
+					log.info("CHECK mode: terminating immediately.")
+					server.stop()
+				}
+				case SIGTERM: {
+					Runtime.runtime.addShutdownHook(new Thread([
+						server.stop()
+						log.info('Server stopped.')
+					], "ShutdownHook"))
+				}
+				case USER: {
+					log.info('Press enter to stop the server...')
+					new Thread[
+						val key = System.in.read()
+						server.stop()
+						if (key == -1)
+							log.warn('The standard input stream is empty')
+					].start()
+				}
+			}
+
 			server.join()
+
 		} catch (Exception exception) {
 			log.warn('Shutting down due to exception', exception)
 			System.exit(1)

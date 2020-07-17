@@ -1,4 +1,6 @@
  dependencies {
+	implementation "commons-cli:commons-cli:1.4"
+
 	implementation "org.eclipse.sprotty:org.eclipse.sprotty.server:${versions.sprotty}"
 	implementation "org.eclipse.sprotty:org.eclipse.sprotty.layout:${versions.sprotty}"
 	implementation "org.eclipse.sprotty:org.eclipse.sprotty.xtext:${versions.sprotty}"
@@ -33,7 +35,7 @@ task jettyRun(type: JavaExec) {
 	dependsOn(sourceSets.main.runtimeClasspath)
 	classpath = sourceSets.main.runtimeClasspath.filter{it.exists()}
 	main = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
-	args = [rootProject.file('..')]
+	args = ["--root", rootProject.file('..')]
 	// TODO probably want to pass version:jar tuples here
 	systemProperty "elkJars", layoutVersionProjects.collect{it.jar.archivePath}.join(',')
 	standardInput = System.in
