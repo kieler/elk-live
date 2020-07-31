@@ -10,6 +10,7 @@ package de.cau.cs.kieler.elkgraph.web
 import java.io.File
 import java.io.IOException
 import java.io.StringWriter
+import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 import java.net.URLClassLoader
 import java.util.Optional
@@ -45,9 +46,15 @@ class ElkLayoutVersionWrapper {
         if (LAYOUTER_INSTANCE === null || LAYOUT_METHOD === null) {
             return Optional.empty
         }
-        return serialize(graph)
-                    .map[LAYOUT_METHOD.invoke(LAYOUTER_INSTANCE, it) as String]
-                    .map[it.deserialize.orElse(null)]
+		return serialize(graph).map[
+			try {
+				LAYOUT_METHOD.invoke(LAYOUTER_INSTANCE, it) as String
+			} catch (InvocationTargetException ite) {
+				// TODO pass to caller
+				LOG.log(Level.WARNING, "", ite)
+				null // translates into Optional.empty
+			}
+		].map[it.deserialize.orElse(null)]
     }
 
     protected def Optional<String> serialize(ElkNode laidOutGraph) {
