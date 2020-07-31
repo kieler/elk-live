@@ -907,10 +907,15 @@ duplexify@^3.4.2, duplexify@^3.6.0:
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.5.1.tgz#906e7fddfd3b57872500c144a50042ffbc3a8f0b"
   integrity sha512-mDyMv90x3OPmG6Y0nqOqE5f97SUdl4AkFhQHdx33hYgR978XBGywt0XOwu87qR7vcGF/ue1j+FAaAX60qB9YwQ==
 
-"elkjs-6@npm:elkjs@0.6.2", "elkjs-latest@npm:elkjs@latest", "elkjs-next@npm:elkjs@next":
+"elkjs-6@npm:elkjs@0.6.2":
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.6.2.tgz#b33ea52cd2e049abf921598e5106995865245bda"
   integrity sha512-eAPWONv3c+eT+F1r5dvH/qbyBjPi21LPFlUFaQgB5fCguWTZvp4rjEbVX2iY8TjnprOq9cYXNME38J3Tqxby/w==
+
+"elkjs-7@npm:elkjs@0.7.0", "elkjs-latest@npm:elkjs@latest", "elkjs-next@npm:elkjs@next":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.7.0.tgz#c9341af221456979a74c5806ecbddaeaaea305b5"
+  integrity sha512-lddP9+t2AR7vzfJI8ccKrjwxWzwfXAqglikw97UYPchQEKZ4GCxye1rhVfst26CrGUxwcabOdXTG3Cnf1tYWKQ==
 
 elliptic@^6.0.0:
   version "6.4.1"

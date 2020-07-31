@@ -10,6 +10,7 @@
     "elkjs-4": "npm:elkjs@0.4.1",
     "elkjs-5": "npm:elkjs@0.5.1",
     "elkjs-6": "npm:elkjs@0.6.2",
+    "elkjs-7": "npm:elkjs@0.7.0",
     "elkjs-latest": "npm:elkjs@latest",
     "elkjs-next": "npm:elkjs@next",
     "jquery": "^3.4.0",

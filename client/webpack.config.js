@@ -32,6 +32,7 @@ module.exports = async function (env) {
     const elkWorkerPath4 = 'node_modules/elkjs-4/lib/elk-worker.min.js';
     const elkWorkerPath5 = 'node_modules/elkjs-5/lib/elk-worker.min.js';
     const elkWorkerPath6 = 'node_modules/elkjs-6/lib/elk-worker.min.js';
+    const elkWorkerPath7 = 'node_modules/elkjs-7/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
     const currentGitCommit = childProcess.execSync('git rev-parse --short HEAD').toString().trim();
@@ -187,6 +188,10 @@ module.exports = async function (env) {
             new CopyWebpackPlugin([{
                 from: elkWorkerPath6,
                 to: 'elk-6'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath7,
+                to: 'elk-7'
             }]),
             new CopyWebpackPlugin([{
                 from: elkWorkerPathLatest,
