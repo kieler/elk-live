@@ -9,12 +9,17 @@ package de.cau.cs.kieler.elkgraph.web.version
 
 import java.io.IOException
 import java.io.StringWriter
+import java.lang.reflect.Constructor
+import java.lang.reflect.Field
 import java.util.Optional
+import java.util.ServiceConfigurationError
+import java.util.logging.Level
 import java.util.logging.Logger
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
 import org.eclipse.elk.core.data.ILayoutMetaDataProvider
 import org.eclipse.elk.core.data.LayoutMetaDataService
+import org.eclipse.elk.core.options.CoreOptions
 import org.eclipse.elk.core.util.BasicProgressMonitor
 import org.eclipse.elk.core.util.persistence.ElkGraphResourceFactory
 import org.eclipse.elk.graph.ElkGraphPackage
@@ -23,7 +28,6 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.URIConverter
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import java.util.logging.Level
 
 /**
  * Transforms ELK graphs into sprotty models to be transferred to clients.
@@ -39,6 +43,22 @@ class ElkLayoutVersion implements IElkLayoutVersion {
         Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("elkg", new ElkGraphResourceFactory());
         ElkGraphPackage.eINSTANCE.eClass();
 
+        // Workaround for ELK #676 - service loaders and different class loaders           
+        // Mimic the behavior of the 'getInstance()' method, without invoking service loading
+        try {
+        	LayoutMetaDataService.instance
+        } catch (ServiceConfigurationError sce) {
+        	val ctor = typeof(LayoutMetaDataService).getDeclaredConstructor()
+        	ctor.accessible = true
+        	val instanceField = typeof(LayoutMetaDataService).getDeclaredField("instance")
+        	instanceField.accessible = true
+        	instanceField.set(null, ctor.newInstance())
+            
+            // Important to register the core options here, the remaining providers 
+            // will eventually be registered below
+            LayoutMetaDataService.instance.registerLayoutMetaDataProviders(new CoreOptions());
+        }
+        
         // Starting with 0.7.0 a ServiceLoader is used, to automatically register all available layouters.
         // Prior to that it had to be done manually, which is why the following code is necessary.
         // Since some core algorithms are pre-registered, we check if 'layered' has been registered and if not, we 
