@@ -62,7 +62,11 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
                     elkGraph
                 } else if (ElkLayoutVersionRegistry.versionToWrapper.containsKey(layoutVersion)) {
                     val wrapper = ElkLayoutVersionRegistry.versionToWrapper.get(layoutVersion)
-                    wrapper.layout(elkGraph).get
+                    val result = wrapper.layout(elkGraph)
+                    if (!result.isPresent) {
+                    	throw new RuntimeException("Layout failed for version " + layoutVersion + ".")
+                    }
+                    result.get
                 } else {
                     throw new UnsupportedConfigurationException("Unknown layouter version: " + layoutVersion + ".")
                 }
