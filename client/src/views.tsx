@@ -54,7 +54,7 @@ export class ElkEdgeView extends PolylineEdgeView {
         const p1 = segments[segments.length - 2];
         const p2 = segments[segments.length - 1];
         return [
-            <path class-edge={true} class-arrow={true} d="M 0,0 L 8,-3 L 8,3 Z"
+            <path class-elkedge={true} class-arrow={true} d="M 0,0 L 8,-3 L 8,3 Z"
                   transform={`rotate(${toDegrees(angleOfPoint({ x: p1.x - p2.x, y: p1.y - p2.y }))} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`}/>
         ];
     }
