@@ -9,8 +9,6 @@ package de.cau.cs.kieler.elkgraph.web.version
 
 import java.io.IOException
 import java.io.StringWriter
-import java.lang.reflect.Constructor
-import java.lang.reflect.Field
 import java.util.Optional
 import java.util.ServiceConfigurationError
 import java.util.logging.Level
