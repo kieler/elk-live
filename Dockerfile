@@ -21,4 +21,8 @@ RUN ./gradlew build
 
 EXPOSE 8080
 
+<<<<<<< HEAD
+=======
+WORKDIR "/elkweb/server"
+>>>>>>> 16f21b37cb29a1e1f161fef3f95b9b1b43d37361
 CMD ["./gradlew", "jettyRun", "--args='-m=SIGTERM'"]
