@@ -19,4 +19,4 @@ RUN yarn install && yarn run build
 EXPOSE 8080
 
 WORKDIR "/elkweb/server"
-CMD ["./gradlew", "jettyRun"]
+CMD ["./gradlew", "jettyRun", "--args='-m=SIGTERM'"]
