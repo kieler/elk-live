@@ -16,7 +16,9 @@ RUN git clone https://github.com/OpenKieler/elkgraph-web.git --depth=1 /elkweb
 WORKDIR "/elkweb/client"
 RUN yarn install && yarn run build
 
+WORKDIR "/elkweb/server"
+RUN ./gradlew build
+
 EXPOSE 8080
 
-WORKDIR "/elkweb/server"
-CMD ["./gradlew", "jettyRun"]
+CMD ["./gradlew", "jettyRun", "--args='-m=SIGTERM'"]
