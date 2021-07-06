@@ -2,21 +2,21 @@ FROM alpine:latest
 
 LABEL maintainer="Arnd Plumhoff <plumhoff@email.uni-kiel.de>"
 
-ARG ELKWEB_UID=1002
+ARG ELKLIVE_UID=1002
 
 RUN apk update && \
     apk add yarn git gradle
 
-RUN adduser elkweb -h /elkweb -D -u ${ELKWEB_UID}
+RUN adduser elklive -h /elklive -D -u ${ELKLIVE_UID}
 
-USER elkweb
+USER elklive
 
-RUN git clone https://github.com/OpenKieler/elkgraph-web.git --depth=1 /elkweb
+RUN git clone https://github.com/kieler/elk-live --depth=1 /elklive
 
-WORKDIR "/elkweb/client"
+WORKDIR "/elklive/client"
 RUN yarn install && yarn run build
 
-WORKDIR "/elkweb/server"
+WORKDIR "/elklive/server"
 RUN ./gradlew build
 
 EXPOSE 8080
