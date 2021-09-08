@@ -18,8 +18,8 @@ The easiest way to start working with this project is to open it in [gitpod.io](
 Prerequisites: [yarn](https://yarnpkg.com/), [Java](https://jdk.java.net)
 
 ```
-git clone https://github.com/OpenKieler/elkgraph-web.git
-cd elkgraph-web/client
+git clone https://github.com/kieler/elk-live.git
+cd elk-live/client
 yarn install
 yarn run build
 
