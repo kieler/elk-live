@@ -17,6 +17,7 @@ services:
 
 before_script:
   - apk add img
+  - apk add git
 
 stages:          # List of stages for jobs, and their order of execution
   - build
