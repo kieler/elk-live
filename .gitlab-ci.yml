@@ -22,8 +22,6 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "Begin build job..."
     - set -e
-    - git clone https://git.informatik.uni-kiel.de/ag-rtsys/admin/elkweb-docker.git elklive
-    - cd elklive
     - img build --no-cache -t webapp.rtsys:5000/elk/elklive .
     - echo "Build successfull."
 
