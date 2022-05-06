@@ -13,7 +13,7 @@
 #
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
 services:
-  - docker:dind
+  - docker:gitlab/gitlab-runner:alpine
 
 before_script:
   - apk add img
@@ -25,7 +25,7 @@ stages:          # List of stages for jobs, and their order of execution
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
-  image: docker:latest
+  image: docker
   script:
     - echo "Begin build job..."
     - set -e
@@ -34,7 +34,7 @@ build-job:       # This job runs in the build stage, which runs first.
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy
-  image: docker:latest
+  image: docker
   script:
     - echo "Deploying application..."
     - set -e
