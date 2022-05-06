@@ -28,7 +28,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - echo "Build successfull."
 
 deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  stage: deploy
   script:
     - echo "Deploying application..."
     - set -e
