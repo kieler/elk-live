@@ -1,14 +1,19 @@
 buildscript {
-	repositories.jcenter()
+	repositories {
+    	mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2"
+        }
+    }
 	dependencies {
-		classpath 'org.xtext:xtext-gradle-plugin:2.0.7'
+		classpath 'org.xtext:xtext-gradle-plugin:3.0.1'
 	}
 }
 
 ext.versions = [
-    xtext: '2.18.0',
-    elk: '0.8.0-SNAPSHOT',
-    sprotty: '0.8.0',
+    xtext: '2.25.0',
+    elk: '0.9.0-SNAPSHOT',
+    sprotty: '0.9.1',
     lsp4j: '0.8.0',
     jetty: '9.4.16.v20190411',
     slf4j: '1.7.24'
@@ -16,7 +21,10 @@ ext.versions = [
 
 subprojects {
 	repositories {
-		jcenter()
+		mavenCentral()
+		maven {
+			url "https://repo1.maven.org/maven2/"
+		}
 		maven {
 			name 'sonatype-snapshots'
 			url 'https://oss.sonatype.org/content/repositories/snapshots/'
@@ -30,7 +38,7 @@ subprojects {
 	apply plugin: 'org.xtext.xtend'
 	apply plugin: 'eclipse'
 	
-	sourceCompatibility = '1.8'
+	sourceCompatibility = '11'
 
 	xtext {
 		// Since the layout version projects don't contain xtext-related code,
