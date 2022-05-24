@@ -12,7 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const elkjsLatest = require('elkjs-latest/package.json');
 const elkjsNext = require('elkjs-next/package.json');
 const childProcess = require('child_process');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const fs = require('fs');
 const globby = require('globby');
 
