@@ -910,10 +910,20 @@ duplexify@^3.4.2, duplexify@^3.6.0:
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.6.2.tgz#b33ea52cd2e049abf921598e5106995865245bda"
   integrity sha512-eAPWONv3c+eT+F1r5dvH/qbyBjPi21LPFlUFaQgB5fCguWTZvp4rjEbVX2iY8TjnprOq9cYXNME38J3Tqxby/w==
 
-"elkjs-7@npm:elkjs@0.7.0", "elkjs-latest@npm:elkjs@latest", "elkjs-next@npm:elkjs@next":
+"elkjs-7@npm:elkjs@0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.7.0.tgz#c9341af221456979a74c5806ecbddaeaaea305b5"
   integrity sha512-lddP9+t2AR7vzfJI8ccKrjwxWzwfXAqglikw97UYPchQEKZ4GCxye1rhVfst26CrGUxwcabOdXTG3Cnf1tYWKQ==
+
+"elkjs-7-1@npm:elkjs@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.7.1.tgz#4751c5e918a4988139baf7f214e010aea22de969"
+  integrity sha512-lD86RWdh480/UuRoHhRcnv2IMkIcK6yMDEuT8TPBIbO3db4HfnVF+1lgYdQi99Ck0yb+lg5Eb46JCHI5uOsmAw==
+
+"elkjs-8@npm:elkjs@0.8.1", "elkjs-latest@npm:elkjs@latest", "elkjs-next@npm:elkjs@next":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.8.1.tgz#e418c70f0162bf80c044ffd009ddd4fa7738a7d9"
+  integrity sha512-TGzfGxr1k5QsuFkftToVuEy5sBrKHRLZH63Uf/t85slqsS0n53TGAMHvjLnnnIKn2oEtlYfCmct0D4rwmwETCg==
 
 elliptic@^6.0.0:
   version "6.5.4"
