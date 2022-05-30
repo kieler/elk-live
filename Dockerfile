@@ -5,7 +5,7 @@ LABEL maintainer="Arnd Plumhoff <plumhoff@email.uni-kiel.de>"
 ARG ELKLIVE_UID=1002
 
 RUN apk update && \
-    apk add yarn git gradle
+    apk add openjdk11-jdk yarn git gradle
 
 RUN adduser elklive -h /elklive -D -u ${ELKLIVE_UID}
 
