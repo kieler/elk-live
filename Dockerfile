@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14-alpine
 
 LABEL maintainer="Arnd Plumhoff <plumhoff@email.uni-kiel.de>"
 
