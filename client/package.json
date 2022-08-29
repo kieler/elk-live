@@ -12,7 +12,7 @@
     "elkjs-6": "npm:elkjs@0.6.2",
     "elkjs-7": "npm:elkjs@0.7.0",
     "elkjs-7-1": "npm:elkjs@0.7.1",
-    "elkjs-8": "npm:elkjs@0.8.1",
+    "elkjs-8": "npm:elkjs@0.8.2",
     "elkjs-latest": "npm:elkjs@latest",
     "elkjs-next": "npm:elkjs@next",
     "jquery": "^3.4.0",
