@@ -35,6 +35,7 @@ module.exports = async function (env) {
     const elkWorkerPath7 = 'node_modules/elkjs-7/lib/elk-worker.min.js';
     const elkWorkerPath7_1 = 'node_modules/elkjs-7-1/lib/elk-worker.min.js';
     const elkWorkerPath8 = 'node_modules/elkjs-8/lib/elk-worker.min.js';
+    const elkWorkerPath9 = 'node_modules/elkjs-9/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
     const currentGitCommit = childProcess.execSync('git rev-parse --short HEAD').toString().trim();
@@ -204,6 +205,10 @@ module.exports = async function (env) {
                 to: 'elk-8'
             }]),
             new CopyWebpackPlugin([{
+                from: elkWorkerPath8,
+                to: 'elk-9'
+            }]),
+            new CopyWebpackPlugin([{
                 from: elkWorkerPathLatest,
                 to: 'elk-latest'
             }]),
@@ -211,6 +216,7 @@ module.exports = async function (env) {
                 from: elkWorkerPathNext,
                 to: 'elk-next'
             }])
+
         ]
     }
 }
