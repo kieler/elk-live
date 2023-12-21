@@ -216,7 +216,6 @@ module.exports = async function (env) {
                 from: elkWorkerPathNext,
                 to: 'elk-next'
             }])
-
         ]
     }
 }
