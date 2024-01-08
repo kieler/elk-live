@@ -910,7 +910,7 @@ duplexify@^3.4.2, duplexify@^3.6.0:
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.6.2.tgz#b33ea52cd2e049abf921598e5106995865245bda"
   integrity sha512-eAPWONv3c+eT+F1r5dvH/qbyBjPi21LPFlUFaQgB5fCguWTZvp4rjEbVX2iY8TjnprOq9cYXNME38J3Tqxby/w==
 
-"elkjs-7-1@npm:elkjs@0.7.1", "elkjs-latest@npm:elkjs@latest":
+"elkjs-7-1@npm:elkjs@0.7.1":
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.7.1.tgz#4751c5e918a4988139baf7f214e010aea22de969"
   integrity sha512-lD86RWdh480/UuRoHhRcnv2IMkIcK6yMDEuT8TPBIbO3db4HfnVF+1lgYdQi99Ck0yb+lg5Eb46JCHI5uOsmAw==
@@ -920,15 +920,20 @@ duplexify@^3.4.2, duplexify@^3.6.0:
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.7.0.tgz#c9341af221456979a74c5806ecbddaeaaea305b5"
   integrity sha512-lddP9+t2AR7vzfJI8ccKrjwxWzwfXAqglikw97UYPchQEKZ4GCxye1rhVfst26CrGUxwcabOdXTG3Cnf1tYWKQ==
 
-"elkjs-8@npm:elkjs@0.8.2", "elkjs-next@npm:elkjs@next":
+"elkjs-8@npm:elkjs@0.8.2":
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.8.2.tgz#c37763c5a3e24e042e318455e0147c912a7c248e"
   integrity sha512-L6uRgvZTH+4OF5NE/MBbzQx/WYpru1xCBE9respNj6qznEewGUIfhzmm7horWWxbNO2M0WckQypGctR8lH79xQ==
 
-"elkjs-9@npm:elkjs@0.9.0":
+"elkjs-9@npm:elkjs@0.9.0", "elkjs-latest@npm:elkjs@latest":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.9.0.tgz#739139dfda438c57c92a7616bcbbda1e8508a2e6"
   integrity sha512-1wauhuHI2Nf4qbHoGZG90dUM5GTAYcWTc5vpIAZ1N7kxZrv+jPVznUfxjVm9X761A7uzcjRpUCi7L1v06QHNAg==
+
+"elkjs-next@npm:elkjs@next":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.9.1.tgz#fd1524b3f0bed72dc65ba107ae91bcf04b5582bd"
+  integrity sha512-JWKDyqAdltuUcyxaECtYG6H4sqysXSLeoXuGUBfRNESMTkj+w+qdb0jya8Z/WI0jVd03WQtCGhS6FOFtlhD5FQ==
 
 elliptic@^6.0.0:
   version "6.5.4"
