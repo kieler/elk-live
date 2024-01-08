@@ -205,7 +205,7 @@ module.exports = async function (env) {
                 to: 'elk-8'
             }]),
             new CopyWebpackPlugin([{
-                from: elkWorkerPath8,
+                from: elkWorkerPath9,
                 to: 'elk-9'
             }]),
             new CopyWebpackPlugin([{
