@@ -1,11 +1,10 @@
 FROM node:14-alpine
 
-LABEL maintainer="Arnd Plumhoff <plumhoff@email.uni-kiel.de>"
+LABEL authors="Arnd Plumhoff <plumhoff@email.uni-kiel.de>, Sascha Hoppe <sho@informatik.uni-kiel.de>"
 
 ARG ELKLIVE_UID=1002
 
-RUN apk update && \
-    apk add openjdk11-jdk yarn git gradle
+RUN apk add --update --no-cache yarn git gradle
 
 RUN adduser elklive -h /elklive -D -u ${ELKLIVE_UID}
 
