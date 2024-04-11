@@ -1,0 +1,9 @@
+version: "2"
+
+services: 
+  elkweb: 
+    container_name: elkweb
+    image: webapp.rtsys:5000/elk/elklive:latest
+    ports: 
+      - 10.6.0.61:8082:8080
+    restart: "no"
