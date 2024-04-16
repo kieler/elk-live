@@ -4,7 +4,7 @@ LABEL authors="Arnd Plumhoff <plumhoff@email.uni-kiel.de>, Sascha Hoppe <sho@inf
 
 ARG ELKLIVE_UID=1002
 
-RUN apk add --update --no-cache yarn git gradle
+RUN apk add --update --no-cache yarn git gradle curl
 
 RUN adduser elklive -h /elklive -D -u ${ELKLIVE_UID}
 
