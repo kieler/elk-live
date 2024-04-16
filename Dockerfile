@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM alpine:latest
 
 LABEL authors="Arnd Plumhoff <plumhoff@email.uni-kiel.de>, Sascha Hoppe <sho@informatik.uni-kiel.de>"
 
