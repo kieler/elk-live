@@ -5,7 +5,7 @@ services:
     container_name: elkweb
     image: webapp.rtsys:5000/elk/elklive:latest
     ports: 
-      - 10.6.0.61:8082:8080
+      - 8082:8080
     restart: unless-stopped
     cpus: 0.5
     mem_limit: 536870912
