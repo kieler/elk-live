@@ -3,7 +3,7 @@ version: "2"
 services: 
   elkweb: 
     container_name: elkweb
-    image: webapp.rtsys:5000/elk/elklive:latest
+    image: ghcr.io/kieler/elk-live:master
     ports: 
       - 8082:8080
     restart: unless-stopped
