@@ -68,9 +68,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Clean container registry (backend)
+      - name: Clean container registry
         uses: actions/delete-package-versions@v4
         with:
+          push: ${{ github.event_name != 'pull_request' }}
           package-name: "elk-live"
           package-type: "container"
           min-versions-to-keep: 3
