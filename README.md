@@ -28,3 +28,6 @@ cd ../server
 ```
 
 Then point your web browser to `http://localhost:8080/`
+
+## Hosting
+If you would like to host elk-live yourself you can use the automatically built [Docker container](https://github.com/kieler/elk-live/pkgs/container/elk-live). There is also an [example configuration](https://github.com/kieler/elk-live/blob/master/docker-compose.yml) for Docker Compose.
