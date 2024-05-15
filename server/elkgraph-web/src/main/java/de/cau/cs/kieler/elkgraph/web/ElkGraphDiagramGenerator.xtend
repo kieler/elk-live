@@ -8,10 +8,16 @@
 package de.cau.cs.kieler.elkgraph.web
 
 import java.util.List
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 import java.util.logging.Level
 import java.util.logging.Logger
 import org.eclipse.elk.core.IGraphLayoutEngine
 import org.eclipse.elk.core.RecursiveGraphLayoutEngine
+import org.eclipse.elk.core.UnsupportedConfigurationException
 import org.eclipse.elk.core.options.CoreOptions
 import org.eclipse.elk.core.util.BasicProgressMonitor
 import org.eclipse.elk.graph.ElkEdge
@@ -29,8 +35,8 @@ import org.eclipse.sprotty.SModelElement
 import org.eclipse.sprotty.SNode
 import org.eclipse.sprotty.SPort
 import org.eclipse.sprotty.xtext.IDiagramGenerator
+import org.eclipse.sprotty.xtext.IDiagramGenerator.Context
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.elk.core.UnsupportedConfigurationException
 
 /**
  * Transforms ELK graphs into sprotty models to be transferred to clients.
@@ -57,25 +63,47 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 
                 val layoutVersion = context.state.options.get("layoutVersion")
                 
-                val laidOutGraph = if (layoutVersion == "snapshot") {
-                    layoutEngine.layout(elkGraph, new BasicProgressMonitor)
-                    elkGraph
-                } else if (ElkLayoutVersionRegistry.versionToWrapper.containsKey(layoutVersion)) {
-                    val wrapper = ElkLayoutVersionRegistry.versionToWrapper.get(layoutVersion)
-                    val result = wrapper.layout(elkGraph)
-                    if (!result.isPresent) {
-                    	throw new RuntimeException("Layout failed for version " + layoutVersion + ".")
-                    }
-                    result.get
-                } else {
-                    throw new UnsupportedConfigurationException("Unknown layouter version: " + layoutVersion + ".")
+                val executor = Executors.newCachedThreadPool()
+                val layoutTask = new Callable<Object>() {									
+					override call(){
+
+						val laidOutGraph = if (layoutVersion == "snapshot") {
+		                    layoutEngine.layout(elkGraph, new BasicProgressMonitor)
+		                    elkGraph
+		                } else if (ElkLayoutVersionRegistry.versionToWrapper.containsKey(layoutVersion)) {
+		                    val wrapper = ElkLayoutVersionRegistry.versionToWrapper.get(layoutVersion)
+		                    val result = wrapper.layout(elkGraph)
+		                    if (!result.isPresent) {
+		                    	throw new RuntimeException("Layout failed for version " + layoutVersion + ".")
+		                    }
+		                    result.get
+		                } else {
+		                    throw new UnsupportedConfigurationException("Unknown layouter version: " + layoutVersion + ".")
+		                }
+		                return laidOutGraph
+					}
                 }
+                val timeoutInSeconds = 5
                 
-                val sgraph = new SGraph
-                sgraph.type = 'graph'
-                sgraph.id = elkGraph.id
-                processContent(laidOutGraph, sgraph)
-                return sgraph
+                val future = executor.submit(layoutTask)
+                try {
+                	val laidOutGraph = future.get(timeoutInSeconds, TimeUnit.SECONDS) as ElkNode
+                	val sgraph = new SGraph
+	                sgraph.type = 'graph'
+	                sgraph.id = elkGraph.id
+	                processContent(laidOutGraph, sgraph)
+	                return sgraph
+                } catch (TimeoutException ex) {
+                	throw new RuntimeException("Layout timed out after " + timeoutInSeconds + " seconds.")
+                } catch (InterruptedException ex) {
+                	throw new RuntimeException(ex.message)
+                } catch (ExecutionException ex) {
+                	throw new RuntimeException(ex.message)
+                } finally {
+                	LOG.info("Layout timed out.")
+                	future.cancel(true)
+                }
+
             } catch (RuntimeException exc) {
                 LOG.log(Level.SEVERE, "Failed to generate ELK graph.", exc)
                 return showError(exc)
