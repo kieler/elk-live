@@ -68,7 +68,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Clean container registry
-        uses: actions/delete-package-versions@v4
+        uses: actions/delete-package-versions@v5
         with:
           package-name: "elk-live"
           package-type: "container"
