@@ -102,7 +102,6 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
                 } catch (ExecutionException ex) {
                 	throw new RuntimeException(ex.message)
                 } finally {
-                	LOG.info("Layout timed out.")
                 	future.cancel(true)
                 }
 
