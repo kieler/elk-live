@@ -10,7 +10,7 @@ RUN adduser elklive -h /elklive -D -u ${ELKLIVE_UID}
 
 USER elklive
 
-RUN git clone https://github.com/kieler/elk-live --depth=1 /elklive
+COPY . /elklive
 
 WORKDIR "/elklive/client"
 RUN yarn install && yarn run build
