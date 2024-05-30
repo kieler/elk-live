@@ -66,6 +66,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: CACHE_DATE=$(date +%Y-%m-%d:%H:%M:%S)
 
       - name: Clean container registry
         uses: actions/delete-package-versions@v5
