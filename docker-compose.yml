@@ -1,0 +1,15 @@
+version: "2"
+
+services: 
+  elkweb: 
+    container_name: elkweb
+    image: webapp.rtsys:5000/elk/elklive:latest
+    ports: 
+      - 8082:8080
+    restart: unless-stopped
+    cpus: 0.5
+    mem_limit: 536870912
+    healthcheck:
+      test: curl --fail http://localhost:8080 || exit 1
+      interval: 60s
+      start_period: 2m
