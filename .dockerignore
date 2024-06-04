@@ -1,0 +1,3 @@
+Dockerfile
+docker-compose
+# .git/ some build steps require it to be a git repo

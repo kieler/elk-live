@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.19
 
 LABEL authors="Arnd Plumhoff <plumhoff@email.uni-kiel.de>, Sascha Hoppe <sho@informatik.uni-kiel.de>"
 
@@ -10,7 +10,7 @@ RUN adduser elklive -h /elklive -D -u ${ELKLIVE_UID}
 
 USER elklive
 
-RUN git clone https://github.com/kieler/elk-live --depth=1 /elklive
+COPY --chown=${ELKLIVE_UID} . /elklive
 
 WORKDIR "/elklive/client"
 RUN yarn install && yarn run build
