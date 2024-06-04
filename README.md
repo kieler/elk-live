@@ -34,4 +34,4 @@ This project provides a container based runtime environment for the
 
 ## Usage
 
-Build image with `docker` and run it with `docker-compose`.
+Build and/or run image with [Docker](https://www.docker.com). You can run a container it with `docker-compose up` or start container on pre-built image with `docker run ghcr.io/kieler/elk-live:master`.
