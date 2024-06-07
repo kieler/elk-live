@@ -37,7 +37,7 @@ module.exports = async function (env) {
     const elkWorkerPath8 = 'node_modules/elkjs-8/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
-    const currentGitCommit = childProcess.execSync('git rev-parse --short HEAD').toString().trim();
+    const currentGitCommit = 'ELKLIVE_VERSION';
 
     const javaElkVersions = [ 'snapshot' ]; // latest snapshot/nightly at the time of building 
     // Query released ELK versions using maven's REST API
