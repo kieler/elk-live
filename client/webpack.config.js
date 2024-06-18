@@ -38,7 +38,11 @@ module.exports = async function (env) {
     const elkWorkerPath8 = 'node_modules/elkjs-8/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
-    const currentVersion = package.version;
+    currentVersion = package.version;
+    if (process.env.GITHUB_SHA) {
+        currentVersion += '-' + process.env.GITHUB_SHA;
+    }
+    console.log("Building ELK-Graph Web version " + currentVersion);
 
     const javaElkVersions = [ 'snapshot' ]; // latest snapshot/nightly at the time of building 
     // Query released ELK versions using maven's REST API
