@@ -21,6 +21,8 @@ module.exports = async function (env) {
     if (!env) {
         env = {}
     }
+    console.log("environment: ", env);
+    console.log("environment: ", process.env);
 
     const buildRoot = path.resolve(__dirname, 'lib');
     const appRoot = path.resolve(__dirname, 'app');
