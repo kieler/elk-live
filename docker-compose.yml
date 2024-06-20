@@ -1,6 +1,9 @@
 services: 
   elkweb: 
-    build: .
+    build:
+      context: .
+      args:
+        - ELKLIVE_UID=${UID:-1000}
     ports: 
       - 8082:8080
     restart: unless-stopped
