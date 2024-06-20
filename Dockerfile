@@ -10,7 +10,7 @@ RUN adduser elklive -h /elklive -D -u ${ELKLIVE_UID}
 
 USER elklive
 
-COPY --chown=${ELKLIVE_UID} . /elklive
+COPY --chown=elklive . /elklive
 
 WORKDIR "/elklive/client"
 RUN yarn install && yarn run build
