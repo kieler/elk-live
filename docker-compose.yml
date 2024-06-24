@@ -7,6 +7,8 @@ services:
         - ELKLIVE_GID=${GID:-1000}
     ports: 
       - 8082:8080
+    volumes:
+      - .:/elklive
     restart: unless-stopped
     cpus: 0.5
     mem_limit: 1024m
