@@ -13,7 +13,9 @@ Uses:
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/OpenKieler/elkgraph-web)
 
-The easiest way to start working with this project is to open it in [gitpod.io](https://gitpod.io) with the button above. If you would like to compile and run it on your own machine, follow the instructions below.
+The easiest way to start working with this project is to open it in
+[gitpod.io](https://gitpod.io) with the button above. If you would like to
+compile and run it on your own machine, follow the instructions below.
 
 Prerequisites: [yarn](https://yarnpkg.com/), [Java](https://jdk.java.net)
 
@@ -34,11 +36,16 @@ This project provides a container based runtime environment for the
 
 ## Usage
 
-Build and/or run image with [Docker](https://www.docker.com). You can start container on pre-built image with `docker run ghcr.io/kieler/elk-live:master`.
+Build and/or run image with [Docker](https://www.docker.com). You can start
+container on pre-built image with `docker run ghcr.io/kieler/elk-live:master`.
 
 ### Local image build
 
-You can also build an container image locally by using the provided Dockerfile or, more comfortable, using docker-compose.yml with `docker-compose up --build` and `docker build`, respectively. This way you can locally adapt the runtime environment to your needs and even develop actively with nicely separated build- and runtime dependencies.
+You can also build an container image locally by using the provided Dockerfile
+or, more comfortable, using docker-compose.yml with `docker-compose up --build`
+and `docker build`, respectively. This way you can locally adapt the runtime
+environment to your needs and even develop actively with nicely separated
+build- and runtime dependencies.
 
 To easily get started with a locally built image, follow the steps below
 
