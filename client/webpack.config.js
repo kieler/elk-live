@@ -1,9 +1,11 @@
 /*******************************************************************************
  * Copyright (c) 2017 TypeFox GmbH (http://www.typefox.io) and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
  *******************************************************************************/
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -38,6 +40,7 @@ module.exports = async function (env) {
     const elkWorkerPath7 = 'node_modules/elkjs-7/lib/elk-worker.min.js';
     const elkWorkerPath7_1 = 'node_modules/elkjs-7-1/lib/elk-worker.min.js';
     const elkWorkerPath8 = 'node_modules/elkjs-8/lib/elk-worker.min.js';
+    const elkWorkerPath9 = 'node_modules/elkjs-9/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
     currentVersion = package.version;
@@ -209,6 +212,10 @@ module.exports = async function (env) {
             new CopyWebpackPlugin([{
                 from: elkWorkerPath8,
                 to: 'elk-8'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath9,
+                to: 'elk-9'
             }]),
             new CopyWebpackPlugin([{
                 from: elkWorkerPathLatest,
