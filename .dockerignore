@@ -1,0 +1,6 @@
+.ash_history
+.env
+Dockerfile
+docker-compose.yml
+.git/ # some build steps require it to be a git repo
+.gradle/

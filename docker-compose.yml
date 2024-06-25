@@ -1,14 +1,18 @@
-version: "2"
-
 services: 
   elkweb: 
-    container_name: elkweb
-    image: ghcr.io/kieler/elk-live:master
+    build:
+      context: .
+      args:
+        - ELKLIVE_UID=${UID:-1000}
+        - ELKLIVE_GID=${GID:-1000}
     ports: 
-      - 8082:8080
+      - ${HOST_PORT}8080
+    # Activate to bind work dir into container, e.g. for local development
+    # volumes:
+    #   - .:/elklive
     restart: unless-stopped
     cpus: 0.5
-    mem_limit: 536870912
+    mem_limit: 1024m
     healthcheck:
       test: curl --fail http://localhost:8080 || exit 1
       interval: 60s

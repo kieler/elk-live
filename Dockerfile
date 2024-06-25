@@ -2,20 +2,22 @@ FROM alpine:3.19
 
 LABEL authors="Arnd Plumhoff <plumhoff@email.uni-kiel.de>, Sascha Hoppe <sho@informatik.uni-kiel.de>"
 
-ARG ELKLIVE_UID=1002
+ARG ELKLIVE_HOME=/elklive
+ARG ELKLIVE_UID=1000
+ARG ELKLIVE_GID=1000
 
 RUN apk add --update --no-cache yarn git gradle curl
 
-RUN adduser elklive -h /elklive -D -u ${ELKLIVE_UID}
+RUN addgroup -g ${ELKLIVE_GID} elklive \
+ && adduser elklive -h ${ELKLIVE_HOME} -D -u ${ELKLIVE_UID} -G elklive
 
 USER elklive
 
-RUN git clone https://github.com/kieler/elk-live --depth=1 /elklive
+COPY --chown=elklive:elklive . ${ELKLIVE_HOME}
 
-WORKDIR "/elklive/client"
-RUN yarn install && yarn run build
+RUN cd ${ELKLIVE_HOME}/client && yarn install && yarn run build
 
-WORKDIR "/elklive/server"
+WORKDIR "${ELKLIVE_HOME}/server"
 RUN ./gradlew build
 
 EXPOSE 8080

@@ -17,11 +17,14 @@ const childProcess = require('child_process');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const fs = require('fs');
 const globby = require('globby');
+const package = require('./package.json')
 
 module.exports = async function (env) {
     if (!env) {
         env = {}
     }
+    console.log("environment: ", env);
+    console.log("environment: ", process.env);
 
     const buildRoot = path.resolve(__dirname, 'lib');
     const appRoot = path.resolve(__dirname, 'app');
@@ -40,7 +43,11 @@ module.exports = async function (env) {
     const elkWorkerPath9 = 'node_modules/elkjs-9/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
-    const currentGitCommit = childProcess.execSync('git rev-parse --short HEAD').toString().trim();
+    currentVersion = package.version;
+    if (process.env.GITHUB_SHA) {
+        currentVersion += '-' + process.env.GITHUB_SHA;
+    }
+    console.log("Building ELK-Graph Web version " + currentVersion);
 
     const javaElkVersions = [ 'snapshot' ]; // latest snapshot/nightly at the time of building 
     // Query released ELK versions using maven's REST API
@@ -128,14 +135,14 @@ module.exports = async function (env) {
                 template: 'src/elkgraph/elkgraph_template.html',
                 inject: false,
                 layoutOptionVersions: javaElkVersionsOptions,
-                currentGitCommit: currentGitCommit,
+                currentGitCommit: currentVersion,
             }),
             new HtmlWebpackPlugin({
                 filename: 'examples.html',
                 template: 'src/examples/examples_template.html',
                 inject: false,
                 layoutOptionVersions: javaElkVersionsOptions,
-                currentGitCommit: currentGitCommit,
+                currentGitCommit: currentVersion,
             }),
             new HtmlWebpackPlugin({
                 filename: 'json.html',
@@ -143,20 +150,20 @@ module.exports = async function (env) {
                 inject: false,
                 nextVersion: elkjsNext.version,
                 latestVersion: elkjsLatest.version,
-                currentGitCommit: currentGitCommit,
+                currentGitCommit: currentVersion,
             }),
             new HtmlWebpackPlugin({
                 filename: 'models.html',
                 template: 'src/models/models_template.html',
                 inject: false,
                 elkjsVersion: elkjsLatest.version,
-                currentGitCommit: currentGitCommit,
+                currentGitCommit: currentVersion,
             }),
             new HtmlWebpackPlugin({
                 filename: 'conversion.html',
                 template: 'src/conversion/conversion_template.html',
                 inject: false,
-                currentGitCommit: currentGitCommit,
+                currentGitCommit: currentVersion,
             }),
             new CopyWebpackPlugin([{
                 from: monacoEditorPath,
