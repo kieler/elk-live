@@ -3,8 +3,8 @@ FROM alpine:3.19
 LABEL authors="Arnd Plumhoff <plumhoff@email.uni-kiel.de>, Sascha Hoppe <sho@informatik.uni-kiel.de>"
 
 ARG ELKLIVE_HOME=/elklive
-ARG ELKLIVE_UID=1002
-ARG ELKLIVE_GID=1002
+ARG ELKLIVE_UID=1000
+ARG ELKLIVE_GID=1000
 
 RUN apk add --update --no-cache yarn git gradle curl
 
