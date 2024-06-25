@@ -37,7 +37,7 @@ This project provides a container based runtime environment for the
 ## Usage
 
 Build and/or run image with [Docker](https://www.docker.com). You can start
-container on pre-built image with `docker run ghcr.io/kieler/elk-live`.
+container on pre-built image with `docker run ghcr.io/kieler/elk-live:master`.
 
 ### Local image build
 
