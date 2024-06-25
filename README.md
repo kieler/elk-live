@@ -34,4 +34,16 @@ This project provides a container based runtime environment for the
 
 ## Usage
 
-Build and/or run image with [Docker](https://www.docker.com). You can run a container it with `docker-compose up` or start container on pre-built image with `docker run ghcr.io/kieler/elk-live:master`.
+Build and/or run image with [Docker](https://www.docker.com). You can start container on pre-built image with `docker run ghcr.io/kieler/elk-live:master`.
+
+### Local image build
+
+You can also build an container image locally by using the provided Dockerfile or, more comfortable, using docker-compose.yml with `docker-compose up --build` and `docker build`, respectively. This way you can locally adapt the runtime environment to your needs and even develop actively with nicely separated build- and runtime dependencies.
+
+To easily get started with a locally built image, follow the steps below
+
+```terminal
+cp .env.example .env
+vi .env # adapt settings via provided environment
+docker-compose up --build
+```
