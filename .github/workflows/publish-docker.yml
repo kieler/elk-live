@@ -12,6 +12,7 @@ on:
 
   pull_request:
     branches: ["master"]
+  workflow_dispatch: # manual triggering, for debugging purposes
     
 env:
   # Use docker.io for Docker Hub if empty
