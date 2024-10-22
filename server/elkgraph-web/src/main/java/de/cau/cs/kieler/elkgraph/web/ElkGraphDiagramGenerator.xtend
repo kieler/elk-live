@@ -22,6 +22,7 @@ import org.eclipse.elk.core.RecursiveGraphLayoutEngine
 import org.eclipse.elk.core.UnsupportedConfigurationException
 import org.eclipse.elk.core.options.CoreOptions
 import org.eclipse.elk.core.util.BasicProgressMonitor
+import org.eclipse.elk.core.util.LoggedGraph
 import org.eclipse.elk.graph.ElkEdge
 import org.eclipse.elk.graph.ElkGraphElement
 import org.eclipse.elk.graph.ElkNode
@@ -96,7 +97,8 @@ class ElkGraphDiagramGenerator implements IDiagramGenerator {
 	                processContent(laidOutGraph, sgraph)
 	                return sgraph
                 } catch (TimeoutException ex) {
-                	throw new RuntimeException("Layout timed out after " + timeoutInSeconds + " seconds.")
+                    val loggedGraph = new LoggedGraph(EcoreUtil.copy(elkGraph), "TIMEOUT", LoggedGraph.Type.ELK)
+                	throw new RuntimeException("Layout timed out after " + timeoutInSeconds + " seconds.\nGraph input: " +  loggedGraph.serialize())
                 } catch (InterruptedException ex) {
                 	throw new RuntimeException(ex.message)
                 } catch (ExecutionException ex) {
