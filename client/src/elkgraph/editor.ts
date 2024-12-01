@@ -17,6 +17,7 @@ import { TYPES, createRandomId, IActionDispatcher } from 'sprotty';
 import { getParameters, setupModelLink } from "../url-parameters";
 import createContainer from '../sprotty-config';
 import { LanguageDiagramServer, ChangeLayoutVersionAction } from './language-diagram-server';
+import { setupDarkMode } from "../common/dark-mode";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import LZString = require('lz-string');
 
@@ -39,6 +40,8 @@ node n3
 edge n1 -> n2
 edge n1 -> n3`;
 }
+
+setupDarkMode();
 
 // Create Sprotty viewer
 const sprottyContainer = createContainer();

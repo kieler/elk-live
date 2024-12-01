@@ -13,6 +13,7 @@ import { createMonacoEditor, openWebSocketElkGraph } from '../common/creators';
 import createContainer from '../sprotty-config';
 import { getParameters, setupModelLink } from "../url-parameters";
 import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty';
+import { setupDarkMode } from "../common/dark-mode";
 
 import JSON5 = require('json5');
 import LZString = require('lz-string');
@@ -57,6 +58,8 @@ sprottyContainer.bind(TYPES.ModelSource).to(LocalModelSource).inSingletonScope()
 const modelSource = sprottyContainer.get<LocalModelSource>(TYPES.ModelSource);
 
 const versionSelect = <HTMLSelectElement>document.getElementById('elk-version');
+
+setupDarkMode();
 
 // Prepare multiple elks to be loaded lazily
 let elks = {}
