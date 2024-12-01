@@ -8,10 +8,13 @@
  * SPDX-License-Identifier: EPL-2.0
  *******************************************************************************/
 import 'reflect-metadata';
+import { setupDarkMode } from "../common/dark-mode";
 
 // Load monaco editor languages
 require('../json/elk-json-language');
 require('../elkgraph/elkt-language');
+
+setupDarkMode();
 
 const editorInput = monaco.editor.create(document.getElementById('monaco-editor-input')!);
 editorInput.updateOptions({

@@ -41,3 +41,26 @@
 .mouseover {
     stroke: #88f;
 }
+
+.elk-dark-mode .elknode {
+    stroke: #ddd;
+    fill: #55a;
+}
+
+.elk-dark-mode .elkport {
+    stroke: #ddd;
+    fill: #88b;
+}
+
+.elk-dark-mode .elkedge {
+    stroke: #ddd;
+}
+
+.elk-dark-mode .elkedge.arrow {
+    fill: #ddd;
+}
+
+.elk-dark-mode .elklabel {
+    stroke: #ddd;
+    fill: #ddd;
+}

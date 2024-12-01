@@ -6,6 +6,7 @@
     <title>ELK Conversion</title>
     <link rel="icon" type="image/svg+xml" href="img/elk_fav.svg">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="common.css">
     <style>
         body {
             min-height: 100vh;
@@ -18,7 +19,7 @@
         <div class="w-100 text-center">
              <span class="navbar-brand mb-0 h1">Graph Conversion</span>
         </div>
-        <div class="row w-100">
+        <div id="format-select-row" class="row w-100">
             <div class="input-group pr-3 w-50">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="in-format-select">Input</label>
@@ -40,6 +41,7 @@
                 </select>
             </div>
         </div>
+        <div id="darkModeToggle"></div>
     </nav>
     
     <div class="container-fluid flex-fill d-flex border-top pt-4">
