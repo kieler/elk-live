@@ -5,17 +5,23 @@ A web page with a text editor for ELK Graph and a synchronized graphical view.
 [Check it out here.](https://rtsys.informatik.uni-kiel.de/elklive/)
 
 Uses:
-* [ELK](http://www.eclipse.org/elk)
-* [elkjs](https://github.com/OpenKieler/elkjs)
-* [sprotty](https://github.com/eclipse/sprotty)
 
-## How To Run
+- [ELK](http://www.eclipse.org/elk)
+- [elkjs](https://github.com/OpenKieler/elkjs)
+- [sprotty](https://github.com/eclipse/sprotty)
+
+## How to Run
+
+### Gitpod
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/OpenKieler/elkgraph-web)
 
 The easiest way to start working with this project is to open it in
-[gitpod.io](https://gitpod.io) with the button above. If you would like to
-compile and run it on your own machine, follow the instructions below.
+[gitpod.io](https://gitpod.io) with the button above.
+
+### Build Locally
+
+If you would like to compile and run it on your own machine, follow the instructions below.
 
 Prerequisites: [yarn](https://yarnpkg.com/), [Java](https://jdk.java.net)
 
@@ -29,23 +35,24 @@ cd ../server
 ./gradlew jettyRun
 ```
 
-Then point your web browser to `http://localhost:8080/`
+Then point your web browser to http://localhost:8080/
 
 This project provides a container based runtime environment for the
 [elk-live](https://github.com/kieler/elk-live) project.
 
-## Usage
+## Docker
 
-Build and/or run image with [Docker](https://www.docker.com). You can start
-container on pre-built image with `docker run ghcr.io/kieler/elk-live:master`.
+You can build and/or run images with [Docker](https://www.docker.com).
 
-### Local image build
+### Pre-Built Docker Image
 
-You can also build an container image locally by using the provided Dockerfile
-or, more comfortable, using docker-compose.yml with `docker-compose up --build`
-and `docker build`, respectively. This way you can locally adapt the runtime
-environment to your needs and even develop actively with nicely separated
-build- and runtime dependencies.
+You can start a container with a pre-built image by running `docker run -p 8080:8080 ghcr.io/kieler/elk-live:master`.
+After the container is fully booted, you can visit http://localhost:8080/ in your browser.
+
+### Local Image Build
+
+You can build a container image locally by using the provided `Dockerfile` or, more conveniently, use the provided `docker-compose.yml` file.
+This allows you to customize the runtime environment locally and even actively develop with nicely separated build and runtime dependencies.
 
 To easily get started with a locally built image, follow the steps below
 
@@ -56,4 +63,5 @@ docker-compose up --build
 ```
 
 ## Hosting
+
 If you would like to host elk-live yourself you can use the automatically built [Docker container](https://github.com/kieler/elk-live/pkgs/container/elk-live). There is also an [example configuration](https://github.com/kieler/elk-live/blob/master/docker-compose.yml) for Docker Compose.
