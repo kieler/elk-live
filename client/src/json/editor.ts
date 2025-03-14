@@ -90,6 +90,12 @@ setupModelLink(editor, (event) => {
 function updateModel() {
     try {
         let json = JSON5.parse(editor.getValue());
+
+        // Force PARENT edge coordinates, so that Sprotty can draw the graph correctly.
+        let props = json.properties || {};
+        props["org.eclipse.elk.json.edgeCoords"] = "PARENT";
+        json.properties = props;
+
         monaco.editor.setModelMarkers(editor.getModel(), "", []);
 
         // Prepare the elk version selected by the user
