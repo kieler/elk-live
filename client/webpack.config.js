@@ -41,6 +41,7 @@ module.exports = async function (env) {
     const elkWorkerPath7_1 = 'node_modules/elkjs-7-1/lib/elk-worker.min.js';
     const elkWorkerPath8 = 'node_modules/elkjs-8/lib/elk-worker.min.js';
     const elkWorkerPath9 = 'node_modules/elkjs-9/lib/elk-worker.min.js';
+    const elkWorkerPath10 = 'node_modules/elkjs-10/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
     currentVersion = package.version;
@@ -216,6 +217,10 @@ module.exports = async function (env) {
             new CopyWebpackPlugin([{
                 from: elkWorkerPath9,
                 to: 'elk-9'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath10,
+                to: 'elk-10'
             }]),
             new CopyWebpackPlugin([{
                 from: elkWorkerPathLatest,
