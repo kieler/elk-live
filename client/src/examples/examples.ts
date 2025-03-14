@@ -13,6 +13,7 @@ import { createMonacoEditor, createSprottyViewer, openWebSocketElkGraph } from '
 import { getParameters } from "../common/url-parameters";
 import { createExampleCategoryTree, ElkExample, ExampleCategory } from './elkex';
 import { ChangeLayoutVersionAction } from '../common/language-diagram-server';
+import { setupDarkMode } from "../common/dark-mode";
 
 require('../common/elkt-language');
 
@@ -36,6 +37,8 @@ openWebSocketElkGraph({
     documentSelector: ['elkt'],
     diagramServer: diagramServer,
 });
+
+setupDarkMode();
 
 // - - - - Showdown markdown parser - - - -
 showdown.setFlavor('github');

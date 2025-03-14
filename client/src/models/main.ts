@@ -14,10 +14,13 @@ import { ElkGraphJsonToSprotty } from '../json/elkgraph-to-sprotty';
 import createContainer from '../sprotty-config';
 import { getParameters, combineParameters } from '../url-parameters';
 import ELK, { ElkNode } from 'elkjs-latest/lib/elk-api.js';
+import { setupDarkMode } from "../common/dark-mode";
 
 const availableModels = require('./models.json')
 
 const urlParameters = getParameters();
+
+setupDarkMode();
 
 // Create Sprotty viewer
 const sprottyContainer = createContainer();

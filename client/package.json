@@ -1,6 +1,6 @@
 {
   "name": "elkgraph",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
   "license": "EPL-1.0",
   "dependencies": {
@@ -24,6 +24,7 @@
     "monaco-languageclient": "^0.9.0",
     "reconnecting-websocket": "^4.1.10",
     "showdown": "^1.9.1",
+    "simple-dark-mode-toggle": "^0.1.0",
     "sprotty": "^0.8.0",
     "vscode-ws-jsonrpc": "^0.0.2-1"
   },

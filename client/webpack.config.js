@@ -109,6 +109,7 @@ module.exports = async function (env) {
             examples: path.resolve(buildRoot, 'examples/main'),
             json: path.resolve(buildRoot, 'json/main'),
             models: path.resolve(buildRoot, 'models/main'),
+            index: path.resolve(buildRoot, 'index'),
         },
         output: {
             filename: '[name].bundle.js',

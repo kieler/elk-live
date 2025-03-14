@@ -20,3 +20,51 @@ svg {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+body.elk-dark-mode {
+    background-color: #333;
+    color: #ddd;
+}
+
+.elk-dark-mode a {
+    color: #60adff;
+}
+
+.elk-dark-mode .btn-success {
+    color: #fff;
+}
+
+#darkModeToggle {
+    margin-left: 16px;
+}
+
+#darkModeToggle.front-page {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.elk-dark-mode #example-description pre {
+    color: #ddd;
+}
+
+.elk-dark-mode .autocomplete-suggestions {
+    color: #111;
+}
+
+.elk-dark-mode .card-body {
+    background-color: #333;
+}
+
+.elk-dark-mode #monaco-editor,
+.elk-dark-mode #monaco-editor-input,
+.elk-dark-mode #monaco-editor-output,
+.elk-dark-mode #format-select-row,
+.elk-dark-mode #example-graph,
+.elk-dark-mode div.sidebar,
+.elk-dark-mode #autocomplete,
+.elk-dark-mode .autocomplete-suggestions,
+.elk-dark-mode #page-theme,
+.elk-dark-mode #elk-version {
+    filter: invert(0.8) hue-rotate(180deg);
+}
