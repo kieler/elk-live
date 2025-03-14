@@ -48,6 +48,7 @@ You can build and/or run images with [Docker](https://www.docker.com).
 
 You can start a container with a pre-built image by running `docker run -p 8080:8080 ghcr.io/kieler/elk-live:master`.
 After the container is fully booted, you can visit http://localhost:8080/ in your browser.
+You can use `-p [PORT]:8080` to access the server from a different `PORT`.
 
 ### Local Image Build
 
