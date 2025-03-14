@@ -56,7 +56,7 @@
     "clean": "rimraf lib app/bootstrap app/jquery app/sprotty app/vs app/*.bundle.js app/*.bundle.js.map elk-models app/elk-models",
     "clone:elk-models": "git -C elk-models pull || git clone https://github.com/eclipse/elk-models.git elk-models",
     "copy:examples": "mkdir -p lib/examples/content/ && cp -r elk-models/examples/* lib/examples/content/",
-    "copy:models": "cp --parents `find elk-models/* -type f \\( -iname \\*.json -o -iname \\*.elkt \\)` app/",
+    "copy:models": "M=$(find elk-models/* -type f \\( -iname \\*.json -o -iname \\*.elkt \\)); cp --parents $M app/ || rsync -R $M app/",
     "clone-and-copy": "yarn clone:elk-models && yarn copy:examples && yarn copy:models",
     "build": "yarn clean && yarn clone-and-copy && yarn compile && webpack --env.production",
     "build:dev": "yarn compile && webpack",
