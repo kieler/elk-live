@@ -29,7 +29,7 @@ jobs:
         path: elk-live/elk-models
     # Prepare and use caches for both gradle and npm.
     - name: Cache gradle packages
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
