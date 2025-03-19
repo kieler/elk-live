@@ -19,8 +19,6 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-  AMD_TAG: amd64
-  ARM_TAG: arm64
 
 jobs:
   build:
@@ -62,7 +60,7 @@ jobs:
         with:
           push: ${{ github.event_name == 'release' && github.event.action == 'published' }}
           platforms: linux/amd64,linux/arm64
-          tags: latest
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:latest
           provenance: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
