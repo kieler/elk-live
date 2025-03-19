@@ -8,7 +8,6 @@ name: build-and-publish-docker
 on:
   push:
     branches: ["master"]
-    tags: ["v**"]
 
   pull_request:
     branches: ["master"]
@@ -73,7 +72,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name == 'release' && github.event.action == 'published' }}
           tags: ${{ steps.meta.outputs.tags }}-${{ matrix.architecture }}
           labels: ${{ steps.meta.outputs.labels }}
           provenance: false
