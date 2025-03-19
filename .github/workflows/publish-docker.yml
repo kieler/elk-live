@@ -23,16 +23,7 @@ env:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm]
-        include:
-          - os: ubuntu-latest
-            architecture: amd64
-          - os: ubuntu-24.04-arm
-            architecture: arm64
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
@@ -48,6 +39,10 @@ jobs:
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v3
 
+      # QEMU setup is recommended for multi-platform builds
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
@@ -58,14 +53,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Extract metadata (tags, labels) for Docker
-      # https://github.com/docker/metadata-action
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -73,8 +60,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name == 'release' && github.event.action == 'published' }}
-          tags: ${{ steps.meta.outputs.tags }}-${{ matrix.architecture }}
-          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
+          tags: latest
           provenance: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -86,41 +73,3 @@ jobs:
           package-type: "container"
           min-versions-to-keep: 10
           token: ${{ secrets.GITHUB_TOKEN }}
-
-  combine-platforms:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      # Set up Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # Log in to GitHub Container Registry (ghcr)
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      # Extract metadata (tags) for Docker
-      # https://github.com/docker/metadata-action
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      # Pull existing platform images
-      - name: Pull amd64 image
-        run: docker pull --platform linux/amd64 ${{ steps.meta.outputs.tags }}-${{ env.AMD_TAG }}
-
-      - name: Pull arm64 image
-        run: docker pull --platform linux/arm64 ${{ steps.meta.outputs.tags }}-${{ env.ARM_TAG }}
-
-      # Create a multi-platform image
-      - name: Create and push multi-platform image
-        run: |
-          docker buildx imagetools create \
-            --tag ${{ steps.meta.outputs.tags }} \
-            ${{ steps.meta.outputs.tags }}-${{ env.AMD_TAG }} \
-            ${{ steps.meta.outputs.tags }}-${{ env.ARM_TAG }}
