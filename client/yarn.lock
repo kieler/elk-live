@@ -937,9 +937,9 @@ duplexify@^3.4.2, duplexify@^3.6.0:
   integrity sha512-f/ZeWvW/BCXbhGEf1Ujp29EASo/lk1FDnETgNKwJrsVvGZhUWCZyg3xLJjAsxfOmt8KjswHmI5EwCQcPMpOYhQ==
 
 "elkjs-latest@npm:elkjs@latest":
-  version "0.9.3"
-  resolved "https://registry.npmjs.org/elkjs/-/elkjs-0.9.3.tgz"
-  integrity sha512-f/ZeWvW/BCXbhGEf1Ujp29EASo/lk1FDnETgNKwJrsVvGZhUWCZyg3xLJjAsxfOmt8KjswHmI5EwCQcPMpOYhQ==
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/elkjs/-/elkjs-0.10.0.tgz#abe2aa6cb25e7439b708fab873b2448d26ed33a1"
+  integrity sha512-v/3r+3Bl2NMrWmVoRTMBtHtWvRISTix/s9EfnsfEWApNrsmNjqgqJOispCGg46BPwIFdkag3N/HYSxJczvCm6w==
 
 "elkjs-next@npm:elkjs@next":
   version "0.10.0"
