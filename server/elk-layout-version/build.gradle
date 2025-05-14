@@ -19,8 +19,8 @@ def getJsonFromRest(String url) {
 }
 
 def isLayoutAlgorithmExistsForVersion(String algorithm, String version) {
-    def baseUrl = "https://central.sonatype.com/solrsearch/select"
-    def query = "?q=g:%22org.eclipse.elk%22+AND+a:%22${algorithm}%22+AND+v:%22$version%22&core=gav&wt=json"
+    def baseUrl = "https://search.maven.org/solrsearch/select"
+    def query = "?q=g:org.eclipse.elk+AND+a:${algorithm}+AND+v:$version&core=gav&wt=json"
     return getJsonFromRest(baseUrl + query).response.numFound > 0  
 }
 
