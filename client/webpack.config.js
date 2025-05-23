@@ -50,17 +50,7 @@ module.exports = async function (env) {
     }
     console.log("Building ELK-Graph Web version " + currentVersion);
 
-    const javaElkVersions = [ 'snapshot' ]; // latest snapshot/nightly at the time of building 
-    // Query released ELK versions using maven's REST API
-    try {
-        const response = await fetch("https://central.sonatype.com/solrsearch/select?q=g:%22org.eclipse.elk%22+AND+a:%22org.eclipse.elk.core%22&core=gav&wt=json")
-                                    .then(res => res.json());
-        response.response.docs.forEach(doc => {
-            javaElkVersions.push(doc.v);
-        });
-    } catch (error) {
-        console.error("Unable to retrieve ELK releases, only the latest will be available (" + error.message + ").");
-    }
+    const javaElkVersions = [ 'snapshot', "0.10.0", "0.9.1", "0.8.1", "0.7.1" ]; // All versions that are available in the ELklive
     const javaElkVersionsOptions = javaElkVersions
                                      .map(version => `<option value="${version}">${version}</option>`)
                                      .join("");

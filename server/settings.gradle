@@ -17,8 +17,7 @@ def getJsonFromRest(String url) {
 	def json = new JsonSlurper().parseText(request.getInputStream().getText())
 	return json
 }
-def queryElkVersionsUrl = "https://search.maven.org/solrsearch/select?q=g:org.eclipse.elk+AND+a:org.eclipse.elk.core&core=gav&wt=json"
-def elkVersions = getJsonFromRest(queryElkVersionsUrl).response.docs.collect{it.v}
+def elkVersions = [ 'snapshot', "0.10.0", "0.9.1", "0.8.1", "0.7.1" ]
 
 // The subprojects will be called like the version number, e.g. '0.6.0'
 elkVersions.each {
