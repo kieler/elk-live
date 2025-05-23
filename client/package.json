@@ -1,8 +1,8 @@
 {
   "name": "elkgraph",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A web page with a text editor for ELK Graph and a synchronized graphical view",
-  "license": "EPL-1.0",
+  "license": "EPL-2.0",
   "dependencies": {
     "bootstrap": "^5.0.0",
     "devbridge-autocomplete": "^1.4.10",
