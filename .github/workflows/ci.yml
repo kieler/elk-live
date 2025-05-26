@@ -62,5 +62,5 @@ jobs:
         CI: true
     - name: Build server-side
       run: |
-        ./gradlew jettyRun --args='--root ../../ --mode CHECK'
+        ./gradlew buildAndRun --args='--root ../../ --mode CHECK'
       working-directory: /home/runner/work/elk-live/elk-live/elk-live/server/

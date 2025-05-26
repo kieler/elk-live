@@ -32,10 +32,12 @@ yarn install
 yarn run build
 
 cd ../server
-./gradlew jettyRun
+./gradlew buildAndRun
 ```
 
 Then point your web browser to http://localhost:8080/
+
+Each  subsequent run should work with `./gradlew onlyRun` without rebuilding the layout jars.
 
 This project provides a container based runtime environment for the
 [elk-live](https://github.com/kieler/elk-live) project.
