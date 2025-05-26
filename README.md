@@ -67,6 +67,7 @@ docker-compose up --build
 If you would like to host elk-live yourself you can use the automatically built [Docker container](https://github.com/kieler/elk-live/pkgs/container/elk-live). There is also an [example configuration](https://github.com/kieler/elk-live/blob/master/docker-compose.yml) for Docker Compose.
 
 ## How to Release
+Make sure to update the version number in the `package.json` file.
 
 To release a new version simply [add a new release](https://github.com/kieler/elk-live/releases/new) and tag it (e.g. with ` v0.1.1`).
 
