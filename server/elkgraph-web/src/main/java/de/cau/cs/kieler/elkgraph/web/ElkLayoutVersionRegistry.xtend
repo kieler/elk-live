@@ -9,6 +9,7 @@
  *******************************************************************************/
 package de.cau.cs.kieler.elkgraph.web
 
+import java.nio.file.Paths
 import java.util.Map
 import java.util.logging.Logger
 import org.eclipse.elk.core.util.persistence.ElkGraphResourceFactory
@@ -33,10 +34,13 @@ final class ElkLayoutVersionRegistry {
             return newImmutableMap()
         }
         val strings = System.getProperty("elkJars").split(',')
-        return newImmutableMap(strings.map [ jarPath |
-            jarPath.substring(jarPath.lastIndexOf('-') - 5, jarPath.lastIndexOf('-')) ->
+        val ret = newImmutableMap(strings.map [ jarPath |
+            val filePath = Paths.get(jarPath).getFileName().toString()
+            return filePath.substring(0, filePath.lastIndexOf('-')) ->
                 new ElkLayoutVersionWrapper(jarPath)
         ])
+        LOG.info("ELK layout versions found: " + ret.keySet.join(", "))
+        return ret
     }
 
 }
