@@ -35,7 +35,7 @@ subprojects {
 	version = '0.1.0'
 	
 	apply plugin: 'java'
-	apply plugin: 'org.xtext.xtend'
+	apply plugin: 'org.xtext.xtend' // Required for running xtext command below.
 	apply plugin: 'eclipse'
 	
 	sourceCompatibility = '11'
