@@ -38,7 +38,7 @@ subprojects {
 	apply plugin: 'org.xtext.xtend' // Required for running xtext command below.
 	apply plugin: 'eclipse'
 	
-	sourceCompatibility = '11'
+	sourceCompatibility = '17'
 
 	xtext {
 		// Since the layout version projects don't contain xtext-related code,
