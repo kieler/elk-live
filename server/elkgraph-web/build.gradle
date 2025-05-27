@@ -34,7 +34,7 @@ def layoutVersionProjects = rootProject.subprojects.findAll{it.name.startsWith('
 task buildAndRun(type: JavaExec) {
 	dependsOn(sourceSets.main.runtimeClasspath)
 	classpath = sourceSets.main.runtimeClasspath.filter{it.exists()}
-	main = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
+	mainClass = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
 	args = ["--root", rootProject.file('..')]
 	// TODO probably want to pass version:jar tuples here
 	systemProperty "elkJars", layoutVersionProjects.collect{it.jar.archivePath}.join(',')
@@ -46,7 +46,7 @@ task buildAndRun(type: JavaExec) {
 task onlyRun(type: JavaExec) {
 	dependsOn(sourceSets.main.runtimeClasspath)
 	classpath = sourceSets.main.runtimeClasspath.filter{it.exists()}
-	main = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
+	mainClass = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
 	args = ["--root", rootProject.file('..')]
 	systemProperty "elkJars", layoutVersionProjects.collect{it.jar.archivePath}.join(',')
 	standardInput = System.in

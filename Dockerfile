@@ -22,4 +22,4 @@ RUN ./gradlew build
 
 EXPOSE 8080
 
-CMD ["./gradlew", "jettyRun", "--args='-m=SIGTERM'"]
+CMD ["./gradlew", "onlyRun", "--args='-m=SIGTERM'"]
