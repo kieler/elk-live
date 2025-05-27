@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 Kiel University and others.
+ * Copyright (c) 2025 Kiel University and others.
  * 
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
@@ -17,18 +17,9 @@ import org.eclipse.sprotty.SModelRoot;
 import org.eclipse.sprotty.xtext.IDiagramGenerator;
 import org.eclipse.sprotty.xtext.LanguageAwareDiagramServer;
 import org.eclipse.sprotty.xtext.ls.IssueProvider;
-import org.eclipse.xtend.lib.annotations.Accessors;
-import org.eclipse.xtend.lib.annotations.EqualsHashCode;
-import org.eclipse.xtend.lib.annotations.ToString;
 import org.eclipse.xtext.ide.server.ILanguageServerAccess;
-import org.eclipse.xtext.xbase.lib.Pure;
-import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 
-@SuppressWarnings("all")
 public class ElkDiagramServer extends LanguageAwareDiagramServer {
-  @Accessors
-  @EqualsHashCode
-  @ToString(skipNulls = true)
   public static class ChangeLayoutVersionAction implements Action {
     public static final String KIND = "versionChange";
 
@@ -43,7 +34,6 @@ public class ElkDiagramServer extends LanguageAwareDiagramServer {
       initializer.accept(this);
     }
 
-    @Pure
     @Override
     public String getKind() {
       return this.kind;
@@ -53,7 +43,6 @@ public class ElkDiagramServer extends LanguageAwareDiagramServer {
       this.kind = kind;
     }
 
-    @Pure
     public String getVersion() {
       return this.version;
     }
@@ -63,7 +52,6 @@ public class ElkDiagramServer extends LanguageAwareDiagramServer {
     }
 
     @Override
-    @Pure
     public boolean equals(final Object obj) {
       if (this == obj)
         return true;
@@ -78,15 +66,11 @@ public class ElkDiagramServer extends LanguageAwareDiagramServer {
       } else if (!this.kind.equals(other.kind))
         return false;
       if (this.version == null) {
-        if (other.version != null)
-          return false;
-      } else if (!this.version.equals(other.version))
-        return false;
-      return true;
+        return other.version == null;
+      } else return this.version.equals(other.version);
     }
 
     @Override
-    @Pure
     public int hashCode() {
       final int prime = 31;
       int result = 1;
@@ -95,13 +79,11 @@ public class ElkDiagramServer extends LanguageAwareDiagramServer {
     }
 
     @Override
-    @Pure
     public String toString() {
-      ToStringBuilder b = new ToStringBuilder(this);
-      b.skipNulls();
-      b.add("kind", this.kind);
-      b.add("version", this.version);
-      return b.toString();
+      return this.getClass().getSimpleName() + " [" +
+              "\n  kind = " + this.kind +
+              "\n  version = " + this.version +
+              "\n]";
     }
   }
 
@@ -109,9 +91,7 @@ public class ElkDiagramServer extends LanguageAwareDiagramServer {
 
   @Override
   protected void handleAction(final Action action) {
-    String _kind = action.getKind();
-    boolean _equals = Objects.equals(_kind, ElkDiagramServer.ChangeLayoutVersionAction.KIND);
-    if (_equals) {
+    if (Objects.equals(action.getKind(), ElkDiagramServer.ChangeLayoutVersionAction.KIND)) {
       final ElkDiagramServer.ChangeLayoutVersionAction versionAction = ((ElkDiagramServer.ChangeLayoutVersionAction) action);
       this.currentLayoutVersion = versionAction.version;
       this.getDiagramLanguageServer().getDiagramUpdater().updateDiagram(this);

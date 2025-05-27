@@ -9,18 +9,16 @@
  */
 package de.cau.cs.kieler.elkgraph.web;
 
-import java.util.Collections;
-import java.util.List;
 import org.eclipse.sprotty.xtext.DiagramServerFactory;
-import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+
+import java.util.List;
 
 /**
  * Factory for Sprotty diagram servers.
  */
-@SuppressWarnings("all")
 public class ElkGraphDiagramServerFactory extends DiagramServerFactory {
   @Override
   public List<String> getDiagramTypes() {
-    return Collections.<String>unmodifiableList(CollectionLiterals.<String>newArrayList("graph"));
+    return List.of("graph");
   }
 }

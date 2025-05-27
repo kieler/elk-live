@@ -15,9 +15,8 @@ import org.eclipse.sprotty.xtext.IDiagramGenerator;
 import org.eclipse.sprotty.xtext.IDiagramServerFactory;
 
 /**
- * Guice bindings for the ELK diagram server.
+ * Guice's bindings for the ELK diagram server.
  */
-@SuppressWarnings("all")
 public class ElkGraphDiagramModule extends DefaultDiagramModule {
   public Class<? extends IDiagramGenerator> bindIDiagramGenerator() {
     return ElkGraphDiagramGenerator.class;

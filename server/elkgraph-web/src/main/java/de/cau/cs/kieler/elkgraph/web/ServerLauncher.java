@@ -12,41 +12,31 @@ package de.cau.cs.kieler.elkgraph.web;
 import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.websocket.Endpoint;
-import javax.websocket.server.ServerEndpointConfig;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.log.Slf4jLog;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.websocket.jsr356.server.ServerContainer;
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
-import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor;
 import org.eclipse.xtext.ide.server.ILanguageServerShutdownAndExitHandler;
 import org.eclipse.xtext.ide.server.ServerModule;
 import org.eclipse.xtext.resource.IResourceServiceProvider;
 import org.eclipse.xtext.util.Modules2;
-import org.eclipse.xtext.xbase.lib.Conversions;
-import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.ObjectExtensions;
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Endpoint;
+import javax.websocket.server.ServerEndpointConfig;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 
 /**
  * Main class for launching the ELK Graph server.
  */
-@FinalFieldsConstructor
-@SuppressWarnings("all")
 public class ServerLauncher {
   public enum Mode {
     CHECK,
@@ -59,27 +49,18 @@ public class ServerLauncher {
   public static void main(final String[] args) {
     final ElkGraphLanguageServerSetup setup = new ElkGraphLanguageServerSetup();
     setup.setupLanguages();
-    Options _options = new Options();
-    final Procedure1<Options> _function = (Options it) -> {
-      it.addOption("r", "root", true, "Root path of the server\'s content.");
-      String _join = IterableExtensions.join(((Iterable<?>)Conversions.doWrapArray(ServerLauncher.Mode.values())), ", ");
-      String _plus = ("Mode to start in (" + _join);
-      String _plus_1 = (_plus + ").");
-      it.addOption("m", "mode", true, _plus_1);
-    };
-    final Options options = ObjectExtensions.<Options>operator_doubleArrow(_options, _function);
+    Options options = new Options();
+    options.addOption("r", "root", true, "Root path of the server\'s content.");
+    options.addOption("m", "mode", true, "Mode to start in (" + Mode.values().toString().join(", ") + ").");
+
     try {
       final CommandLine parsedOptions = new DefaultParser().parse(options, args);
       final String rootPath = parsedOptions.getOptionValue("root", "../..");
       final ServerLauncher.Mode mode = ServerLauncher.Mode.valueOf(parsedOptions.getOptionValue("mode", ServerLauncher.Mode.USER.toString()));
       final ServerLauncher launcher = new ServerLauncher(rootPath, mode, setup);
       launcher.start();
-    } catch (final Throwable _t) {
-      if (_t instanceof ParseException) {
-        new HelpFormatter().printHelp(" ", options);
-      } else {
-        throw Exceptions.sneakyThrow(_t);
-      }
+    } catch (ParseException e) {
+      new HelpFormatter().printHelp(" ", options);
     }
   }
 
@@ -96,66 +77,66 @@ public class ServerLauncher {
   }
 
   private Injector createLanguageServerInjector() {
-    ServerModule _serverModule = new ServerModule();
-    final com.google.inject.Module _function = (Binder it) -> {
-      it.<Endpoint>bind(Endpoint.class).to(LanguageServerEndpoint.class);
-    };
-    final com.google.inject.Module _function_1 = (Binder it) -> {
-      it.<IResourceServiceProvider.Registry>bind(IResourceServiceProvider.Registry.class).toProvider(IResourceServiceProvider.Registry.RegistryProvider.class);
-    };
-    final com.google.inject.Module _function_2 = (Binder it) -> {
-      it.<ILanguageServerShutdownAndExitHandler>bind(ILanguageServerShutdownAndExitHandler.class).to(ILanguageServerShutdownAndExitHandler.NullImpl.class);
-    };
+    ServerModule serverModule = new ServerModule();
     return Guice.createInjector(
-      Modules2.mixin(_serverModule, _function, _function_1, _function_2));
+      Modules2.mixin(serverModule,
+              (Binder it) -> it.bind(Endpoint.class).to(LanguageServerEndpoint.class),
+              (Binder it) -> it.bind(IResourceServiceProvider.Registry.class).toProvider(IResourceServiceProvider.Registry.RegistryProvider.class),
+              (Binder it) -> it.bind(ILanguageServerShutdownAndExitHandler.class).to(ILanguageServerShutdownAndExitHandler.NullImpl.class)));
   }
 
   public void start() {
+    final Slf4jLog log = new Slf4jLog(ServerLauncher.class.getName());
     try {
-      String _name = ServerLauncher.class.getName();
-      final Slf4jLog log = new Slf4jLog(_name);
-      InetSocketAddress _inetSocketAddress = new InetSocketAddress(8080);
-      final Server server = new Server(_inetSocketAddress);
-      WebAppContext _webAppContext = new WebAppContext();
-      final Procedure1<WebAppContext> _function = (WebAppContext it) -> {
-        it.setResourceBase((this.rootPath + "/client/app"));
-        String _resourceBase = it.getResourceBase();
-        String _plus = ("Serving client app from " + _resourceBase);
-        log.info(_plus);
-        it.setWelcomeFiles(new String[] { "index.html" });
-        it.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
-        it.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
-      };
-      final WebAppContext webAppContext = ObjectExtensions.<WebAppContext>operator_doubleArrow(_webAppContext, _function);
+      final Server server = new Server(new InetSocketAddress(8080));
+      final WebAppContext webAppContext = ObjectExtensions.<WebAppContext>operator_doubleArrow(new WebAppContext(),
+              (WebAppContext context) -> {
+                context.setResourceBase((this.rootPath + "/client/app"));
+                log.info("Serving client app from " + context.getResourceBase());
+                context.setWelcomeFiles(new String[]{"index.html"});
+                context.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
+                context.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
+              });
       server.setHandler(webAppContext);
       final ServerContainer container = WebSocketServerContainerInitializer.configureContext(webAppContext);
-      final ServerEndpointConfig.Builder diagramServerEndpointConfigBuilder = ServerEndpointConfig.Builder.create(LanguageServerEndpoint.class, 
-        "/elkgraph");
+
+      // Configure web socket to provide access to a diagram server for elkt
+      final ServerEndpointConfig.Builder diagramServerEndpointConfigBuilder =
+              ServerEndpointConfig.Builder.create(LanguageServerEndpoint.class, "/elkgraph");
       diagramServerEndpointConfigBuilder.configurator(new ServerEndpointConfig.Configurator() {
         @Override
         public <T extends Object> T getEndpointInstance(final Class<T> endpointClass) throws InstantiationException {
-          Endpoint _instance = ServerLauncher.this.createDiagramServerInjector().<Endpoint>getInstance(Endpoint.class);
-          return ((T) _instance);
+          return (T) ServerLauncher.this.createDiagramServerInjector().<Endpoint>getInstance(Endpoint.class);
         }
       });
       container.addEndpoint(diagramServerEndpointConfigBuilder.build());
-      final ServerEndpointConfig.Builder languageServerEndpointConfigBuilder = ServerEndpointConfig.Builder.create(LanguageServerEndpoint.class, 
-        "/elkgraphjson");
+
+      // Configure a second web socket to provide a plain language server for any known xtext language
+      // Two remarks:
+      //  1) It is probably possible to re-use the diagram server above. However, to avoid any unexpected behavior,
+      //     we separate it. (For instance, during initial tries it looked like a 'ElkGraphDiagramModule' must be added
+      //     to the injector even for elkj in order to have a functioning content assist.)
+      //  2) The default behavior to load xtext languages using service loaders, i.e. re-binding
+      //     'IResourceServiceProvider.Registry' causes the diagram server to fail as soon as the language
+      //     server has been used once. It looks like the automated registration is somehow interfering with the
+      //     existing one (I presume because it re-registers the elkt language without the diagram server parts).
+      final ServerEndpointConfig.Builder languageServerEndpointConfigBuilder =
+              ServerEndpointConfig.Builder.create(LanguageServerEndpoint.class, "/elkgraphjson");
       languageServerEndpointConfigBuilder.configurator(new ServerEndpointConfig.Configurator() {
         @Override
         public <T extends Object> T getEndpointInstance(final Class<T> endpointClass) throws InstantiationException {
-          Endpoint _instance = ServerLauncher.this.createLanguageServerInjector().<Endpoint>getInstance(Endpoint.class);
-          return ((T) _instance);
+          return (T) ServerLauncher.this.createLanguageServerInjector().<Endpoint>getInstance(Endpoint.class);
         }
       });
       container.addEndpoint(languageServerEndpointConfigBuilder.build());
-      ServletHolder _servletHolder = new ServletHolder(new HttpServlet() {
+
+      // Define endpoint for format conversions
+      webAppContext.addServlet(new ServletHolder(new HttpServlet() {
         @Override
         protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
           ElkGraphConversions.handleRequest(req, resp);
         }
-      });
-      webAppContext.addServlet(_servletHolder, "/conversion");
+      }), "/conversion");
       try {
         server.start();
         final ServerLauncher.Mode mode = this.mode;
@@ -166,49 +147,41 @@ public class ServerLauncher {
               server.stop();
               break;
             case SIGTERM:
-              Runtime _runtime = Runtime.getRuntime();
-              final Runnable _function_1 = () -> {
+              Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                   server.stop();
-                  log.info("Server stopped.");
-                } catch (Throwable _e) {
-                  throw Exceptions.sneakyThrow(_e);
+                } catch (Exception e) {
+                  throw new RuntimeException(e);
                 }
-              };
-              Thread _thread = new Thread(_function_1, "ShutdownHook");
-              _runtime.addShutdownHook(_thread);
+                log.info("Server stopped.");
+              }, "ShutdownHook"));
               break;
             case USER:
               log.info("Press enter to stop the server...");
-              final Runnable _function_2 = () -> {
+              new Thread(() -> {
                 try {
                   final int key = System.in.read();
                   server.stop();
                   if ((key == (-1))) {
                     log.warn("The standard input stream is empty");
                   }
-                } catch (Throwable _e) {
-                  throw Exceptions.sneakyThrow(_e);
+                } catch (Exception e) {
+                  throw new RuntimeException(e);
                 }
-              };
-              new Thread(_function_2).start();
+              }).start();
               break;
             default:
               break;
           }
         }
         server.join();
-      } catch (final Throwable _t) {
-        if (_t instanceof Exception) {
-          final Exception exception = (Exception)_t;
-          log.warn("Shutting down due to exception", exception);
-          System.exit(1);
-        } else {
-          throw Exceptions.sneakyThrow(_t);
-        }
+      } catch (Exception exception) {
+        log.warn("Shutting down due to exception", exception);
+        System.exit(1);
       }
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+    } catch (Exception e) {
+      log.warn("Setup failed", e);
+      System.exit(1);
     }
   }
 
