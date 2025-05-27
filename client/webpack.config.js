@@ -50,7 +50,7 @@ module.exports = async function (env) {
     }
     console.log("Building ELK-Graph Web version " + currentVersion);
 
-    const javaElkVersions = [ 'snapshot', "0.10.0", "0.9.1", "0.8.1", "0.7.1" ]; // All versions that are available in the ELklive
+    const javaElkVersions = [ "0.10.0", "0.9.1", "0.8.1", "0.7.1" ]; // All versions that are available in the ELklive
     const javaElkVersionsOptions = javaElkVersions
                                      .map(version => `<option value="${version}">${version}</option>`)
                                      .join("");

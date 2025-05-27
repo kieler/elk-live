@@ -31,10 +31,10 @@
 // TODO condition is not the best
 def layoutVersionProjects = rootProject.subprojects.findAll{it.name.startsWith('0')}
 
-task jettyRun(type: JavaExec) {
+task buildAndRun(type: JavaExec) {
 	dependsOn(sourceSets.main.runtimeClasspath)
 	classpath = sourceSets.main.runtimeClasspath.filter{it.exists()}
-	main = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
+	mainClass = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
 	args = ["--root", rootProject.file('..')]
 	// TODO probably want to pass version:jar tuples here
 	systemProperty "elkJars", layoutVersionProjects.collect{it.jar.archivePath}.join(',')
@@ -43,7 +43,18 @@ task jettyRun(type: JavaExec) {
 	description = 'Starts the ELK Graph server'
 }
 
-// We require that all layout version specific jars are built
+task onlyRun(type: JavaExec) {
+	dependsOn(sourceSets.main.runtimeClasspath)
+	classpath = sourceSets.main.runtimeClasspath.filter{it.exists()}
+	mainClass = 'de.cau.cs.kieler.elkgraph.web.ServerLauncher'
+	args = ["--root", rootProject.file('..')]
+	systemProperty "elkJars", layoutVersionProjects.collect{it.jar.archivePath}.join(',')
+	standardInput = System.in
+	group = 'run'
+	description = 'Runs the ELK Graph server without building the layout version jars'
+}
+
+// We require that all layout version specific jars are built for `buildAndRun`. This is not executed when doing `onlyRun` hence, the jars are not rebuilt
 layoutVersionProjects.each {
-    jettyRun.dependsOn(it.jar)
+    buildAndRun.dependsOn(it.jar)
 }

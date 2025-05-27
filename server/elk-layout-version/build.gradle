@@ -19,9 +19,11 @@ def getJsonFromRest(String url) {
 }
 
 def isLayoutAlgorithmExistsForVersion(String algorithm, String version) {
-    def baseUrl = "https://search.maven.org/solrsearch/select"
-    def query = "?q=g:org.eclipse.elk+AND+a:${algorithm}+AND+v:$version&core=gav&wt=json"
-    return getJsonFromRest(baseUrl + query).response.numFound > 0  
+    if (version.equals("elk-layout-version") || version.equals("snapshot")) {
+        return false
+    } else {
+        return true
+    }
 }
 
 dependencies {
