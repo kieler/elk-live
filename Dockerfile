@@ -18,7 +18,7 @@ COPY --chown=elklive:elklive . ${ELKLIVE_HOME}
 RUN cd ${ELKLIVE_HOME}/client && yarn install && yarn run build
 
 WORKDIR "${ELKLIVE_HOME}/server"
-RUN ./gradlew onlyBuild
+RUN ./gradlew build
 
 EXPOSE 8080
 

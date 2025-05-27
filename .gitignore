@@ -1,3 +1,4 @@
 .ash_history
 .env
 .gradle/
+**/.idea/
