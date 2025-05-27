@@ -54,7 +54,17 @@ task onlyRun(type: JavaExec) {
 	description = 'Runs the ELK Graph server without building the layout version jars'
 }
 
+task onlyBuild() {
+	dependsOn(sourceSets.main.runtimeClasspath)
+	classpath = sourceSets.main.runtimeClasspath.filter{it.exists()}
+	systemProperty "elkJars", layoutVersionProjects.collect{it.jar.archivePath}.join(",")
+	group = "build"
+	dependsOn("build")
+	description = "Builds the elk-live server"
+}
+
 // We require that all layout version specific jars are built for `buildAndRun`. This is not executed when doing `onlyRun` hence, the jars are not rebuilt
 layoutVersionProjects.each {
     buildAndRun.dependsOn(it.jar)
+	onlyBuild.dependsOn(it.jar)
 }
