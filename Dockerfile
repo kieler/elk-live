@@ -6,7 +6,7 @@ ARG ELKLIVE_HOME=/elklive
 ARG ELKLIVE_UID=1000
 ARG ELKLIVE_GID=1000
 
-RUN apk add --update --no-cache yarn git gradle curl
+RUN apt add --update --no-cache yarn git gradle curl
 
 RUN addgroup -g ${ELKLIVE_GID} elklive \
  && adduser elklive -h ${ELKLIVE_HOME} -D -u ${ELKLIVE_UID} -G elklive
