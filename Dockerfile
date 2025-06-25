@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM ubuntu:jammy
 
 LABEL authors="Arnd Plumhoff <plumhoff@email.uni-kiel.de>, Sascha Hoppe <sho@informatik.uni-kiel.de>"
 
