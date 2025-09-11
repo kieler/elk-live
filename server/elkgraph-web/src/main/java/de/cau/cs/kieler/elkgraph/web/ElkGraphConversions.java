@@ -80,9 +80,7 @@ public class ElkGraphConversions {
         if (e instanceof ImportExportException) {
           return ElkGraphConversions.toErrorJson(message, type,
                   ((ImportExportException) e).diagnostics.stream().map(
-                          (Resource.Diagnostic it) -> {
-                            return ElkGraphConversions.toJson(it);
-                          }).toList(), null);
+                          ElkGraphConversions::toJson).toList(), null);
         } else {
           return ElkGraphConversions.toErrorJson(message, type, null, ElkGraphConversions.nestedExceptionMessages(e));
         }
@@ -101,7 +99,7 @@ public class ElkGraphConversions {
 
   private static final Logger LOG = Logger.getLogger(ElkGraphConversions.class.getName());
 
-  public static final Set<String> KNWON_FORMATS = new HashSet<>(Arrays.asList("elkt", "elkg", "json"));
+  public static final Set<String> KNOWN_FORMATS = new HashSet<>(Arrays.asList("elkt", "elkg", "json"));
 
   private static final Map<String, String> FORMAT_TO_CONTENT_TYPE = Map.of(
           "json", "application/json",
@@ -141,11 +139,11 @@ public class ElkGraphConversions {
 
   private static Optional<ElkGraphConversions.Error> checkRequest(final HttpServletRequest req) {
     final String reqContentType = req.getHeader("Content-Type");
-    if (reqContentType == null || !ElkGraphConversions.FORMAT_TO_CONTENT_TYPE.values().contains(reqContentType)) {
+    if (reqContentType == null || !ElkGraphConversions.FORMAT_TO_CONTENT_TYPE.containsValue(reqContentType)) {
       return Optional.of(new ElkGraphConversions.Error(
               HttpServletResponse.SC_NOT_ACCEPTABLE,
               ElkGraphConversions.FAILURE_REQUEST,
-              "Unsupported content type: \'" + reqContentType + "\'."));
+              "Unsupported content type: '" + reqContentType + "'."));
     }
 
     final String inFormat = req.getParameter("inFormat");
@@ -153,7 +151,7 @@ public class ElkGraphConversions {
       return Optional.of(new ElkGraphConversions.Error(
               HttpServletResponse.SC_BAD_REQUEST,
               ElkGraphConversions.FAILURE_REQUEST,
-              "Missing specification of \'inFormat\'."));
+              "Missing specification of 'inFormat'."));
     }
 
     final String outFormat = req.getParameter("outFormat");
@@ -161,15 +159,15 @@ public class ElkGraphConversions {
       return Optional.of(new ElkGraphConversions.Error(
               HttpServletResponse.SC_BAD_REQUEST,
               ElkGraphConversions.FAILURE_REQUEST,
-              "Missing specification of \'outFormat\'."));
+              "Missing specification of 'outFormat'."));
     }
 
     for (final String format : new String[] { inFormat, outFormat }) {
-      if (!ElkGraphConversions.KNWON_FORMATS.contains(format)) {
+      if (!ElkGraphConversions.KNOWN_FORMATS.contains(format)) {
         return Optional.of(new ElkGraphConversions.Error(
                 HttpServletResponse.SC_BAD_REQUEST,
                 ElkGraphConversions.FAILURE_REQUEST,
-                "Unknown graph format \'" + format + "\'."));
+                "Unknown graph format '" + format + "\'."));
       }
     }
     // Success
@@ -283,13 +281,8 @@ public class ElkGraphConversions {
     ElkNode elkNode = null;
     try {
       switch (inFormat) {
-        case "json":
-          elkNode = ElkGraphConversions.loadJson(graph);
-          break;
-        case "elkt":
-        case "elkg":
-          elkNode = ElkGraphConversions.loadElkGraph(graph, inFormat);
-          break;
+        case "json" -> elkNode = ElkGraphConversions.loadJson(graph);
+        case "elkt", "elkg" -> elkNode = ElkGraphConversions.loadElkGraph(graph, inFormat);
       }
     } catch (Exception e) {
       ElkGraphConversions.LOG.log(Level.INFO, "Failed to load input graph.", e);
@@ -302,13 +295,8 @@ public class ElkGraphConversions {
     try {
       if (outFormat != null) {
         switch (outFormat) {
-          case "json":
-            serializedResult = ElkGraphConversions.toJson(elkNode);
-            break;
-          case "elkt":
-          case "elkg":
-            serializedResult = ElkGraphConversions.toElkGraph(elkNode, outFormat);
-            break;
+          case "json" -> serializedResult = ElkGraphConversions.toJson(elkNode);
+          case "elkt", "elkg" -> serializedResult = ElkGraphConversions.toElkGraph(elkNode, outFormat);
         }
       }
     } catch (Exception e) {

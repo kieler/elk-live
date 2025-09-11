@@ -32,7 +32,7 @@ public final class ElkLayoutVersionRegistry {
 
       final String elkJars = System.getProperty("elkJars");
       if (elkJars == null || elkJars.isEmpty()) {
-        ElkLayoutVersionRegistry.LOG.severe("Make sure the system property \'elkJars\' is set properly.");
+        ElkLayoutVersionRegistry.LOG.severe("Make sure the system property 'elkJars' is set properly.");
         return CollectionLiterals.<String, ElkLayoutVersionWrapper>newImmutableMap();
       }
       // In here are strings in the form of taldfdhfdksfh/0.10.0-0.1.0

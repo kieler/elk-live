@@ -59,7 +59,7 @@ public class ElkLayoutVersion implements IElkLayoutVersion {
             instanceField.set(null, ctor.newInstance());
             LayoutMetaDataService instance = LayoutMetaDataService.getInstance();
             CoreOptions coreOptions = new CoreOptions();
-            instance.registerLayoutMetaDataProviders(new ILayoutMetaDataProvider[]{coreOptions});
+            instance.registerLayoutMetaDataProviders(coreOptions);
         }
         // If the first option is not layered, we have to do manual registration (I do not think that this is always true, but hey.
         final LayoutAlgorithmData[] findFirst = new LayoutAlgorithmData[1];
@@ -82,8 +82,8 @@ public class ElkLayoutVersion implements IElkLayoutVersion {
             }).toList().forEach((providerClassName) -> {
                 try {
                     Class<?> clazz = Class.forName(providerClassName);
-                    ILayoutMetaDataProvider newInstance = (ILayoutMetaDataProvider) clazz.newInstance();
-                    LayoutMetaDataService.getInstance().registerLayoutMetaDataProviders(new ILayoutMetaDataProvider[]{newInstance});
+                    ILayoutMetaDataProvider newInstance = (ILayoutMetaDataProvider) clazz.getDeclaredConstructor().newInstance();
+                    LayoutMetaDataService.getInstance().registerLayoutMetaDataProviders(newInstance);
                 } catch (Throwable e) {
                     LOG.info(providerClassName + " could not be registered (this is not necessarily an error)");
                 }
@@ -92,8 +92,7 @@ public class ElkLayoutVersion implements IElkLayoutVersion {
     }
 
     public String layout(String serializedGraph) {
-        return this.deserialize(serializedGraph).map((it) -> this.layout(it))
-                .map(it -> this.serialize(it).orElse(null)).orElse(null);
+        return this.deserialize(serializedGraph).map(this::layout).flatMap(this::serialize).orElse(null);
     }
 
     protected ElkNode layout(ElkNode elkGraph) {
@@ -111,11 +110,10 @@ public class ElkLayoutVersion implements IElkLayoutVersion {
                 return Optional.of((ElkNode) IterableExtensions.head(r.getContents()));
             }
         } catch (Throwable var8) {
-            if (!(var8 instanceof IOException)) {
+            if (!(var8 instanceof IOException e)) {
                 throw Exceptions.sneakyThrow(var8);
             }
 
-            IOException e = (IOException)var8;
             LOG.log(Level.WARNING, "elkg deserialization failed (for concrete layout version).", e);
         }
 
@@ -128,7 +126,7 @@ public class ElkLayoutVersion implements IElkLayoutVersion {
         URIConverter.WriteableOutputStream os = new URIConverter.WriteableOutputStream(sw, "UTF-8");
 
         try {
-            r.save(os, (Map)null);
+            r.save(os, null);
             return Optional.of(sw.toString());
         } catch (Throwable e) {
             if (e instanceof IOException) {

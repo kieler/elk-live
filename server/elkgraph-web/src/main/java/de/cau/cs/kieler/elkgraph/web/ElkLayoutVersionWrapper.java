@@ -41,7 +41,7 @@ public class ElkLayoutVersionWrapper {
       final URLClassLoader classLoader = new URLClassLoader(new URL[] { new File(jarPath).toURI().toURL() }, null);
       final Class<?> clazz = classLoader.loadClass("de.cau.cs.kieler.elkgraph.web.version.ElkLayoutVersion");
       layoutMethod = clazz.getMethod("layout", String.class);
-      layouterInstance = clazz.newInstance();
+      layouterInstance = clazz.getDeclaredConstructor().newInstance();
     } catch (final Throwable t) {
       ElkLayoutVersionWrapper.LOG.log(Level.WARNING, (("Failed to instantiate layout wrapper for " + jarPath) + "."), t);
       layoutMethod = null;
@@ -63,9 +63,7 @@ public class ElkLayoutVersionWrapper {
         LOG.log(Level.WARNING, "", e);
         return null; // translates into Optional.empty
       }
-    }).map((String it) -> {
-      return this.deserialize(it).orElse(null);
-    });
+    }).flatMap(this::deserialize);
   }
 
   protected Optional<String> serialize(final ElkNode laidOutGraph) {

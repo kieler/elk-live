@@ -1,10 +1,10 @@
 /**
  * Copyright (c) 2017 TypeFox GmbH (http://www.typefox.io) and others.
- * 
+ *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0.
- * 
+ *
  * SPDX-License-Identifier: EPL-2.0
  */
 package de.cau.cs.kieler.elkgraph.web;
@@ -89,14 +89,14 @@ public class ServerLauncher {
     final Slf4jLog log = new Slf4jLog(ServerLauncher.class.getName());
     try {
       final Server server = new Server(new InetSocketAddress(8080));
-      final WebAppContext webAppContext = ObjectExtensions.<WebAppContext>operator_doubleArrow(new WebAppContext(),
-              (WebAppContext context) -> {
-                context.setResourceBase((this.rootPath + "/client/app"));
-                log.info("Serving client app from " + context.getResourceBase());
-                context.setWelcomeFiles(new String[]{"index.html"});
-                context.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
-                context.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
-              });
+      // Configure web app context.
+      final WebAppContext webAppContext = new WebAppContext();
+      webAppContext.setResourceBase((this.rootPath + "/client/app"));
+      log.info("Serving client app from " + webAppContext.getResourceBase());
+      webAppContext.setWelcomeFiles(new String[]{"index.html"});
+      webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
+      webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
+
       server.setHandler(webAppContext);
       final ServerContainer container = WebSocketServerContainerInitializer.configureContext(webAppContext);
 
@@ -105,8 +105,8 @@ public class ServerLauncher {
               ServerEndpointConfig.Builder.create(LanguageServerEndpoint.class, "/elkgraph");
       diagramServerEndpointConfigBuilder.configurator(new ServerEndpointConfig.Configurator() {
         @Override
-        public <T extends Object> T getEndpointInstance(final Class<T> endpointClass) throws InstantiationException {
-          return (T) ServerLauncher.this.createDiagramServerInjector().<Endpoint>getInstance(Endpoint.class);
+        public <T extends Object> T getEndpointInstance(final Class<T> endpointClass) {
+          return (T) ServerLauncher.this.createDiagramServerInjector().getInstance(Endpoint.class);
         }
       });
       container.addEndpoint(diagramServerEndpointConfigBuilder.build());
@@ -124,8 +124,8 @@ public class ServerLauncher {
               ServerEndpointConfig.Builder.create(LanguageServerEndpoint.class, "/elkgraphjson");
       languageServerEndpointConfigBuilder.configurator(new ServerEndpointConfig.Configurator() {
         @Override
-        public <T extends Object> T getEndpointInstance(final Class<T> endpointClass) throws InstantiationException {
-          return (T) ServerLauncher.this.createLanguageServerInjector().<Endpoint>getInstance(Endpoint.class);
+        public <T> T getEndpointInstance(final Class<T> endpointClass) {
+          return (T) ServerLauncher.this.createLanguageServerInjector().getInstance(Endpoint.class);
         }
       });
       container.addEndpoint(languageServerEndpointConfigBuilder.build());
@@ -142,21 +142,19 @@ public class ServerLauncher {
         final ServerLauncher.Mode mode = this.mode;
         if (mode != null) {
           switch (mode) {
-            case CHECK:
+            case CHECK -> {
               log.info("CHECK mode: terminating immediately.");
               server.stop();
-              break;
-            case SIGTERM:
-              Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                try {
-                  server.stop();
-                } catch (Exception e) {
-                  throw new RuntimeException(e);
-                }
-                log.info("Server stopped.");
-              }, "ShutdownHook"));
-              break;
-            case USER:
+            }
+            case SIGTERM -> Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+              try {
+                server.stop();
+              } catch (Exception e) {
+                throw new RuntimeException(e);
+              }
+              log.info("Server stopped.");
+            }, "ShutdownHook"));
+            case USER -> {
               log.info("Press enter to stop the server...");
               new Thread(() -> {
                 try {
@@ -169,9 +167,9 @@ public class ServerLauncher {
                   throw new RuntimeException(e);
                 }
               }).start();
-              break;
-            default:
-              break;
+            }
+            default -> {
+            }
           }
         }
         server.join();

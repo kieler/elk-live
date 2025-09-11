@@ -37,6 +37,7 @@ import org.eclipse.xtext.xbase.lib.*;
 
 import javax.websocket.Endpoint;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -90,25 +91,24 @@ public class ElkGraphLanguageServerSetup extends DiagramLanguageServerSetup {
    * {@link RequestModelAction} for each new document that is opened.
    */
   public void setupLanguageServer(final Injector injector) {
-    final LanguageServer languageServer = injector.<LanguageServer>getInstance(LanguageServer.class);
+    final LanguageServer languageServer = injector.getInstance(LanguageServer.class);
     if ((languageServer instanceof DiagramLanguageServer)) {
       @Extension
-      final UriExtensions uriExtensions = injector.<UriExtensions>getInstance(UriExtensions.class);
+      final UriExtensions uriExtensions = injector.getInstance(UriExtensions.class);
       ((DiagramLanguageServer)languageServer).getLanguageServerAccess().addBuildListener((List<IResourceDescription.Delta> deltas) -> {
-        IterableExtensions.<IResourceDescription.Delta>filter(deltas, (IResourceDescription.Delta it) -> {
-          return Boolean.valueOf((it.getOld() == null));
-        }).forEach((IResourceDescription.Delta delta) -> {
-          ((DiagramLanguageServer)languageServer).accept(ObjectExtensions.<ActionMessage>operator_doubleArrow(new ActionMessage(), (ActionMessage it) -> {
-            it.setClientId("sprotty");
-            it.setAction(ObjectExtensions.<RequestModelAction>operator_doubleArrow(new RequestModelAction(), (RequestModelAction it_1) -> {
-              it_1.setDiagramType("graph");
-              it_1.setOptions(Collections.
-                      <String, String>unmodifiableMap(CollectionLiterals.
-                      <String, String>newHashMap(Pair.
-                      <String, String>of(DiagramOptions.OPTION_SOURCE_URI, uriExtensions.toUriString(delta.getUri())))));
-            }));
-          }));
-        });
+        for (IResourceDescription.Delta delta : deltas) {
+          if (delta.getOld() == null) {
+            ActionMessage actionMessage = new ActionMessage();
+            actionMessage.setClientId("sprotty");
+            RequestModelAction requestModelAction = new RequestModelAction();
+            requestModelAction.setDiagramType("graph");
+            HashMap<String, String> options = new HashMap<>();
+            options.put(DiagramOptions.OPTION_SOURCE_URI, uriExtensions.toUriString(delta.getUri()));
+            requestModelAction.setOptions(options);
+            actionMessage.setAction(requestModelAction);
+            ((DiagramLanguageServer)languageServer).accept(actionMessage);
+          }
+        }
       });
     }
   }
