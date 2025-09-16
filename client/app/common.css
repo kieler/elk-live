@@ -39,13 +39,13 @@ body.elk-dark-mode {
 }
 
 #darkModeToggle {
-    margin-left: 16px;
+    margin-right: 16px;
 }
 
 #darkModeToggle.front-page {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 32px;
+    right: 32px;
 }
 
 .elk-dark-mode #example-description pre {
@@ -71,4 +71,28 @@ body.elk-dark-mode {
 .elk-dark-mode #page-theme,
 .elk-dark-mode #elk-version {
     filter: invert(0.8) hue-rotate(180deg);
+}
+
+.elk-logo-large {
+    width: 150px;
+    height: 88px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-image: url(img/elk.svg);
+}
+
+.elk-logo-small {
+    width: 51px;
+    height: 30px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-image: url(img/elk_small.svg);
+}
+
+.elk-dark-mode .elk-logo-large {
+    background-image: url(img/elk_light.svg);
+}
+
+.elk-dark-mode .elk-logo-small {
+    background-image: url(img/elk_small_light.svg);
 }
