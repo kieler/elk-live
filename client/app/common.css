@@ -44,8 +44,8 @@ body.elk-dark-mode {
 
 #darkModeToggle.front-page {
     position: absolute;
-    top: 32px;
-    right: 32px;
+    top: 16px;
+    right: 16px;
 }
 
 .elk-dark-mode #example-description pre {
