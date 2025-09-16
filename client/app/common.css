@@ -39,6 +39,7 @@ body.elk-dark-mode {
 }
 
 #darkModeToggle {
+    margin-left: 16px;
     margin-right: 16px;
 }
 
