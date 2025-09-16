@@ -101,8 +101,8 @@ public class ElkGraphLanguageServerSetup extends DiagramLanguageServerSetup {
             ActionMessage actionMessage = new ActionMessage();
             actionMessage.setClientId("sprotty");
             RequestModelAction requestModelAction = new RequestModelAction();
-            requestModelAction.setDiagramType("graph");
             HashMap<String, String> options = new HashMap<>();
+            options.put(DiagramOptions.OPTION_DIAGRAM_TYPE, "graph");
             options.put(DiagramOptions.OPTION_SOURCE_URI, uriExtensions.toUriString(delta.getUri()));
             requestModelAction.setOptions(options);
             actionMessage.setAction(requestModelAction);
