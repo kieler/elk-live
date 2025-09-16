@@ -42,6 +42,9 @@ module.exports = async function (env) {
     const elkWorkerPath8 = 'node_modules/elkjs-8/lib/elk-worker.min.js';
     const elkWorkerPath9 = 'node_modules/elkjs-9/lib/elk-worker.min.js';
     const elkWorkerPath10 = 'node_modules/elkjs-10/lib/elk-worker.min.js';
+    const elkWorkerPath10_1 = 'node_modules/elkjs-10-1/lib/elk-worker.min.js';
+    const elkWorkerPath10_2 = 'node_modules/elkjs-10-2/lib/elk-worker.min.js';
+    const elkWorkerPath11 = 'node_modules/elkjs-11/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
     const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
     currentVersion = package.version;
@@ -50,7 +53,7 @@ module.exports = async function (env) {
     }
     console.log("Building ELK-Graph Web version " + currentVersion);
 
-    const javaElkVersions = [ "0.10.0", "0.9.1", "0.8.1", "0.7.1" ]; // All versions that are available in the ELklive
+    const javaElkVersions = [ "0.11.0", "0.10.0", "0.9.1", "0.8.1", "0.7.1" ]; // All versions that are available in the ELklive
     const javaElkVersionsOptions = javaElkVersions
                                      .map(version => `<option value="${version}">${version}</option>`)
                                      .join("");
@@ -212,6 +215,18 @@ module.exports = async function (env) {
             new CopyWebpackPlugin([{
                 from: elkWorkerPath10,
                 to: 'elk-10'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath10_1,
+                to: 'elk-10-1'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath10_2,
+                to: 'elk-10-2'
+            }]),
+            new CopyWebpackPlugin([{
+                from: elkWorkerPath11,
+                to: 'elk-11'
             }]),
             new CopyWebpackPlugin([{
                 from: elkWorkerPathLatest,

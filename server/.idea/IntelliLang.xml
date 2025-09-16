@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LanguageInjectionConfiguration">
+    <injection language="http-header-reference" injector-id="java">
+      <display-name>Apache HttpClient 4 HTTP Header (org.apache.http)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("setHeader", "addHeader", "getFirstHeader", "getLastHeader", "removeHeaders").definedInClass("org.apache.http.HttpMessage"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("setHeader", "addHeader", "getFirstHeader", "getLastHeader", "removeHeaders").definedInClass("org.apache.http.message.AbstractHttpMessage"))]]></place>
+    </injection>
+    <injection language="http-header-reference" injector-id="java">
+      <display-name>Apache HttpClient 5 HTTP Header (org.apache.hc.core5)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("setHeader", "addHeader").definedInClass("org.apache.hc.core5.http.message.BasicHttpRequest"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("setHeader", "addHeader", "getFirstHeader", "getLastHeader", "removeHeaders").definedInClass("org.apache.hc.client5.http.async.methods.SimpleRequestBuilder"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("setHeader", "addHeader", "getFirstHeader", "getLastHeader", "removeHeaders").definedInClass("org.apache.hc.core5.http.io.support.ClassicRequestBuilder"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("setHeader", "addHeader", "getFirstHeader", "getLastHeader", "removeHeaders").definedInClass("org.apache.hc.core5.http.nio.support.AsyncRequestBuilder"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("setHeader", "addHeader", "getFirstHeader", "getLastHeader", "removeHeaders").definedInClass("org.apache.hc.core5.http.support.BasicRequestBuilder"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>AsyncQueryRunner (org.apache.commons.dbutils)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("batch").withParameterCount(2).definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("insertBatch").withParameterCount(3).definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "insert").withParameters("java.lang.String", "org.apache.commons.dbutils.ResultSetHandler").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "insert").withParameters("java.lang.String", "org.apache.commons.dbutils.ResultSetHandler", "java.lang.Object...").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("update").withParameters("java.lang.String").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("update").withParameters("java.lang.String", "java.lang.Object").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("update").withParameters("java.lang.String", "java.lang.Object...").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("batch").withParameterCount(3).definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("insertBatch").withParameterCount(4).definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("query", "insert").withParameters("java.sql.Connection", "java.lang.String", "org.apache.commons.dbutils.ResultSetHandler").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("query", "insert").withParameters("java.sql.Connection", "java.lang.String", "org.apache.commons.dbutils.ResultSetHandler", "java.lang.Object...").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("update").withParameters("java.sql.Connection", "java.lang.String").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("update").withParameters("java.sql.Connection", "java.lang.String", "java.lang.Object").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("update").withParameters("java.sql.Connection", "java.lang.String", "java.lang.Object...").definedInClass("org.apache.commons.dbutils.AsyncQueryRunner"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Jodd (jodd.db)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query").withParameterCount(1).definedInClass("jodd.db.DbQuery"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("DbQuery").withParameterCount(2).definedInClass("jodd.db.DbQuery"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("query").withParameterCount(2).definedInClass("jodd.db.DbQuery"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(2, psiMethod().withName("DbQuery").withParameterCount(3).definedInClass("jodd.db.DbQuery"))]]></place>
+    </injection>
+    <injection language="http-header-reference" injector-id="java">
+      <display-name>MockServer Header (org.mockserver)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("header").definedInClass("org.mockserver.model.Header"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("withHeader").definedInClass("org.mockserver.model.HttpRequest"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("withHeader", "getHeader", "getFirstHeader", "containsHeader", "removeHeader").definedInClass("org.mockserver.model.HttpResponse"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>MyBatis @Select/@Delete/@Insert/@Update</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.apache.ibatis.annotations.Delete")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.apache.ibatis.annotations.Insert")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.apache.ibatis.annotations.Select")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.apache.ibatis.annotations.Update")]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>QueryProducer (org.hibernate.query)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createNativeQuery").definedInClass("org.hibernate.query.QueryProducer"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createSQLQuery").definedInClass("org.hibernate.query.QueryProducer"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>QueryRunner (org.apache.commons.dbutils)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("batch").withParameterCount(2).definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("insertBatch").withParameterCount(3).definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "insert").withParameters("java.lang.String", "org.apache.commons.dbutils.ResultSetHandler").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "insert", "execute").withParameters("java.lang.String", "org.apache.commons.dbutils.ResultSetHandler", "java.lang.Object...").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("update").withParameters("java.lang.String").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("update").withParameters("java.lang.String", "java.lang.Object").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("update", "execute").withParameters("java.lang.String", "java.lang.Object...").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("batch").withParameterCount(3).definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("insertBatch").withParameterCount(4).definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("query", "insert").withParameters("java.sql.Connection", "java.lang.String", "org.apache.commons.dbutils.ResultSetHandler", "java.lang.Object...").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("query", "insert", "execute").withParameters("java.sql.Connection", "java.lang.String", "org.apache.commons.dbutils.ResultSetHandler").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("update").withParameters("java.sql.Connection", "java.lang.String").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("update").withParameters("java.sql.Connection", "java.lang.String", "java.lang.Object").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(1, psiMethod().withName("update", "execute").withParameters("java.sql.Connection", "java.lang.String", "java.lang.Object...").definedInClass("org.apache.commons.dbutils.QueryRunner"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>R2DBC (io.r2dbc)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("add").definedInClass("io.r2dbc.spi.Batch"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createStatement").definedInClass("io.r2dbc.spi.Connection"))]]></place>
+    </injection>
+    <injection language="PostgreSQL" injector-id="java">
+      <display-name>Reactiverse Postgres Client (io.reactiverse)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.reactiverse.pgclient.PgConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.reactiverse.pgclient.PgTransaction"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPrepare", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.reactiverse.reactivex.pgclient.PgClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPrepare", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.reactiverse.reactivex.pgclient.PgConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPrepare", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.reactiverse.reactivex.pgclient.PgPool"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPrepare", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.reactiverse.reactivex.pgclient.PgTransaction"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "preparedQuery", "preparedBatch").definedInClass("io.reactiverse.axle.pgclient.PgClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "preparedQuery", "preparedBatch").definedInClass("io.reactiverse.pgclient.PgClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "preparedQuery", "preparedBatch").definedInClass("io.reactiverse.pgclient.PgPool"))]]></place>
+    </injection>
+    <injection language="http-header-reference" injector-id="java">
+      <display-name>RestAssured HTTP Header (io.restassured)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("addHeader").definedInClass("io.restassured.builder.RequestSpecBuilder"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("header", "getHeader", "headers").definedInClass("io.restassured.response.ResponseOptions"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("header", "getHeader", "headers").definedInClass("io.restassured.response.ValidatableResponseOptions"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("header", "headers").definedInClass("io.restassured.specification.RequestSpecification"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Session.createNativeQuery (org.hibernate)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createNativeQuery").definedInClass("org.hibernate.reactive.mutiny.Mutiny.Session"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createNativeQuery").definedInClass("org.hibernate.reactive.mutiny.Mutiny.StatelessSession"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createNativeQuery").definedInClass("org.hibernate.reactive.stage.Stage.Session"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createNativeQuery").definedInClass("org.hibernate.reactive.stage.Stage.StatelessSession"))]]></place>
+    </injection>
+    <injection language="HQL" injector-id="java">
+      <display-name>Session.createQuery (org.hibernate)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createQuery").definedInClass("org.hibernate.Session"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createQuery").definedInClass("org.hibernate.reactive.mutiny.Mutiny.Session"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createQuery").definedInClass("org.hibernate.reactive.mutiny.Mutiny.StatelessSession"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createQuery").definedInClass("org.hibernate.reactive.stage.Stage.Session"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createQuery").definedInClass("org.hibernate.reactive.stage.Stage.StatelessSession"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createQuery", "createSelectionQuery", "createMutationQuery").definedInClass("org.hibernate.query.QueryProducer"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>SmallRye Axle SqlClient (io.vertx.axle.sqlclient)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "preparedQuery", "preparedBatch").definedInClass("io.vertx.axle.sqlclient.Pool"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "preparedQuery", "preparedBatch").definedInClass("io.vertx.axle.sqlclient.SqlClient"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>SmallRye Mutiny SqlClient (io.vertx.mutiny.sqlclient)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "preparedQuery", "preparedBatch").definedInClass("io.vertx.mutiny.sqlclient.Pool"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "preparedQuery", "preparedBatch").definedInClass("io.vertx.mutiny.sqlclient.SqlClient"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>SmallRye Mutiny SqlConnection (io.vertx.mutiny.sqlclient)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("prepare", "prepareAndAwait").definedInClass("io.vertx.mutiny.db2client.DB2Connection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("prepare", "prepareAndAwait").definedInClass("io.vertx.mutiny.mssqlclient.MSSQLConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("prepare", "prepareAndAwait").definedInClass("io.vertx.mutiny.mysqlclient.MySQLConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("prepare", "prepareAndAwait").definedInClass("io.vertx.mutiny.pgclient.PgConnection"))]]></place>
+    </injection>
+    <injection language="SpEL" injector-id="java">
+      <display-name>Spring @Cacheable and @CacheEvict</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiMethod().withName("condition").withParameters().definedInClass("org.springframework.cache.annotation.CacheEvict")]]></place>
+      <place><![CDATA[psiMethod().withName("condition").withParameters().definedInClass("org.springframework.cache.annotation.CachePut")]]></place>
+      <place><![CDATA[psiMethod().withName("condition").withParameters().definedInClass("org.springframework.cache.annotation.Cacheable")]]></place>
+      <place><![CDATA[psiMethod().withName("key").withParameters().definedInClass("org.springframework.cache.annotation.CacheEvict")]]></place>
+      <place><![CDATA[psiMethod().withName("key").withParameters().definedInClass("org.springframework.cache.annotation.CachePut")]]></place>
+      <place><![CDATA[psiMethod().withName("key").withParameters().definedInClass("org.springframework.cache.annotation.Cacheable")]]></place>
+      <place><![CDATA[psiMethod().withName("unless").withParameters().definedInClass("org.springframework.cache.annotation.CachePut")]]></place>
+      <place><![CDATA[psiMethod().withName("unless").withParameters().definedInClass("org.springframework.cache.annotation.Cacheable")]]></place>
+    </injection>
+    <injection language="http-header-reference" injector-id="java">
+      <display-name>Spring HttpHeaders (org.springframework.http)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("header").definedInClass("org.springframework.http.ResponseEntity.HeadersBuilder"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("header").definedInClass("org.springframework.web.servlet.function.ServerResponse.HeadersBuilder"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("set", "add", "addAll", "getFirst", "containsKey", "get", "put", "getFirstDate", "setDate", "setInstant", "setZonedDateTime").definedInClass("org.springframework.http.HttpHeaders"))]]></place>
+    </injection>
+    <injection language="SpEL" injector-id="java">
+      <display-name>Spring Integration/Messaging</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiMethod().withName("expression").withParameters().definedInClass("org.springframework.messaging.handler.annotation.Payload")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.springframework.integration.annotation.Payload")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.springframework.messaging.handler.annotation.Payload")]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Spring JDBC (org.springframework.jdbc.core.JdbcOperations)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("batchUpdate").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("execute").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("queryForInt").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("queryForList").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("queryForLong").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("queryForMap").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("queryForObject").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("queryForRowSet").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("queryForStream").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("sql").definedInClass("org.springframework.jdbc.core.simple.JdbcClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("update").definedInClass("org.springframework.jdbc.core.JdbcOperations"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Spring JDBC (org.springframework.jdbc.core.PreparedStatementCreatorFactory)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("PreparedStatementCreatorFactory").withParameters("java.lang.String").definedInClass("org.springframework.jdbc.core.PreparedStatementCreatorFactory"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("PreparedStatementCreatorFactory").withParameters("java.lang.String", "int[]").definedInClass("org.springframework.jdbc.core.PreparedStatementCreatorFactory"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("PreparedStatementCreatorFactory").withParameters("java.lang.String", "java.util.List").definedInClass("org.springframework.jdbc.core.PreparedStatementCreatorFactory"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Spring JDBC (org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("createCustomException").withParameters("java.lang.String", "java.lang.String", "java.sql.SQLException", "java.lang.Class").definedInClass("org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("customTranslate").withParameters("java.lang.String", "java.lang.String", "java.sql.SQLException").definedInClass("org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("doTranslate").withParameters("java.lang.String", "java.lang.String", "java.sql.SQLException").definedInClass("org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("logTranslation").withParameters("java.lang.String", "java.lang.String", "java.sql.SQLException", "boolean").definedInClass("org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator"))]]></place>
+    </injection>
+    <injection language="SpEL" injector-id="java">
+      <display-name>Spring Security @PostAuthorize/@PostFilter/@PreAuthorize/@PreFilter/@AuthenticationPrincipal</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiMethod().withName("expression").withParameters().definedInClass("org.springframework.security.core.annotation.AuthenticationPrincipal")]]></place>
+      <place><![CDATA[psiMethod().withName("expression").withParameters().definedInClass("org.springframework.security.core.annotation.CurrentSecurityContext")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.springframework.security.access.prepost.PostAuthorize")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.springframework.security.access.prepost.PostFilter")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.springframework.security.access.prepost.PreAuthorize")]]></place>
+      <place><![CDATA[psiMethod().withName("value").withParameters().definedInClass("org.springframework.security.access.prepost.PreFilter")]]></place>
+    </injection>
+    <injection language="SpEL" injector-id="java">
+      <display-name>Spring State Machine</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("event").withParameters("java.lang.String").definedInClass("org.springframework.statemachine.config.configurers.SecurityConfigurer"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("guardExpression").withParameters("java.lang.String").definedInClass("org.springframework.statemachine.config.configurers.TransitionConfigurer"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("secured").withParameters("java.lang.String").definedInClass("org.springframework.statemachine.config.configurers.TransitionConfigurer"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("transition").withParameters("java.lang.String").definedInClass("org.springframework.statemachine.config.configurers.SecurityConfigurer"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Vert.x SQL Extensions (io.vertx.ext.sql)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "queryWithParams", "queryStream", "queryStreamWithParams", "querySingle", "querySingleWithParams", "update", "updateWithParams", "call", "callWithParams").definedInClass("io.vertx.ext.sql.SQLClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "queryWithParams", "queryStream", "queryStreamWithParams", "querySingle", "querySingleWithParams", "update", "updateWithParams", "call", "callWithParams").definedInClass("io.vertx.ext.sql.SQLOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "queryWithParams", "queryStream", "queryStreamWithParams", "querySingle", "querySingleWithParams", "update", "updateWithParams", "call", "callWithParams", "execute", "batchWithParams", "batchCallableWithParams").definedInClass("io.vertx.ext.sql.SQLConnection"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Vert.x SQL Reactive Extensions (io.vertx.reactivex.ext.sql)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "queryWithParams", "queryStream", "queryStreamWithParams", "querySingle", "querySingleWithParams", "update", "updateWithParams", "call", "callWithParams").definedInClass("io.vertx.reactivex.ext.sql.SQLOperations"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "queryWithParams", "queryStream", "queryStreamWithParams", "querySingle", "querySingleWithParams", "update", "updateWithParams", "call", "callWithParams", "execute", "batchWithParams", "batchCallableWithParams", "rxQuerySingle", "rxQuerySingleWithParams", "rxQuery", "rxQueryWithParams", "rxQueryStream", "rxQueryStreamWithParams", "rxUpdate", "rxUpdateWithParams", "rxCall", "rxCallWithParams", "rxExecute", "rxBatchWithParams", "rxBatchCallableWithParams").definedInClass("io.vertx.reactivex.ext.sql.SQLClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "queryWithParams", "queryStream", "queryStreamWithParams", "querySingle", "querySingleWithParams", "update", "updateWithParams", "call", "callWithParams", "execute", "batchWithParams", "batchCallableWithParams", "rxQuerySingle", "rxQuerySingleWithParams", "rxQuery", "rxQueryWithParams", "rxQueryStream", "rxQueryStreamWithParams", "rxUpdate", "rxUpdateWithParams", "rxCall", "rxCallWithParams", "rxExecute", "rxBatchWithParams", "rxBatchCallableWithParams").definedInClass("io.vertx.reactivex.ext.sql.SQLConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("querySingle", "rxQuerySingle", "querySingleWithParams", "rxQuerySingleWithParams").definedInClass("io.vertx.reactivex.ext.asyncsql.AsyncSQLClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("querySingle", "rxQuerySingle", "querySingleWithParams", "rxQuerySingleWithParams").definedInClass("io.vertx.reactivex.ext.asyncsql.MySQLClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("querySingle", "rxQuerySingle", "querySingleWithParams", "rxQuerySingleWithParams").definedInClass("io.vertx.reactivex.ext.asyncsql.PostgreSQLClient"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Vert.x SqlClient (io.vertx.sqlclient)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.vertx.mssqlclient.MSSQLConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.vertx.mysqlclient.MySQLConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.vertx.pgclient.PgConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.vertx.sqlclient.Pool"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.vertx.sqlclient.SqlClient"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.vertx.sqlclient.SqlConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch").definedInClass("io.vertx.sqlclient.Transaction"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>Vert.x SqlClient RxJava2 (io.vertx.reactivex.sqlclient)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPrepare", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.vertx.reactivex.mysqlclient.MySQLConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPrepare", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.vertx.reactivex.pgclient.PgConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPrepare", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.vertx.reactivex.sqlclient.SqlConnection"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPrepare", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.vertx.reactivex.sqlclient.Transaction"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.vertx.reactivex.mysqlclient.MySQLPool"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.vertx.reactivex.pgclient.PgPool"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.vertx.reactivex.sqlclient.Pool"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "prepare", "preparedQuery", "preparedBatch", "rxQuery", "rxPreparedQuery", "rxPreparedBatch").definedInClass("io.vertx.reactivex.sqlclient.SqlClient"))]]></place>
+    </injection>
+    <injection language="JSON" injector-id="java">
+      <display-name>WireMock (com.github.tomakehurst.wiremock.client)</display-name>
+      <single-file value="false" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("equalToJson").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("equalToJson").withParameters("java.lang.String", "boolean", "boolean").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("jsonResponse").withParameters("java.lang.String", "int").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("okJson").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+    </injection>
+    <injection language="XML" injector-id="java">
+      <display-name>WireMock (com.github.tomakehurst.wiremock.client)</display-name>
+      <single-file value="false" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("equalToXml").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("okTextXml").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("okXml").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+    </injection>
+    <injection language="RegExp" injector-id="java">
+      <display-name>WireMock (com.github.tomakehurst.wiremock.client)</display-name>
+      <single-file value="false" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("matching").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("notMatching").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("urlMatching").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("urlPathMatching").withParameters("java.lang.String").definedInClass("com.github.tomakehurst.wiremock.client.WireMock"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>jOOQ (org.jooq.DSLContext)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("batch").withParameters("java.lang.String", "java.lang.Object[]...").definedInClass("org.jooq.DSLContext"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "fetch", "fetchLazy", "fetchAsync", "fetchStream", "fetchMany", "fetchOne", "fetchSingle", "fetchOptional", "fetchValue", "fetchOptionalValue", "fetchValues", "execute", "resultQuery").withParameters("java.lang.String", "java.lang.Object...").definedInClass("org.jooq.DSLContext"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("query", "fetch", "fetchLazy", "fetchAsync", "fetchStream", "fetchMany", "fetchOne", "fetchSingle", "fetchOptional", "fetchValue", "fetchOptionalValue", "fetchValues", "execute", "resultQuery", "batch").withParameters("java.lang.String").definedInClass("org.jooq.DSLContext"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(psiMethod().withName("batch").withParameters("java.lang.String...").definedInClass("org.jooq.DSLContext"))]]></place>
+    </injection>
+    <injection language="SQL" injector-id="java">
+      <display-name>rxjava2-jdbc (org.davidmoten.rx.jdbc)</display-name>
+      <single-file value="true" />
+      <place><![CDATA[psiMethod().withName("value").definedInClass("org.davidmoten.rx.jdbc.annotations.Query")]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("call", "select", "update").definedInClass("org.davidmoten.rx.jdbc.Database"))]]></place>
+      <place><![CDATA[psiParameter().ofMethod(0, psiMethod().withName("call", "select", "update").definedInClass("org.davidmoten.rx.jdbc.TransactedBuilder"))]]></place>
+    </injection>
+    <injection language="SpEL" injector-id="xml">
+      <display-name>SpEL for Spring Cache</display-name>
+      <single-file value="true" />
+      <place><![CDATA[xmlAttribute().withLocalName("condition").withParent(xmlTag().withNamespace(string().equalTo("http://www.springframework.org/schema/cache")))]]></place>
+      <place><![CDATA[xmlAttribute().withLocalName("key").withParent(xmlTag().withNamespace(string().equalTo("http://www.springframework.org/schema/cache")))]]></place>
+      <place><![CDATA[xmlAttribute().withLocalName("unless").withParent(xmlTag().withNamespace(string().equalTo("http://www.springframework.org/schema/cache")))]]></place>
+    </injection>
+  </component>
+</project>

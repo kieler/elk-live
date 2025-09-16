@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="17" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/elk-layout-version" />
+            <option value="$PROJECT_DIR$/elkgraph-web" />
+            <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.10.0" />
+            <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.11.0" />
+            <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.7.1" />
+            <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.8.1" />
+            <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.9.1" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
