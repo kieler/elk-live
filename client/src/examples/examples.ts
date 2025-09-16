@@ -40,20 +40,6 @@ openWebSocketElkGraph({
 
 setupDarkMode();
 
-// function updateLogoForTheme() {
-//     const logo = document.getElementById('elk-logo');
-//     if (!logo || !(logo instanceof HTMLImageElement)) return;
-//     const toggle = document.querySelector('#darkModeToggle');
-//     // Check whether data-dark attribute is set
-//     const isDarkMode = toggle?.getAttribute('data-dark') === '1';
-//     // Update logo based on dark mode status
-//     logo.src = isDarkMode ? 'img/elk_small_light.svg' : 'img/elk_small.svg';
-// }
-// // Listen for class changes on body
-// const observer = new MutationObserver(updateLogoForTheme);
-// observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-// // Initial set
-// document.addEventListener('DOMContentLoaded', updateLogoForTheme);
 // - - - - Showdown markdown parser - - - -
 showdown.setFlavor('github');
 // simpleLineBreaks: false requires at least two line breaks to start a new paragraph
