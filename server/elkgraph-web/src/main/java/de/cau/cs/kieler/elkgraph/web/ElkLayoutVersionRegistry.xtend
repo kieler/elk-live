@@ -34,7 +34,9 @@ final class ElkLayoutVersionRegistry {
         }
         val strings = System.getProperty("elkJars").split(',')
         return newImmutableMap(strings.map [ jarPath |
-            jarPath.substring(jarPath.lastIndexOf('-') - 5, jarPath.lastIndexOf('-')) ->
+        	val elkJarVersion = jarPath.substring(jarPath.lastIndexOf('/') + 1, jarPath.lastIndexOf('-'))
+        	LOG.info("registering elkJar " + jarPath + " as version " + elkJarVersion)
+            elkJarVersion ->
                 new ElkLayoutVersionWrapper(jarPath)
         ])
     }
