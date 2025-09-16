@@ -8,6 +8,11 @@
  * SPDX-License-Identifier: EPL-2.0
  *******************************************************************************/
 
-import { setupDarkMode } from "./common/dark-mode";
+import { addDarkModeToggleObserver, setupDarkMode, updateLogoForTheme } from "./common/dark-mode";
 
 setupDarkMode();
+
+// Update dark theme logo
+updateLogoForTheme();
+addDarkModeToggleObserver(false);
+console.log("Dark mode setup complete.");

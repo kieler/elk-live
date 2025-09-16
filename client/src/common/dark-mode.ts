@@ -18,3 +18,40 @@ export function setupDarkMode() {
         darkByDefault: false,
     });
 }
+
+/**
+ * Finds the elk-logo element and updates its source based on the current theme.
+ */
+export function updateSmallLogoForTheme() {
+    const logo = document.getElementById('elk-logo');
+    if (!logo || !(logo instanceof HTMLImageElement)) return;
+    const toggle = document.querySelector('#darkModeToggle');
+    // Check whether data-dark attribute is set
+    const isDarkMode = toggle?.getAttribute('data-dark') === '1';
+    // Update logo based on dark mode status
+    logo.src = isDarkMode ? "img/elk_small_light.svg" : "img/elk_small.svg";
+}
+
+/**
+ * Finds the elk-logo element and updates its source based on the current theme.
+ */
+export function updateLogoForTheme() {
+    const logo = document.getElementById('elk-logo');
+    if (!logo || !(logo instanceof HTMLImageElement)) return;
+    const toggle = document.querySelector('#darkModeToggle');
+    // Check whether data-dark attribute is set
+    const isDarkMode = toggle?.getAttribute('data-dark') === '1';
+    // Update logo based on dark mode status
+    logo.src = isDarkMode ? "img/elk_light.svg" : "img/elk.svg";
+}
+
+/**
+ * Updates the logo when the theme changes by observing changes to the body class.
+ */
+export function addDarkModeToggleObserver(small: boolean) {
+    // Listen for class changes on body
+    const observer = new MutationObserver(small? updateSmallLogoForTheme : updateLogoForTheme);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    // Initial set
+    document.addEventListener('DOMContentLoaded', small? updateSmallLogoForTheme : updateLogoForTheme);
+}

@@ -13,7 +13,7 @@ import { createMonacoEditor, openWebSocketElkGraph } from '../common/creators';
 import createContainer from '../sprotty-config';
 import { getParameters, setupModelLink } from "../url-parameters";
 import { ElkGraphJsonToSprotty } from './elkgraph-to-sprotty';
-import { setupDarkMode } from "../common/dark-mode";
+import { addDarkModeToggleObserver, setupDarkMode, updateSmallLogoForTheme } from "../common/dark-mode";
 
 import JSON5 = require('json5');
 import LZString = require('lz-string');
@@ -89,6 +89,10 @@ setupModelLink(editor, (event) => {
         compressedContent: LZString.compressToEncodedURIComponent(editor.getValue())
     }
 });
+
+// Update dark theme logo
+updateSmallLogoForTheme();
+addDarkModeToggleObserver(true);
 
 function updateModel() {
     try {

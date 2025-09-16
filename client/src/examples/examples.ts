@@ -13,7 +13,7 @@ import { createMonacoEditor, createSprottyViewer, openWebSocketElkGraph } from '
 import { getParameters } from "../common/url-parameters";
 import { createExampleCategoryTree, ElkExample, ExampleCategory } from './elkex';
 import { ChangeLayoutVersionAction } from '../common/language-diagram-server';
-import { setupDarkMode } from "../common/dark-mode";
+import { addDarkModeToggleObserver, setupDarkMode, updateSmallLogoForTheme } from "../common/dark-mode";
 
 require('../common/elkt-language');
 
@@ -40,6 +40,20 @@ openWebSocketElkGraph({
 
 setupDarkMode();
 
+// function updateLogoForTheme() {
+//     const logo = document.getElementById('elk-logo');
+//     if (!logo || !(logo instanceof HTMLImageElement)) return;
+//     const toggle = document.querySelector('#darkModeToggle');
+//     // Check whether data-dark attribute is set
+//     const isDarkMode = toggle?.getAttribute('data-dark') === '1';
+//     // Update logo based on dark mode status
+//     logo.src = isDarkMode ? 'img/elk_small_light.svg' : 'img/elk_small.svg';
+// }
+// // Listen for class changes on body
+// const observer = new MutationObserver(updateLogoForTheme);
+// observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+// // Initial set
+// document.addEventListener('DOMContentLoaded', updateLogoForTheme);
 // - - - - Showdown markdown parser - - - -
 showdown.setFlavor('github');
 // simpleLineBreaks: false requires at least two line breaks to start a new paragraph
@@ -81,6 +95,10 @@ window.onpopstate = (event) => {
     }
     return event.preventDefault();
 }
+
+// Update dark theme logo
+updateSmallLogoForTheme();
+addDarkModeToggleObserver(true);
 
 /* - - - - Utility functions - - - - */
 
