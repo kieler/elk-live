@@ -35,13 +35,13 @@ body.elk-dark-mode {
 }
 
 #darkModeToggle {
-    margin-left: 16px;
+    margin-right: 16px;
 }
 
 #darkModeToggle.front-page {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 32px;
+    right: 32px;
 }
 
 .elk-dark-mode #example-description pre {
