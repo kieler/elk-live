@@ -11,8 +11,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/elk-layout-version" />
             <option value="$PROJECT_DIR$/elkgraph-web" />
-            <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.11.0" />
             <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.10.0" />
+            <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.11.0" />
             <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.7.1" />
             <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.8.1" />
             <option value="$PROJECT_DIR$/elkgraph-web/build/elk-layout-versions/0.9.1" />
