@@ -7,7 +7,8 @@ def elkLayouters = [
     "org.eclipse.elk.alg.radial",
     "org.eclipse.elk.alg.disco",
     "org.eclipse.elk.alg.spore",
-    "org.eclipse.elk.alg.rectpacking"
+    "org.eclipse.elk.alg.rectpacking",
+    "org.eclipse.elk.alg.vertiflex"
 ]
 
 def getJsonFromRest(String url) {
