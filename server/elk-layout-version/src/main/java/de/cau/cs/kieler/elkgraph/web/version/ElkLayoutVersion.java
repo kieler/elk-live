@@ -78,7 +78,8 @@ public class ElkLayoutVersion implements IElkLayoutVersion {
                     "org.eclipse.elk.alg.common.compaction.options.PolyominoOptions",
                     "org.eclipse.elk.alg.disco.options.DisCoMetaDataProvider",
                     "org.eclipse.elk.alg.spore.options.SporeMetaDataProvider",
-                    "org.eclipse.elk.alg.rectpacking.options.RectPackingMetaDataProvider"
+                    "org.eclipse.elk.alg.rectpacking.options.RectPackingMetaDataProvider",
+                    "org.eclipse.elk.alg.vertiflex.options.VertiFlexMetaDataProvider"
             }).toList().forEach((providerClassName) -> {
                 try {
                     Class<?> clazz = Class.forName(providerClassName);

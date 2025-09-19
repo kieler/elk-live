@@ -23,6 +23,7 @@
     implementation "org.eclipse.elk:org.eclipse.elk.alg.disco:${versions.elk}"
     implementation "org.eclipse.elk:org.eclipse.elk.alg.spore:${versions.elk}"
     implementation "org.eclipse.elk:org.eclipse.elk.alg.rectpacking:${versions.elk}"
+	implementation "org.eclipse.elk:org.eclipse.elk.alg.vertiflex:${versions.elk}"
 
 	// For the formats conversion
 	implementation "org.eclipse.elk:org.eclipse.elk.graph.json:${versions.elk}"
