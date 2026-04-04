@@ -95,9 +95,9 @@ function updateModel() {
         let json = JSON5.parse(editor.getValue());
 
         // Force PARENT edge coordinates, so that Sprotty can draw the graph correctly.
-        let props = json.properties || {};
-        props["org.eclipse.elk.json.edgeCoords"] = "PARENT";
-        json.properties = props;
+        let opts = json.layoutOptions || json.properties || {};
+        opts["org.eclipse.elk.json.edgeCoords"] = "PARENT";
+        json.layoutOptions = opts;
 
         monaco.editor.setModelMarkers(editor.getModel(), "", []);
 
