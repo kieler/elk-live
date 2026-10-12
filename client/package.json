@@ -18,6 +18,7 @@
     "elkjs-10-1": "npm:elkjs@0.10.1",
     "elkjs-10-2": "npm:elkjs@0.10.2",
     "elkjs-11": "npm:elkjs@0.11.0",
+    "elkjs-12": "npm:elkjs@0.12.0",
     "elkjs-latest": "npm:elkjs@latest",
     "elkjs-next": "npm:elkjs@next",
     "jquery": "^3.4.0",
