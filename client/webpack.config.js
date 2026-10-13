@@ -12,7 +12,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // to retrieve the explicit version numbers
 const elkjsLatest = require('elkjs-latest/package.json');
-const elkjsNext = require('elkjs-next/package.json');
 const childProcess = require('child_process');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const fs = require('fs');
@@ -47,7 +46,6 @@ module.exports = async function (env) {
     const elkWorkerPath11 = 'node_modules/elkjs-11/lib/elk-worker.min.js';
     const elkWorkerPath12 = 'node_modules/elkjs-12/lib/elk-worker.min.js';
     const elkWorkerPathLatest = 'node_modules/elkjs-latest/lib/elk-worker.min.js';
-    const elkWorkerPathNext = 'node_modules/elkjs-next/lib/elk-worker.min.js';
     currentVersion = package.version;
     if (process.env.GITHUB_SHA) {
         currentVersion += '-' + process.env.GITHUB_SHA;
@@ -144,7 +142,6 @@ module.exports = async function (env) {
                 filename: 'json.html',
                 template: 'src/json/json_template.html',
                 inject: false,
-                nextVersion: elkjsNext.version,
                 latestVersion: elkjsLatest.version,
                 currentGitCommit: currentVersion,
             }),
@@ -237,10 +234,6 @@ module.exports = async function (env) {
                 from: elkWorkerPathLatest,
                 to: 'elk-latest'
             }]),
-            new CopyWebpackPlugin([{
-                from: elkWorkerPathNext,
-                to: 'elk-next'
-            }])
         ]
     }
 }
