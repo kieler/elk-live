@@ -11,6 +11,13 @@ def elkLayouters = [
     "org.eclipse.elk.alg.vertiflex"
 ]
 
+configurations {
+    optionalLayouters {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+}
+
 def getJsonFromRest(String url) {
     def query = url
     logger.debug "Querying: $url"
@@ -51,16 +58,28 @@ dependencies {
     elkLayouters.each {
         if (isLayoutAlgorithmExistsForVersion("$it", "${project.name}")) {
             logger.info "\tFound $it"
-            implementation "org.eclipse.elk:$it:${project.name}"
+            optionalLayouters "org.eclipse.elk:$it:${project.name}"
         }
     }
 }
 
+def bundledDependencies = {
+    (configurations.runtimeClasspath.filter { it.exists() } +
+        configurations.optionalLayouters.incoming.artifactView { lenient true }.files.files)
+        .unique { it.name }
+}
+
+task copyLayoutDependencies(type: Copy) {
+    from { bundledDependencies() }
+    into "$buildDir/libs/dependencies"
+}
+
 jar {
+    dependsOn copyLayoutDependencies
     manifest {
         attributes(
-            // For the 'sandboxed' layouter execution via a dedicated class loader, the jar requires a proper classpath
-            "Class-Path": configurations.runtimeClasspath.filter{it.exists()}.join(' ')
+            // Keep the sandboxed layouter's runtime dependencies beside its jar.
+            "Class-Path": bundledDependencies().collect { "dependencies/${it.name}" }.join(' ')
         )
     }
 }
